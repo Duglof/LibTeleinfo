@@ -19,11 +19,19 @@
 // Modifié par theGressier
 //       Version 1.0.7 2019-08-02 Changement fonction jeedomPost et httpPost
 //
+// Modifié par M.G.
+//       Version 1.0.8 2024-12-28
+//       Add global WiFiClient wifiClient;
+//       http.begin(host, port, url);  disused method : must be replaced by http.begin(wifiClient, host, port, url);  
+//
 // All text above must be included in any redistribution.
 //
 // **********************************************************************************
 
 #include "webclient.h"
+
+// Wifinfo V1.0.8
+WiFiClient wifiClient;
 
 /* ======================================================================
 Function: httpPost
@@ -44,7 +52,9 @@ boolean httpPost(char * host, uint16_t port, char * url, char * data)
   unsigned long start = millis();
 
   // configure traged server and url
-  http.begin(host, port, url); 
+  // Wifinfo V1.0.8
+  // http.begin(host, port, url); 
+  http.begin(wifiClient, host, port, url); 
 
   sprintf(buff,"http%s://%s:%d%s => ", port==443?"s":"", host, port, url);
   Debug(buff);

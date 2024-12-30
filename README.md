@@ -3,6 +3,22 @@ This is a fork of Teleinfo Universal Library for the ESP8266 MCU
 This is a generic Teleinfo French Meter Measure Library  
 - Initial Github source : <https://github.com/hallard/LibTeleinfo>
 - Modified Github source : <https://github.com/Doume/LibTeleinfo>
+- Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
+
+# Modifications par dugolf (version 1.0.8)
+- Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
+- library.json : "version": "1.0.8"
+- library.properties : version=1.0.8
+- Teleinfo clé api 64 caractères
+  -- config.h : #define CFG_JDOM_APIKEY_SIZE  64
+  -- data : index.htm.gz : index.htm : id="jdom_apikey" : maxlength="64"
+  -- Wifinfo.ino : char buff[300] //To format debug strings but also use to format jeedom request
+- Correction erreurs de compilation (LibTeleinfo.h / LibTeleinfo.cpp)
+  -- void TInfo::process (char c); : retourne void
+  -- void TInfo::clearBuffer(); : retourne void
+  -- ValueList * TInfo::valueAdd; : return NULL à la fin de la méthode
+- Warning C++ conversion const char * en char * (Wifinfo.ino)
+  -- add void Myprint(const char *msg)
 
 # Modifications par theGressier (version 1.0.7)
 - Modification de l'envoi des données à Jeedom suite à la mise à jour du plugin Teleinfo en v4 (changement API, POST JSON)

@@ -28,6 +28,11 @@
 //       ATTENTION : Nécessite probablement un ESP-8266 type Wemos D1,
 //        car les variables globales occupent 42.284 octets
 //
+// Modifié par Dugolf 2024/12/28
+//       Version 1.0.8
+//       void TInfo::process (char c);
+//       void TInfo::clearBuffer();
+//       ValueList * TInfo::valueAdd;
 // **********************************************************************************
 
 #include "LibTeleinfo.h" 
@@ -151,7 +156,9 @@ Input   : -
 Output  : -
 Comments: - 
 ====================================================================== */
-uint8_t TInfo::clearBuffer()
+// Wifinfo V1.0.8
+// uint8_t TInfo::clearBuffer()
+void TInfo::clearBuffer()
 {
   // Clear our buffer, set index to 0
   memset(_recv_buff, 0, TINFO_BUFSIZE);
@@ -284,8 +291,10 @@ ValueList * TInfo::valueAdd(char * name, char * value, uint8_t checksum, uint8_t
       }
 	  // That's all
 	  return (me);
-	 }
-	} //Checksum check
+    } // if (lgname && lgvalue && checksum)
+  } // if (thischeck != checksum )
+  // Wifinfo V1.0.8
+  return ( (ValueList *) NULL );
 }	
 
 /* ======================================================================
@@ -667,7 +676,9 @@ Purpose : teleinfo serial char received processing, should be called
 Input   : pointer to the serial used 
 Output  : teleinfo global state
 ====================================================================== */
-_State_e TInfo::process(char c)
+// Wifinfo V1.0.8
+// _State_e TInfo::process(char c)
+void TInfo::process(char c)
 {
    // be sure 7 bits only
    c &= 0x7F;

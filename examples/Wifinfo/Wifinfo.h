@@ -49,13 +49,13 @@ extern "C" {
 // Décommenter SIMU pour compiler une version de test
 //  pour un module non connecté au compteur EDF (simule un ADCO et une valeur HCHC)
 // Le port Serial sera alors utilisé pour le DEBUG (accessible via USB pour l'IDE)
-//#define SIMU
+// #define SIMU
 
 // Décommenter DEBUG pour une version capable d'afficher du Debug
 //  soit sur Serial, soit sur Serial1 si compteur EDF raccordé sur Serial
 // Attention : si SIMU n'est pas déclaré, le debug est envoyé sur Serial1
 //  donc n'est pas visible au travers du port USB pour Arduino IDE !
-//#define DEBUG
+// #define DEBUG
 
 // Décommenter SYSLOG pour une version capable d'envoyer du Debug
 //  vers un serveur rsyslog du réseau
@@ -63,7 +63,7 @@ extern "C" {
 
 //Décommenter SENSOR pour compiler une  version capable de gérer
 //  un contact sec connecté entre Ground et D5 (GPIO-14)
-#define SENSOR
+// #define SENSOR
 
 // En mode SIMU, cela signifie que rien n'est connecté au port Serial
 // On peut donc laisser le debug sur ce port, pour beneficier de
@@ -90,7 +90,7 @@ extern "C" {
 
 #endif  //DEBUG
 
-#define WIFINFO_VERSION "1.0.7"
+#define WIFINFO_VERSION "1.0.8"
 
 #ifdef SYSLOG
 #define MACRO
@@ -186,6 +186,7 @@ void Task_httpRequest();
 #ifdef MACRO
 void Myprint(void);
 void Myprint(unsigned char *msg);
+void Myprint(const char *msg);
 void Myprint(String msg);
 void Myprint(const __FlashStringHelper *msg);
 void Myprint(unsigned int i);

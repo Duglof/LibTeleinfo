@@ -28,6 +28,10 @@
 //       ATTENTION : Nécessite probablement un ESP-8266 type Wemos D1,
 //        car les variables globales occupent 42.284 octets
 //
+// Modifié par Dugolf 2024/12/28
+//       Version 1.0.8
+//       void          process (char c);
+// 
 // **********************************************************************************
 
 #ifndef LibTeleinfo_h
@@ -133,7 +137,9 @@ class TInfo
   public:
     TInfo();
     void          init();
-    _State_e      process (char c);
+    // Wifinfo V1.0.8
+    // _State_e      process (char c);
+    void          process (char c);
     void          attachADPS(void (*_fn_ADPS)(uint8_t phase));  
     void          attachData(void (*_fn_data)(ValueList * valueslist, uint8_t state));  
     void          attachNewFrame(void (*_fn_new_frame)(ValueList * valueslist));  
@@ -146,7 +152,9 @@ class TInfo
     unsigned char calcChecksum(char *etiquette, char *valeur) ;
 
   private:
-    uint8_t       clearBuffer();
+    // M.G. update
+    // uint8_t       clearBuffer();
+    void        clearBuffer();
     ValueList *   valueAdd (char * name, char * value, uint8_t checksum, uint8_t * flags);
     boolean       valueRemove (char * name);
     boolean       valueRemoveFlagged(uint8_t flags);

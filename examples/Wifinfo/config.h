@@ -37,7 +37,9 @@
 #define CFG_EMON_DEFAULT_URL  "/input/post.json"
 
 #define CFG_JDOM_HOST_SIZE    32
-#define CFG_JDOM_APIKEY_SIZE  48
+//M.G.
+// #define CFG_JDOM_APIKEY_SIZE  48
+#define CFG_JDOM_APIKEY_SIZE  64
 #define CFG_JDOM_URL_SIZE     64
 #define CFG_JDOM_ADCO_SIZE    12
 #define CFG_JDOM_DEFAULT_PORT 80

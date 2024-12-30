@@ -48,8 +48,43 @@
 //          Affichage des options de compilation sélectionnées dans l'onglet 'Système'
 //            et au début du Debug + syslog éventuels
 //
-//       Version 1.0.7 (02/09/2019) Branche 'syslog' du github
+//       Modifié par theGressier
+//       Version 1.0.7 (02/09/2019) Branche 'syslog' du github 
 //          Changement fonction jeedomPost et httpPost
+//          Compatible jeedom V4
+//
+//        Version 1.0.7 (10/12/2019) Use new WiFi library feature
+//           Reconnect WiFi automatically after incident
+//
+//        Version 1.0.8 (29/12/2024) Update for jeedom API key 64 characters
+//          Environment
+//           Arduino IDE 1.8.18
+//             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
+//             Folder Arduino/tools : https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
+//               (Arduino/tools/ESP8266FS/tool/esp8266fs.jar)
+//             Folder Arduino/libraries : Wifinfo/librairie/Syslog-master.zip : uncompress
+//             Folder Arduino/libraries : NeoPixelBus_by_Makuna V2.8.3 : Install from Arduino IDE
+//             Type de carte : NodeMCU 1.0 (ESP-12E Module)
+//           Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
+//             Re-Installer les dépendances
+//             Désactiver la gestion automatique du démon (il doit être NOK)
+//             Bloquer la création automatique des compteurs : Ne pas cocher
+//             Utilisation d’un modem de téléinformation : Ne pas cocher
+//             Activer le MQTT : Ne pas cocher
+//             Cliquer sur sauvegarder
+//             Au premier message reçu, le compteur est créé automatiquement
+//          Updates V1.0.8
+//           Teleinfo clé API 64 caractères
+//             Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
+//             config.h : #define CFG_JDOM_APIKEY_SIZE  64
+//             data : index.htm.gz : index.htm : id="jdom_apikey" : maxlength="64"
+//             Wifinfo.ino : char buff[300] //To format debug strings but also use to format jeedom request
+//           Warning C++ conversion const char * to char *
+//             Wifinfo.ino : add void Myprint(const char *msg) to remove C++ warning on Debug(".");
+//           LibTeleinfo.h / LibTeleinfo.cpp : correction erreurs de compilation
+//          Hardware : Node MCU Kit de développement V3 CH340 NodeMCU + Motor Shield Wifi Esp8266 Esp-12e
+//            - RGB LED connected on pin 14 : WS2812B : https://wiki.mchobby.be/index.php?title=NeoPixel-UserGuide
+//            - Red LED connected on pin 12
 // **********************************************************************************
 // Include Arduino header
 #include <Arduino.h>
@@ -64,6 +99,7 @@
 #include <Ticker.h>
 //#include <WebSocketsServer.h>
 //#include <Hash.h>
+// Library NeoPixelBus_by_Makuna needed for <NeoPixelBus.h>
 #include <NeoPixelBus.h>
 #include <LibTeleinfo.h>
 #include <FS.h>
@@ -105,7 +141,7 @@ volatile boolean task_jeedom = false;
 volatile boolean task_httpRequest = false;
 volatile boolean task_updsw = false;
 unsigned long seconds = 0;
-char buff[132];   //To format debug strings
+char buff[300];   //To format debug strings but also use to format jeedom request
 // sysinfo data
 _sysinfo sysinfo;
 
@@ -229,6 +265,11 @@ void Myprint() {
 }
 void Myprint(String msg) {
   sprintf(logbuffer,"%s",msg.c_str());
+  Myprint(logbuffer);
+}
+void Myprint(const char *msg)
+{
+  strcpy(logbuffer, msg);
   Myprint(logbuffer);
 }
 void Myprint(const __FlashStringHelper *msg) {
@@ -739,12 +780,20 @@ int WifiHandleConn(boolean setup = false)
       }
       WiFi.mode(WIFI_AP_STA);
 
+      // Wifinfo V1.0.8
+      // DebugF("IP address   : "); Debugln(WiFi.softAPIP());
       ad = WiFi.softAPIP();
       sprintf(toprint,"%d.%d.%d.%d", ad[0],ad[1],ad[2],ad[3]);
       DebugF("IP address   : "); Debugln(toprint);
+
       DebugF("MAC address  : "); Debugln(WiFi.softAPmacAddress());
     }
-
+    // Version 1.0.7 : Use auto reconnect Wifi
+    WiFi.setAutoConnect(true);
+    WiFi.setAutoReconnect(true);
+    DebuglnF("auto-reconnect armed !");
+      
+	  
     // Set OTA parameters
     ArduinoOTA.setPort(config.ota_port);
     ArduinoOTA.setHostname(config.host);
