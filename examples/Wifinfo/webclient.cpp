@@ -52,8 +52,8 @@ boolean httpPost(char * host, uint16_t port, char * url, char * data)
   unsigned long start = millis();
 
   // configure traged server and url
-  // Wifinfo V1.0.8
-  // http.begin(host, port, url); 
+ // Wifinfo V1.0.8
+ // http.begin(host, port, url); 
   http.begin(wifiClient, host, port, url); 
 
   sprintf(buff,"http%s://%s:%d%s => ", port==443?"s":"", host, port, url);
