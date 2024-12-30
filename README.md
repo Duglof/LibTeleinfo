@@ -4,6 +4,7 @@ This is a generic Teleinfo French Meter Measure Library
 - Initial Github source : <https://github.com/hallard/LibTeleinfo>
 - Modified Github source : <https://github.com/Doume/LibTeleinfo>
 - Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
+- Modified Github source : <https://github.com/Duglof/LibTeleinfo>
 
 # Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
