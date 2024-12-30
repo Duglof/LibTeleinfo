@@ -18,6 +18,27 @@
 //
 // All text above must be included in any redistribution.
 //
+// ===================================================================
+// Wifinfo : Connection à votre réseau Wifi
+// ===================================================================
+//  A faire une seule fois ou après des changements dans le répertoire data
+//
+// Téléverser Wifinfo et le data sur votre ESP12E
+// Alimenter votre module ESP12E par le cable USB (ou autre) 
+// Avec votre téléphone
+//   Se connecter au réseau Wifi Wifinfo-xxxxxx
+//   Ouvrir votre navigateur préféré (Chrome ou autre)
+//   Accéder à l'url http://192.168.4.1 (la page web de Wifinfo doit appaître)
+//   Sélectionner l'onglet 'Configuration'
+//   Renseigner
+//     Réseau Wifi
+//     Clé Wifi
+//   Cliquer sur 'Enregistrer'
+//   Enfin dans la partie 'Avancée' cliquer sur Redémarrer Wifinfo
+//   Wifinfo se connectera à votre réseau Wifi
+//   Si ce n'est pas le cas c'est que ne nom du réseau ou la clé sont erronés
+// ===================================================================
+//
 // Modifié par Dominique DAMBRAIN 2017-07-10 (http://www.dambrain.fr)
 //       Version 1.0.5
 //       Librairie LibTeleInfo : Allocation statique d'un tableau de stockage 
@@ -65,6 +86,10 @@
 //             Folder Arduino/libraries : Wifinfo/librairie/Syslog-master.zip : uncompress
 //             Folder Arduino/libraries : NeoPixelBus_by_Makuna V2.8.3 : Install from Arduino IDE
 //             Type de carte : NodeMCU 1.0 (ESP-12E Module)
+//             Compilation / Téléversement
+//               Croquis/Compiler (sans erreur !!!)
+//               Tools/ESP8266 Data Upload (Arduino/tools/ESP8266FS doit être installé)
+//               Croquis/Téléverser
 //           Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 //             Re-Installer les dépendances
 //             Désactiver la gestion automatique du démon (il doit être NOK)
