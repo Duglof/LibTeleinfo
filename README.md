@@ -1,6 +1,6 @@
 # Teleinfo Universal Library
-This is a fork of Teleinfo Universal Library for the ESP8266 MCU  
-This is a generic Teleinfo French Meter Measure Library  
+This is a fork of Teleinfo Universal Library for the ESP8266 MCU
+This is a generic Teleinfo French Meter Measure Library
 - Initial Github source : <https://github.com/hallard/LibTeleinfo>
 - Modified Github source : <https://github.com/Doume/LibTeleinfo>
 - Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
@@ -23,6 +23,7 @@ This is a generic Teleinfo French Meter Measure Library
 
 # Modifications par theGressier (version 1.0.7)
 - Modification de l'envoi des données à Jeedom suite à la mise à jour du plugin Teleinfo en v4 (changement API, POST JSON)
+- Reconnect WiFi automatically after incident
 
 # Modifications par Doume (version 1.0.6) branche 'syslog' :
 
