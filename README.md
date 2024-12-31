@@ -6,8 +6,8 @@ This is a generic Teleinfo French Meter Measure Library
 - Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
 - Modified Github source : <https://github.com/Duglof/LibTeleinfo>
 
-
 Linky mode Historique (1200 bauds)
+
 exemples/Wifinfo
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
 
