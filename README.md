@@ -6,25 +6,24 @@ This is a generic Teleinfo French Meter Measure Library
 - Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
 - Modified Github source : <https://github.com/Duglof/LibTeleinfo>
 
-|-----------------------------------------------------------------
-| Linky mode Historique (1200 bauds)                             |
-| exemples/Wifinfo                                               |
-| - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères |
-|----------------------------------------------------------------|
-|               Wifinfo :  Configuration Wifi                    |
-|----------------------------------------------------------------|
-| Depuis votre téléphone portable :                              |
-| Se connecter au réseau Wifinfo-XXXXXX                          |
-| Navigateur url : http://192.168.4.1                            |
-| Sélectionner l'onglet Configuration                            |
-| Réseau Wifi : Mettre le SSID                                   |
-| Clé Wifi    : Mettre le mot de passe de votre réseau Wifi      |
-| Clicker sur Enregistrer                                        |
-| Déployer Avancée                                               |
-| Cliquer sur Redémarrer Wifinfo                                 |
-| Wifinfo se connectera à votre réseau Wifi                      |
-| Accéder à votre box pour connaître sa nouvelle adresse IP      |
-|----------------------------------------------------------------|
+
+Linky mode Historique (1200 bauds)
+exemples/Wifinfo
+  - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
+
+Wifinfo :  Configuration Wifi
+
+Depuis votre téléphone portable :
+- Se connecter au réseau Wifinfo-XXXXXX
+- Navigateur (chrome ou autre) url : http://192.168.4.1
+- Sélectionner l'onglet Configuration
+- Réseau Wifi : Mettre le SSID
+- Clé Wifi    : Mettre le mot de passe de votre réseau Wifi
+- Clicker sur Enregistrer
+- Déployer Avancée
+- Cliquer sur Redémarrer Wifinfo
+- Wifinfo se connectera à votre réseau Wifi
+- Accéder à votre box pour connaître sa nouvelle adresse IP
 
 # Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
