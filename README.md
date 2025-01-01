@@ -147,6 +147,8 @@ Connexions à ESP-12E
 Utiliser Arduino IDE V1.8.18
 Warning : Déconnecter l'interface Linky du RX de l'ESP
 
+ # Ajout du type de carte NodeMCU 1.0 (ESP-12E module)
+
 Fichier->Preferences : URL de gestionnaire de cartes supplémentaires
 - Ajouter http://arduino.esp8266.com/stable/package_esp8266com_index.json (virgule comme séparateur si plusieurs URL)
 - Cliquer sur OK.
@@ -159,7 +161,7 @@ Outils->Type de carte 'xxxx'->Gestionnaire de carte
 Outils-> Type de carte 'xxxx'->ESP8266 Boards
 - Sélectionner NodeMCU 1.0 (ESP-12E module)
 
-Outils->Port (il faut que ESP-12E soit connecté à l'oedinateur)
+Outils->Port (il faut que ESP-12E soit connecté à l'ordinateur)
 - Sélectionner le port
 
 # Tests
