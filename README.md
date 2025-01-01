@@ -124,7 +124,7 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
 # Hardware
-[esp12e](docs/esp12e.png) ESP-12E (type NodeMCU 1.0) avec 4 Mo de flash
+![esp12e](docs/esp12e.png) ESP-12E (type NodeMCU 1.0) avec 4 Mo de flash
 
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
