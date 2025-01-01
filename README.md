@@ -145,6 +145,22 @@ Connexions à ESP-12E
 
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
+Warning : Déconnecter l'interface Linky du RX de l'ESP
+
+Fichier->Preferences : URL de gestionnaire de cartes supplémentaires
+- Ajouter http://arduino.esp8266.com/stable/package_esp8266com_index.json (virgule comme séparateur si plusieurs URL)
+- Cliquer sur OK.
+
+Outils->Type de carte 'xxxx'->Gestionnaire de carte
+- Filtrer esp8266
+- esp8266 by ESP8266 community v3.1.2
+- Cliquer sur Installer
+
+Outils-> Type de carte 'xxxx'->ESP8266 Boards
+- Sélectionner NodeMCU 1.0 (ESP-12E module)
+
+Outils->Port (il faut que ESP-12E soit connecté à l'oedinateur)
+- Sélectionner le port
 
 # Tests
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
