@@ -193,3 +193,18 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 
 # Tests
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
+
+# Debug avec Syslog
+- Compiler Wifinfo avec le #define SYSLOG (Winfinfo.h) : Ce qui est fait par défaut
+- Configurer Wifinfo
+  - Onglet Configuration
+  - Déployer ‘Avancée’
+  - Rsyslog serveur (IP ou Nom DNS) : Entrer l’IP de votre machine ou vous installerez le logiciel socat (Windows ou Linux) 
+  - Rsyslog port : 514
+- Installer socat (sur une machine de votre réseau local)
+- Ouvrir une fenêtre terminal et lancer 'socat -u UDP-RECV:514 STDOUT'
+  - sudo /usr/bin/socat -u UDP-RECV:514 STDOUT (exemple sous linux)
+  - Le fenêtre Terminal liste alors tous les messages debug de Wifinfo
+![socat](docs/Wifinfi-socat-messages.png)
+
+
