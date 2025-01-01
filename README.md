@@ -123,4 +123,11 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Groupe horaire si option = heures creuses ou tempo : HHPHC (1 car.)
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
+# Hardware
+[esp12e](docs/esp12e.png) ESP-12E (type NodeMCU 1.0) avec 4 Mo de flash
 
+# Compilation / Téléversement
+Utiliser Arduino IDE V1.8.18
+
+# Tests
+Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
