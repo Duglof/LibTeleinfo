@@ -132,13 +132,16 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - G de ESP au -
 Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.jpg)
+
 Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
 - Connecter Teleinfo 2 et sur I2 du compteur
+
 Connexions à ESP-12E
 - GND : G  de ESP (GND) 
 - +V  : 3V de ESP (3.3V)
 - RXD : RX de ESP (RXD0 GPIO3)
+
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
 
