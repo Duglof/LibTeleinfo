@@ -147,22 +147,49 @@ Connexions à ESP-12E
 Utiliser Arduino IDE V1.8.18
 Warning : Déconnecter l'interface Linky du RX de l'ESP
 
- # Ajout du type de carte NodeMCU 1.0 (ESP-12E module)
+- Ajout du type de carte NodeMCU 1.0 (ESP-12E module)
 
-Fichier->Preferences : URL de gestionnaire de cartes supplémentaires
-- Ajouter http://arduino.esp8266.com/stable/package_esp8266com_index.json (virgule comme séparateur si plusieurs URL)
-- Cliquer sur OK.
+  - Fichier->Preferences : URL de gestionnaire de cartes supplémentaires
+    - Ajouter http://arduino.esp8266.com/stable/package_esp8266com_index.json (virgule comme séparateur si plusieurs URL)
+    - Cliquer sur OK.
 
-Outils->Type de carte 'xxxx'->Gestionnaire de carte
-- Filtrer esp8266
-- esp8266 by ESP8266 community v3.1.2
-- Cliquer sur Installer
+  - Outils->Type de carte 'xxxx'->Gestionnaire de carte
+    - Filtrer esp8266
+    - esp8266 by ESP8266 community v3.1.2
+    - Cliquer sur Installer
 
-Outils-> Type de carte 'xxxx'->ESP8266 Boards
-- Sélectionner NodeMCU 1.0 (ESP-12E module)
+  - Outils-> Type de carte 'xxxx'->ESP8266 Boards
+    - Sélectionner NodeMCU 1.0 (ESP-12E module)
 
-Outils->Port (il faut que ESP-12E soit connecté à l'ordinateur)
-- Sélectionner le port
+  - Outils->Port (il faut que ESP-12E soit connecté à l'ordinateur)
+    - Sélectionner le port
+
+- Ajout Arduino ESP8266 filesystem uploader v0.5.0
+  - Télécharger https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
+  - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP8266FS/tool/esp8266fs.jar)
+  - Redémarrer Arduino IDE
+  - Dans le menu Outils vous devez avoir 'ESP8266 Sketch Data Upload'
+
+- Ajout de la librairie LibTeleinfo
+  - Depuis https://github.com/Duglof/LibTeleinfo
+  - Choisir Code->Download ZIP (Choisir le répertoire <home_dir>/Arduino/libraries)
+  - Décompresser le ZIP dans ce répertoire
+
+- Ajout des autres librairies nécessaires
+  - Syslog-master
+    - Decompresser <home_dir>Arduino/libraries/LibTeleinfo/librairie/Syslog-master.zip dans <home_dir>Arduino/libraries
+  - NeoPixelBus_by_Makuna V2.8.3 : l'installer depuis l'Arduino IDE
+
+- Ouvrir le projet Wifinfo
+  - Fichiers->Exemples->LibTeleinfo
+  - Sélectionner 'Wifinfo'
+
+- Compilation
+  - Croquis->Compiler
+
+- Téléversement
+  - Outils->ESP8266 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
+  - Croquis->Téléverser
 
 # Tests
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
