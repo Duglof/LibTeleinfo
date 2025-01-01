@@ -124,9 +124,21 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
 # Hardware
-ESP-12E (type NodeMCU 1.0) avec 4 Mo de flash
-![esp12e](docs/esp12e.png) 
-
+ESP-12E Dev Kit (type NodeMCU 1.0) avec 4 Mo de flash (30 broches)
+![esp12e ch340](docs/esp12e.png) 
+![esp12e gpio](docs/esp12e-gpio.png)
+Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
+- VIN de ESP au +
+- G de ESP au -
+Interface compteur Linky by hallard 
+![interface linky](docs/schema-interface-linky.jpg)
+Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
+- Connecter Teleinfo 1 et sur I1 du compteur
+- Connecter Teleinfo 2 et sur I2 du compteur
+Connexions à ESP-12E
+- GND : G  de ESP (GND) 
+- +V  : 3V de ESP (3.3V)
+- RXD : RX de ESP (RXD0 GPIO3)
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
 
