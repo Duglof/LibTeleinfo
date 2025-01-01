@@ -130,6 +130,7 @@ ESP-12E Dev Kit (type NodeMCU 1.0) avec 4 Mo de flash (30 broches)
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
+
 Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.jpg)
 
