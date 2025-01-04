@@ -397,7 +397,7 @@ void tinfoJSONTable(void)
     Debugln(F("sending 404..."));
     server.send ( 404, "text/plain", "No data" );
   }
-  //Debug(F("sending..."));
+  Debug(F("sending...")); Debugln(response);
   server.send ( 200, "text/json", response );
   //Debugln(response);
   //Debugln(F("OK!"));

@@ -60,7 +60,7 @@ boolean httpPost(char * host, uint16_t port, char * url, char * data)
   Debug(buff);
 
   // start connection and send HTTP header
-  if ( *data ) { // data string is not null, use POST instead of GET
+  if ( data != NULL ) { // data string is not null, use POST instead of GET
     http.addHeader("Content-Type", "application/json");  //Specify content-type header
     httpCode = http.POST(data);
   } else {
