@@ -45,31 +45,67 @@ extern "C" {
 #include "webclient.h"
 #include "config.h"
 
+// Décommenter SIMU pour compiler une version de test
+//  pour un module non connecté au compteur EDF (simule un ADCO et une valeur HCHC)
+// Le port Serial sera alors utilisé pour le DEBUG (accessible via USB pour l'IDE)
+// #define SIMU
 
+// Décommenter DEBUG pour une version capable d'afficher du Debug
+//  soit sur Serial, soit sur Serial1 si compteur EDF raccordé sur Serial
+// Attention : si SIMU n'est pas déclaré, le debug est envoyé sur Serial1
+//  donc n'est pas visible au travers du port USB pour Arduino IDE !
 #define DEBUG
-#define DEBUG_SERIAL	Serial1
-#define DEBUG_SERIAL1	
 
-#define WIFINFO_VERSION "1.0.4"
+// Décommenter SYSLOG pour une version capable d'envoyer du Debug
+//  vers un serveur rsyslog du réseau
+// #define SYSLOG
+
+// Decommenter LINKY_MODE_STANDARD pour un Lniky en mode Standard
+// #define LINKY_MODE_STANDARD
+
+#ifdef SIMU
+#define DEBUG_SERIAL  Serial
+#else
+#define DEBUG_SERIAL  Serial1
+#define DEBUG_SERIAL1
+#endif  //SIMU
+
+#define WIFINFO_VERSION "2.0.0"
 
 // I prefix debug macro to be sure to use specific for THIS library
 // debugging, this should not interfere with main sketch or other 
 // libraries
-#ifdef DEBUG
-#define Debug(x)    DEBUG_SERIAL.print(x)
-#define Debugln(x)  DEBUG_SERIAL.println(x)
-#define DebugF(x)   DEBUG_SERIAL.print(F(x))
-#define DebuglnF(x) DEBUG_SERIAL.println(F(x))
-#define Debugf(...) DEBUG_SERIAL.printf(__VA_ARGS__)
-#define Debugflush  DEBUG_SERIAL.flush
+#ifdef SYSLOG
+  #include <Syslog.h>
+
+  #define APP_NAME "Wifinfo"
+
+  #define Debug(x)     Myprint(x)
+  #define Debugln(x)   Myprintln(x)
+  #define DebugF(x)    Myprint(F(x))
+  #define DebuglnF(x)  Myprintln(F(x))
+
+  // Ceci compile et transmet les arguments
+  #define Debugf(...)    Myprintf(__VA_ARGS__)
+
+  #define Debugflush() Myflush()
 #else
-#define Debug(x)    {}
-#define Debugln(x)  {}
-#define DebugF(x)   {}
-#define DebuglnF(x) {}
-#define Debugf(...) {}
-#define Debugflush  {}
-#endif
+  #ifdef DEBUG
+    #define Debug(x)     DEBUG_SERIAL.print(x)
+    #define Debugln(x)   DEBUG_SERIAL.println(x)
+    #define DebugF(x)    DEBUG_SERIAL.print(F(x))
+    #define DebuglnF(x)  DEBUG_SERIAL.println(F(x))
+    #define Debugf(...)  DEBUG_SERIAL.printf(__VA_ARGS__)
+    #define Debugflush() DEBUG_SERIAL.flush()
+  #else
+    #define Debug(x) 
+    #define Debugln(x)
+    #define DebugF(x) 
+    #define DebuglnF(x) 
+    #define Debugf(...)
+    #define Debugflush()
+  #endif
+#endif // SYSLOG
 
 #define BLINK_LED_MS   50 // 50 ms blink
 #define RGB_LED_PIN    14 
@@ -125,6 +161,7 @@ extern _sysinfo sysinfo;
 extern Ticker Tick_emoncms;
 extern Ticker Tick_jeedom;
 extern Ticker Tick_httpRequest;
+extern String optval;     // On coserve le même nom
 
 
 // Exported function located in main sketch
@@ -134,5 +171,22 @@ void Task_emoncms();
 void Task_jeedom();
 void Task_httpRequest();
 
-#endif
+#ifdef SYSLOG
+void Myprint(void);
+void Myprint(char *msg);
+void Myprint(const char *msg);
+void Myprint(String msg);
+void Myprint(int i);
+void Myprint(unsigned int i);
+void Myprintln(void);
+void Myprintln(char *msg);
+void Myprintln(const char *msg);
+void Myprintln(String msg);
+void Myprintln(const __FlashStringHelper *msg);
+void Myprintln(int i);
+void Myprintln(unsigned int i);
+void Myprintf(const char * format, ...);
+void Myflush(void);
+#endif  // SYSLOG
 
+#endif

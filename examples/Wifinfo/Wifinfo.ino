@@ -18,6 +18,110 @@
 //
 // All text above must be included in any redistribution.
 //
+// ===================================================================
+// Wifinfo : Connection à votre réseau Wifi
+// ===================================================================
+//  A faire une seule fois ou après des changements dans le répertoire data
+//
+// Téléverser Wifinfo et le data sur votre ESP12E
+// Alimenter votre module ESP12E par le cable USB (ou autre) 
+// Avec votre téléphone
+//   Se connecter au réseau Wifi Wifinfo-xxxxxx
+//   Ouvrir votre navigateur préféré (Chrome ou autre)
+//   Accéder à l'url http://192.168.4.1 (la page web de Wifinfo doit appaître)
+//   Sélectionner l'onglet 'Configuration'
+//   Renseigner
+//     Réseau Wifi
+//     Clé Wifi
+//   Cliquer sur 'Enregistrer'
+//   Enfin dans la partie 'Avancée' cliquer sur Redémarrer Wifinfo
+//   Wifinfo se connectera à votre réseau Wifi
+//   Si ce n'est pas le cas c'est que ne nom du réseau ou la clé sont erronés
+// ===================================================================
+//
+// Modifié par Dominique DAMBRAIN 2017-07-10 (http://www.dambrain.fr)
+//       Version 1.0.5
+//       Librairie LibTeleInfo : Allocation statique d'un tableau de stockage 
+//           des variables (50 entrées) afin de proscrire les malloc/free
+//           pour éviter les altérations des noms & valeurs
+//       Modification en conséquence des séquences de scanning du tableau
+//       ATTENTION : Nécessite probablement un ESP-8266 type Wemos D1,
+//        car les variables globales occupent 42.284 octets
+//
+//       Version 1.0.5a (11/01/2018)
+//       Permettre la mise à jour OTA à partir de fichiers .ino.bin (Auduino IDE 1.8.3)
+//       Ajout de la gestion d'un switch (Contact sec) relié à GND et D5 (GPIO-14)
+//          Décommenter le #define SENSOR dans Wifinfo.h
+//          Pour être utilisable avec Domoticz, au moins l'URL du serveur et le port
+//          doivent être renseignés dans la configuration HTTP Request, ainsi que 
+//          l'index du switch (déclaré dans Domoticz)
+//          L'état du switch (On/Off) est envoyé à Domoticz au boot, et à chaque
+//            changement d'état
+//       Note : Nécessité de flasher le SPIFFS pour pouvoir configurer l'IDX du switch
+//              et flasher le sketch winfinfo.ino.bin via interface Web
+//       Rendre possible la compilation si define SENSOR en commentaire
+//              et DEFINE_DEBUG en commentaire (aucun debug, version Production...)
+//
+//       Version 1.0.6 (04/02/2018) Branche 'syslog' du github
+//		      Ajout de la fonctionnalité 'Remote Syslog'
+//		        Pour utiliser un serveur du réseau comme collecteur des messages Debug
+//            Note : Nécessité de flasher le SPIFFS pour pouvoir configurer le remote syslog
+//          Affichage des options de compilation sélectionnées dans l'onglet 'Système'
+//            et au début du Debug + syslog éventuels
+//
+//       Modifié par theGressier
+//       Version 1.0.7 (02/09/2019) Branche 'syslog' du github 
+//          Changement fonction jeedomPost et httpPost
+//          Compatible jeedom V4
+//
+//        Version 1.0.7 (10/12/2019) Use new WiFi library feature
+//           Reconnect WiFi automatically after incident
+//
+//        Version 1.0.8 (29/12/2024) Update for jeedom API key 64 characters
+//           Teleinfo clé API 64 caractères
+//             Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
+//             config.h : #define CFG_JDOM_APIKEY_SIZE  64
+//             data : index.htm.gz : index.htm : id="jdom_apikey" : maxlength="64"
+//             Wifinfo.ino : char buff[300] //To format debug strings but also use to format jeedom request
+//           Warning C++ conversion const char * to char *
+//             Wifinfo.ino : add void Myprint(const char *msg) to remove C++ warning on Debug(".");
+//           LibTeleinfo.h / LibTeleinfo.cpp : correction erreurs de compilation
+//
+//        Version 2.0.0 (5/01/2025)
+//          Merge avec https://github.com/hallard/LibTeleinfo/tree/master
+//            Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
+//              Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
+//          Compile en Linky mode Historique et Linky mode Standard
+//            Configuration dans Wifinfo.h : 
+//              #define LINKY_MODE_STANDARD
+//              Si le define est commenté alors mode Historique
+//          Les options de comilation sont affichées sur la page web dans l'onglet Système
+//
+//          Environment
+//           Arduino IDE 1.8.18
+//             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
+//             Folder Arduino/tools : https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
+//               (Arduino/tools/ESP8266FS/tool/esp8266fs.jar)
+//             Folder Arduino/libraries : Wifinfo/librairie/Syslog-master.zip : uncompress
+//             Folder Arduino/libraries : NeoPixelBus_by_Makuna V2.8.3 : Install from Arduino IDE
+//             Type de carte : NodeMCU 1.0 (ESP-12E Module)
+//             Compilation / Téléversement
+//               Options de compilation dans Wifinfo.h (SIMU, DEBUG, SYSLOG)
+//               Croquis/Compiler (sans erreur !!!)
+//               Tools/ESP8266 Data Upload (Arduino/tools/ESP8266FS doit être installé)
+//               Croquis/Téléverser
+//           Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
+//             Re-Installer les dépendances
+//             Désactiver la gestion automatique du démon (il doit être NOK)
+//             Bloquer la création automatique des compteurs : Ne pas cocher
+//             Utilisation d’un modem de téléinformation : Ne pas cocher
+//             Activer le MQTT : Ne pas cocher
+//             Cliquer sur sauvegarder
+//             Au premier message reçu, le compteur est créé automatiquement
+//          Hardware : Node MCU Kit de développement V3 CH340 NodeMCU + Motor Shield Wifi Esp8266 Esp-12e
+//            - RGB LED connected on pin 14 : WS2812B : https://wiki.mchobby.be/index.php?title=NeoPixel-UserGuide
+//            - Red LED connected on pin 12
+//            - Teleinfo connected to RXD2 (GPIO13) Mode historique 1200 bauds
 // **********************************************************************************
 // Include Arduino header
 #include <Arduino.h>
@@ -34,7 +138,6 @@
 #include <NeoPixelBus.h>
 #include <LibTeleinfo.h>
 #include <FS.h>
-#include <SPI.h>
 
 // Global project file
 #include "Wifinfo.h"
@@ -43,6 +146,7 @@
 ESP8266WebServer server(80);
 
 bool ota_blink;
+String optval;    // Options de compilation
 
 // Teleinfo
 TInfo tinfo;
@@ -70,16 +174,182 @@ volatile boolean task_1_sec = false;
 volatile boolean task_emoncms = false;
 volatile boolean task_jeedom = false;
 volatile boolean task_httpRequest = false;
+volatile boolean task_updsw = false;
 unsigned long seconds = 0;
 
 // sysinfo data
 _sysinfo sysinfo;
 
-// count Wifi connect attempts, to check stability
-int          nb_reconnect = 0;
-bool	       need_reinit = false;
-unsigned int nb_reinit = 0;
-bool         first_info_call=true;
+#ifdef SIMU
+//for tests
+uint8_t flags = 8;
+int loop_cpt = 60000;
+String name2 = "HCHC";
+char * s2 = (char *)name2.c_str();
+String value2 = "000060000";
+char * v2 = (char *) value2.c_str();
+#endif
+
+#ifdef SYSLOG
+WiFiUDP udpClient;
+Syslog syslog(udpClient, SYSLOG_PROTO_IETF);
+
+char logbuffer[255];
+
+char waitbuffer[255];
+char *lines[50];
+int in=-1;
+int out=-1;
+
+unsigned int pending = 0 ;
+volatile boolean SYSLOGusable=false;
+volatile boolean SYSLOGselected=false;
+int plog=0;
+
+void convert(const __FlashStringHelper *ifsh)
+{
+  PGM_P p = reinterpret_cast<PGM_P>(ifsh);
+  plog=0;
+  while (1) {
+    unsigned char c = pgm_read_byte(p++);
+    if (c == 0) {
+      logbuffer[plog]=0;
+      break;
+    }
+    logbuffer[plog]=c;
+    plog++;
+  }
+}
+
+void process_line(char *msg) {
+    strcat(waitbuffer,msg);
+    pending=strlen(waitbuffer);
+    if( waitbuffer[pending-1] == 0x0D || waitbuffer[pending-1] == 0x0A) {
+      //Cette ligne est complete : l'envoyer !
+      for(int i=0; i < pending-1; i++) {
+        if(waitbuffer[i] <= 0x20)
+          waitbuffer[i] = 0x20;
+      }
+      syslog.log(LOG_INFO,waitbuffer);
+      delay(2*pending);
+      memset(waitbuffer,0,255);
+      pending=0;
+      
+    }
+}
+
+
+// Toutes les fonctions aboutissent sur la suivante :
+void Myprint(char *msg) {
+  
+#ifdef DEBUG
+  DEBUG_SERIAL.print(msg);
+#endif
+
+  if( SYSLOGusable ) {
+    process_line(msg);   
+  } else if ( SYSLOGselected) {
+    //syslog non encore disponible
+    //stocker les messages à envoyer plus tard
+    in++;
+    if(in >= 50) {
+      //table saturée !
+      in=0;
+    }
+    if(lines[in]) {
+      //entrée occupée : l'écraser, tant pis !
+      free(lines[in]);
+    }
+    lines[in]=(char *)malloc(strlen(msg)+2);
+    memset(lines[in],0,strlen(msg+1));
+    strcpy(lines[in],msg);   
+  }
+}
+
+void Myprint() {
+  logbuffer[0] = 0;
+  Myprint(logbuffer);
+}
+
+void Myprint(const char *msg)
+{
+  strcpy(logbuffer, msg);
+  Myprint(logbuffer);
+}
+
+void Myprint(String msg) {
+  sprintf(logbuffer,"%s",msg.c_str());
+  Myprint(logbuffer);
+}
+
+void Myprint(int i) {
+  sprintf(logbuffer,"%d", i);
+  Myprint(logbuffer);
+}
+
+void Myprint(unsigned int i) {
+  sprintf(logbuffer,"%u", i);
+  Myprint(logbuffer);
+}
+
+// void Myprintf(...)
+void Myprintf(const char * format, ...)
+{
+
+  va_list args;
+  va_start (args, format);
+  vsnprintf (logbuffer,sizeof(logbuffer),format, args);
+  Myprint(logbuffer);
+  va_end (args);
+
+}
+
+void Myprintln() {
+  sprintf(logbuffer,"\n");
+  Myprint(logbuffer);
+}
+
+void Myprintln(char *msg)
+{
+  sprintf(logbuffer,"%s\n",msg);
+  Myprint(logbuffer);
+}
+
+void Myprintln(const char *msg)
+{
+  sprintf(logbuffer,"%s\n",msg);
+  Myprint(logbuffer);
+}
+
+void Myprintln(String msg) {
+  sprintf(logbuffer,"%s\n",msg.c_str());
+  Myprint(logbuffer);
+}
+
+void Myprintln(const __FlashStringHelper *msg) {
+  convert(msg);
+  logbuffer[plog]=(char)'\n';
+  logbuffer[plog+1]=0;
+  Myprint(logbuffer);
+}
+
+void Myprintln(int i) {
+  sprintf((char *)logbuffer,"%d\n", i);
+  Myprint(logbuffer);
+}
+
+void Myprintln(unsigned int i) {
+  sprintf((char *)logbuffer,"%u\n", i);
+  Myprint(logbuffer);
+}
+
+void Myflush() {
+#ifdef DEBUG
+  DEBUG_SERIAL.flush;
+#endif
+}
+
+#endif // SYSLOG
 
 /* ======================================================================
 Function: UpdateSysinfo 
@@ -92,7 +362,7 @@ Comments: -
 void UpdateSysinfo(boolean first_call, boolean show_debug)
 {
   char buff[64];
-  int32_t adc;
+
   int sec = seconds;
   int min = sec / 60;
   int hr = min / 60;
@@ -396,6 +666,8 @@ void ResetConfig(void)
   strcpy_P(config.httpReq.host, CFG_HTTPREQ_DEFAULT_HOST);
   config.httpReq.port = CFG_HTTPREQ_DEFAULT_PORT;
   strcpy_P(config.httpReq.path, CFG_HTTPREQ_DEFAULT_PATH);
+
+  config.syslog_port = DEFAULT_SYSLOG_PORT;
   
   config.config |= CFG_RGB_LED;
 
@@ -468,7 +740,7 @@ int WifiHandleConn(boolean setup = false)
         WiFi.begin(config.ssid);
       }
 
-      timeout = 50; // 50 * 200 ms = 5 sec time out
+      timeout = 25; // 25 * 200 ms = 5 sec time out
       // 200 ms loop
       while ( ((ret = WiFi.status()) != WL_CONNECTED) && timeout )
       {
@@ -485,13 +757,28 @@ int WifiHandleConn(boolean setup = false)
     // connected ? disable AP, client mode only
     if (ret == WL_CONNECTED)
     {
-      nb_reconnect++;         // increase reconnections count
       DebuglnF("connected!");
       WiFi.mode(WIFI_STA);
 
-      DebugF("IP address   : "); Debugln(WiFi.localIP());
+      DebugF("IP address   : "); Debugln(WiFi.localIP().toString());
       DebugF("MAC address  : "); Debugln(WiFi.macAddress());
-    
+ #ifdef SYSLOG
+    if (*config.syslog_host) {
+      SYSLOGselected=true;
+      // Create a new syslog instance with LOG_KERN facility
+      syslog.server(config.syslog_host, config.syslog_port);
+      syslog.deviceHostname(config.host);
+      syslog.appName(APP_NAME);
+      syslog.defaultPriority(LOG_KERN);
+      memset(waitbuffer,0,255);
+      pending=0;
+      SYSLOGusable=true;
+    } else {
+      SYSLOGusable=false;
+      SYSLOGselected=false;
+    }
+#endif
+   
     // not connected ? start AP
     } else {
       char ap_ssid[32];
@@ -524,10 +811,15 @@ int WifiHandleConn(boolean setup = false)
       }
       WiFi.mode(WIFI_AP_STA);
 
-      DebugF("IP address   : "); Debugln(WiFi.softAPIP());
+      DebugF("IP address   : "); Debugln(WiFi.softAPIP().toString());
       DebugF("MAC address  : "); Debugln(WiFi.softAPmacAddress());
     }
-
+    // Version 1.0.7 : Use auto reconnect Wifi
+    WiFi.setAutoConnect(true);
+    WiFi.setAutoReconnect(true);
+    DebuglnF("auto-reconnect armed !");
+      
+	  
     // Set OTA parameters
     ArduinoOTA.setPort(config.ota_port);
     ArduinoOTA.setHostname(config.host);
@@ -561,18 +853,44 @@ Comments: -
 ====================================================================== */
 void setup()
 {
-  char buff[32];
-  boolean reset_config = true;
-
   // Set CPU speed to 160MHz
   system_update_cpu_freq(160);
 
-  //WiFi.disconnect(false);
+#ifdef SYSLOG
+  for(int i=0; i<50; i++)
+    lines[i]=0;
+  in=-1;
+  out=-1;
 
-  // Set WiFi to station mode and disconnect from an AP if it was previously connected
-  //WiFi.mode(WIFI_AP_STA);
-  //WiFi.disconnect();
-  //delay(1000);
+  SYSLOGselected=true;  //Par défaut, au moins stocker les premiers msg debug
+  SYSLOGusable=false;   //Tant que non connecté, ne pas émettre sur réseau
+#endif
+
+  optval = "";
+
+#ifdef LINKY_MODE_STANDARD
+  optval += "Linky Standard, ";
+#else
+  optval += "Linky Historique, ";
+#endif
+
+#ifdef SIMU
+  optval += "SIMU, ";
+#else
+  optval += "No SIMU, ";
+#endif
+
+#ifdef DEBUG
+  optval += "DEBUG, ";
+#else
+  optval += "No DEBUG, ";
+#endif
+
+#ifdef SYSLOG
+  optval += "SYSLOG";
+#else
+  optval += "No SYSLOG";
+#endif
 
   // Init the RGB Led, and set it off
   rgb_led.Begin();
@@ -598,7 +916,6 @@ void setup()
   DebugF("Config size="); Debug(sizeof(_Config));
   DebugF(" (emoncms=");   Debug(sizeof(_emoncms));
   DebugF("  jeedom=");   Debug(sizeof(_jeedom));
-  DebugF("  http request=");   Debug(sizeof(_httpRequest));
   Debugln(')');
   Debugflush();
 
@@ -644,6 +961,25 @@ void setup()
   // start Wifi connect or soft AP
   WifiHandleConn(true);
 
+#ifdef SYSLOG
+  //purge previous debug message,
+  if(SYSLOGselected) {
+    if(in != out && in != -1) {
+        //Il y a des messages en attente d'envoi
+        out++;
+        while( out <= in ) {
+          process_line(lines[out]);
+          free(lines[out]);
+          lines[out]=0;
+          out++;
+        }
+        DebuglnF("syslog buffer empty");
+    }
+  } else {
+    DebuglnF("syslog not activated !");
+  }
+#endif
+
   // OTA callbacks
   ArduinoOTA.onStart([]() { 
     LedRGBON(COLOR_MAGENTA);
@@ -684,7 +1020,6 @@ void setup()
   server.on("/config_form.json", handleFormConfig);
   server.on("/json", sendJSON);
   server.on("/tinfo.json", tinfoJSONTable);
-  server.on("/emoncms.json", emoncmsJSONTable);
   server.on("/system.json", sysJSONTable);
   server.on("/config.json", confJSONTable);
   server.on("/spiffs.json", spiffsJSONTable);
@@ -772,15 +1107,22 @@ void setup()
   // avoid conflict when flashing, this is why
   // we swap RXD1/RXD1 to RXD2/TXD2 
   // Note that TXD2 is not used teleinfo is receive only
-  #ifdef DEBUG_SERIAL1
+  #ifndef SIMU
+  #ifdef LINKY_MODE_STANDARD
+    Serial.begin(9600, SERIAL_7E1);
+  #else
     Serial.begin(1200, SERIAL_7E1);
+  #endif
     Serial.swap();
   #endif
 
   // Init teleinfo
-  need_reinit=false;
-  nb_reinit++;
-  tinfo.init();
+ 
+ #ifdef LINKY_MODE_STANDARD
+   tinfo.init(TINFO_MODE_STANDARD);
+#else
+   tinfo.init(TINFO_MODE_HISTORIQUE);
+#endif
 
   // Attach the callback we need
   // set all as an example
@@ -809,6 +1151,21 @@ void setup()
   // HTTP Request Update if needed
   if (config.httpReq.freq) 
     Tick_httpRequest.attach(config.httpReq.freq, Task_httpRequest);
+
+//To simulate Teleinfo on not connected module
+#ifdef SIMU
+    String name1 = "ADCO";
+    String value1 = "01234546789012";
+    
+    char * s1 = (char *)name1.c_str();
+    char * v1 = (char *)value1.c_str();
+    flags = TINFO_FLAGS_ADDED;
+    tinfo.addCustomValue(s1, v1, &flags); //ADCO arbitrary value
+    tinfo.addCustomValue(s2, v2, &flags); //counter value
+    flags = TINFO_FLAGS_NONE;
+    tinfo.valuesDump();
+#endif
+
 }
 
 /* ======================================================================
@@ -828,10 +1185,25 @@ void loop()
 
   //webSocket.loop();
 
-  // Only once task per loop, let system do its own task
+  // Only once task per loop, let system do it own task
   if (task_1_sec) { 
     UpdateSysinfo(false, false); 
     task_1_sec = false; 
+
+//To simulate Teleinfo on not connected module
+#ifdef SIMU
+    loop_cpt++;
+    if(loop_cpt % 10)
+    {
+      // each 10 second, try to change HCHC value
+      //Increase v2 value
+      sprintf(v2, "%09d", (loop_cpt) );
+      // and update ListValues
+      flags = TINFO_FLAGS_UPDATED;
+      tinfo.addCustomValue(s2, v2, &flags);   
+    }
+#endif
+
   } else if (task_emoncms) { 
     emoncmsPost(); 
     task_emoncms=false; 
@@ -841,22 +1213,15 @@ void loop()
   } else if (task_httpRequest) { 
     httpRequest();  
     task_httpRequest=false;
-  }
+  } 
 
-  if (need_reinit) {
-    //Some polluted entries have been detected in Teleinfo ListValues
-		need_reinit=false;
-    nb_reinit++;    //account of reinit operations, for system infos
-		tinfo.init();		//Clear ListValues, buffer, and wait for next STX
-  } else {
-	  // Handle teleinfo serial
-	  if ( Serial.available() ) {
-	    // Read Serial and process to tinfo
-	    c = Serial.read();
-	    tinfo.process(c);
+  // Handle teleinfo serial
+  if ( Serial.available() ) {
+    // Read Serial and process to tinfo
+    c = Serial.read();
+    //Serial1.print(c);
+    tinfo.process(c);
   }
 
   //delay(10);
-}
-
 }

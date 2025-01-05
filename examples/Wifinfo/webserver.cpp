@@ -16,8 +16,6 @@
 //
 // History : V1.00 2015-06-14 - First release
 //
-//   Modified by Doume 2017-06-29 : Try to avoid polluted ListedValues with Triphase counter
-//
 // All text above must be included in any redistribution.
 //
 // **********************************************************************************
@@ -32,16 +30,6 @@ const char FP_QCQ[] PROGMEM = "\":\"";
 const char FP_QCNL[] PROGMEM = "\",\r\n\"";
 const char FP_RESTART[] PROGMEM = "OK, Redémarrage en cours\r\n";
 const char FP_NL[] PROGMEM = "\r\n";
-
-//List of authorized value names in Teleinfo, to detect polluted entries
-const String tabnames[35] = { 
-  "ADCO" , "OPTARIF" , "ISOUSC" , "BASE", "HCHC" , "HCHP",
-   "IMAX" , "IINST" , "PTEC", "PMAX", "PAPP", "HHPHC" , "MOTDETAT" , "PPOT",
-   "IINST1" , "IINST2" , "IINST3", "IMAX1" , "IMAX2" , "IMAX3" , 
-  "EJPHN" , "EJPHPM" , "BBRHCJB" , "BBRHPJB", "BBRHCJW" , "BBRHPJW" , "BBRHCJR" ,
-  "BBRHPJR" , "PEJP" , "DEMAIN" , "ADPS" , "ADIR1", "ADIR2" , "ADIR3"
-  };
-
 
 /* ======================================================================
 Function: formatSize 
@@ -119,7 +107,7 @@ bool handleFileRead(String path) {
     DebuglnF(" found on FS");
  
     File file = SPIFFS.open(path, "r");
-    size_t sent = server.streamFile(file, contentType);
+    server.streamFile(file, contentType);
     file.close();
     return true;
   }
@@ -158,7 +146,10 @@ void handleFormConfig(void)
     strncpy(config.ota_auth,server.arg("ota_auth").c_str(), CFG_PSK_SIZE );
     itemp = server.arg("ota_port").toInt();
     config.ota_port = (itemp>=0 && itemp<=65535) ? itemp : DEFAULT_OTA_PORT ;
-
+    strncpy(config.syslog_host ,   server.arg("syslog_host").c_str(),     64 );
+    itemp = server.arg("syslog_port").toInt();
+    config.syslog_port = (itemp>=0 && itemp<=65535) ? itemp : DEFAULT_SYSLOG_PORT ;
+    
     // Emoncms
     strncpy(config.emoncms.host,   server.arg("emon_host").c_str(),  CFG_EMON_HOST_SIZE );
     strncpy(config.emoncms.url,    server.arg("emon_url").c_str(),   CFG_EMON_URL_SIZE );
@@ -208,6 +199,12 @@ void handleFormConfig(void)
       itemp = 0 ; 
     }
     config.httpReq.freq = itemp;
+
+    itemp = server.arg("httpreq_swidx").toInt();
+    if (itemp > 0 && itemp <= 65535)
+      config.httpReq.swidx = itemp;
+    else
+      config.httpReq.swidx = 0;
 
     if ( saveConfig() ) {
       ret = 200;
@@ -263,7 +260,6 @@ void formatNumberJSON( String &response, char * value)
   if (value && strlen(value))
   {
     boolean isNumber = true;
-    uint8_t c;
     char * p = value;
 
     // just to be sure
@@ -304,87 +300,52 @@ Comments: -
 ====================================================================== */
 void tinfoJSONTable(void)
 {
-   // we're there
-  ESP.wdtFeed();  //Force software wadchog to restart from 0
-
+String response = "";
+boolean first_item = true;
+  
   ValueList * me = tinfo.getList();
-  String response = "";
-
-  // Just to debug where we are
-  Debug(F("Serving /tinfo page...\r\n"));
-
-  if (! me ) //&& first_info_call) 
-  {
-    //Let tinfo such time to build a list....
-    first_info_call=false;
-    unsigned long topdebut = millis();
-    bool expired = false;
-    while (! expired ) {
-      if( (millis() - topdebut ) >= 3000 ) {
-        expired = true;   // 3 seconds delay expired
-      } else {
-        yield();  //Let CPU to other threads
-      }
-    }
-    // continue, hoping list values is now ready
-    me = tinfo.getList();
-  }
-    
+  
   // Got at least one ?
-  if (me) {
-    uint8_t index=0;
-    
-    first_info_call=false;
-    boolean first_item = true;
+  if (me && me->next) {
+
     // Json start
     response += F("[\r\n");
 
     // Loop thru the node
     while (me->next) {
-      index++;
-      //if(index > 17)  //Max number of lines, for a triphase counter
-      //  break;
-
- 
       // go to next node
       me = me->next;
 
-      // First item do not add , separator
       if (first_item)
         first_item = false;
-      else
+      else 
         response += F(",\r\n");
-
-      if(validate_value_name(me->name)) {
-        //It's a known name : process the entry      
-        response += F("{\"na\":\"");
-        response +=  me->name ;
-        response += F("\", \"va\":\"") ;
-        response += me->value;
-        response += F("\", \"ck\":\"") ;
-        if (me->checksum == '"' || me->checksum == '\\' || me->checksum == '/')
-          response += '\\';
-        response += (char) me->checksum;
-        response += F("\", \"fl\":");
-        response += me->flags ;
-        response += '}' ;
-      } else {
-        //Don't put this line in table : name is corrupted !
-        need_reinit=true;
-      }
-
+      
+      response += F("{\"na\":\"");
+      response +=  String(me->name);
+      response += F("\", \"va\":\"") ;
+      response += String(me->value);
+      response += F("\", \"ck\":\"") ;
+      if (me->checksum == '"' || me->checksum == '\\' || me->checksum == '/')
+        response += '\\';
+      response += (char) me->checksum;
+      response += F("\", \"fl\":");
+      response += me->flags ;
+      response += F("}");
     }
-   // Json end
-   response += F("\r\n]");
+    // Json end
+    response += F("\r\n]");
+
+    Debug(F("sending... "));Debugln(response);
+    
+    server.send ( 200, "text/json", response );
 
   } else {
     Debugln(F("sending 404..."));
     server.send ( 404, "text/plain", "No data" );
   }
-  Debug(F("sending..."));
-  server.send ( 200, "text/json", response );
   Debugln(F("OK!"));
-  yield();  //Let a chance to other threads to work
+  
 }
 
 /* ======================================================================
@@ -415,25 +376,18 @@ void getSysJSONData(String & response)
       response += "{\"na\":\"Wifi network\",\"va\":\"";
       response += config.ssid;
       response += "\"},\r\n";
-      uint8_t mac[] = {0, 0, 0, 0, 0, 0};
-      uint8_t* macread = WiFi.macAddress(mac);
-      char macaddress[20];
-      sprintf_P(macaddress, PSTR("%02x:%02x:%02x:%02x:%02x:%02x"), macread[0], macread[1], macread[2], macread[3], macread[4], macread[5]);
       response += "{\"na\":\"Adresse MAC station\",\"va\":\"";
-      response += macaddress;
+      response += WiFi.macAddress();
       response += "\"},\r\n";
   }
-  response += "{\"na\":\"Nb reconnexions Wifi\",\"va\":\"";
-  response += nb_reconnect;
-  response += "\"},\r\n"; 
-  
-  response += "{\"na\":\"Nb initialisations Teleinformation\",\"va\":\"";
-  response += nb_reinit;
-  response += "\"},\r\n"; 
-  
+
   response += "{\"na\":\"WifInfo Version\",\"va\":\"" WIFINFO_VERSION "\"},\r\n";
 
   response += "{\"na\":\"Compile le\",\"va\":\"" __DATE__ " " __TIME__ "\"},\r\n";
+  
+  response += "{\"na\":\"Options de compilation\",\"va\":\"";
+  response += optval;
+  response += "\"},\r\n";
 
   response += "{\"na\":\"SDK Version\",\"va\":\"";
   response += system_get_sdk_version() ;
@@ -502,34 +456,13 @@ Comments: -
 void sysJSONTable()
 {
   String response = "";
-
-  ESP.wdtFeed();  //Force software watchdog to restart from 0
+  
   getSysJSONData(response);
 
   // Just to debug where we are
-  Debug(F("Serving /system page..."));
+  Debug(F("Serving /system page... "));Debugln(response);
   server.send ( 200, "text/json", response );
   Debugln(F("Ok!"));
-  yield();  //Let a chance to other threads to work
-}
-
-/* ======================================================================
-Function: emoncmsJSONTable (added by Doume)
-Purpose : prepare the JSON table needed to fill emoncms server with values
-            some values have been translated, because emoncms only
-            accept numeric values
-Input   : -
-Output  : Teleinfo values translated and filtered
-Comments: -
-====================================================================== */
-void emoncmsJSONTable()
-{
- 
-  String response = build_emoncms_json(); 
-
-  server.send ( 200, "text/json", response );
-  
-  yield();  //Let a chance to other threads to work
 }
 
 
@@ -559,18 +492,19 @@ void getConfJSONData(String & r)
   r+=CFG_FORM_EMON_FREQ; r+=FPSTR(FP_QCQ); r+=config.emoncms.freq;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_OTA_AUTH;  r+=FPSTR(FP_QCQ); r+=config.ota_auth;       r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_OTA_PORT;  r+=FPSTR(FP_QCQ); r+=config.ota_port;       r+= FPSTR(FP_QCNL);
-
+  r+=CFG_FORM_SYSLOG_HOST; r+=FPSTR(FP_QCQ); r+=config.syslog_host;  r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_SYSLOG_PORT; r+=FPSTR(FP_QCQ); r+=config.syslog_port;  r+= FPSTR(FP_QCNL);
   r+=CFG_FORM_JDOM_HOST; r+=FPSTR(FP_QCQ); r+=config.jeedom.host;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_JDOM_PORT; r+=FPSTR(FP_QCQ); r+=config.jeedom.port;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_JDOM_URL;  r+=FPSTR(FP_QCQ); r+=config.jeedom.url;    r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_JDOM_KEY;  r+=FPSTR(FP_QCQ); r+=config.jeedom.apikey; r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_JDOM_ADCO; r+=FPSTR(FP_QCQ); r+=config.jeedom.adco;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_JDOM_FREQ; r+=FPSTR(FP_QCQ); r+=config.jeedom.freq;   r+= FPSTR(FP_QCNL); 
-
   r+=CFG_FORM_HTTPREQ_HOST; r+=FPSTR(FP_QCQ); r+=config.httpReq.host;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_HTTPREQ_PORT; r+=FPSTR(FP_QCQ); r+=config.httpReq.port;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_HTTPREQ_PATH; r+=FPSTR(FP_QCQ); r+=config.httpReq.path;   r+= FPSTR(FP_QCNL);  
-  r+=CFG_FORM_HTTPREQ_FREQ; r+=FPSTR(FP_QCQ); r+=config.httpReq.freq;  
+  r+=CFG_FORM_HTTPREQ_FREQ; r+=FPSTR(FP_QCQ); r+=config.httpReq.freq;   r+= FPSTR(FP_QCNL);   
+  r+=CFG_FORM_HTTPREQ_SWIDX; r+=FPSTR(FP_QCQ); r+=config.httpReq.swidx;  
   
 
   r+= F("\""); 
@@ -589,13 +523,11 @@ Comments: -
 void confJSONTable()
 {
   String response = "";
-  //ESP.wdtFeed();  //Force software watchdog to restart from 0
   getConfJSONData(response);
   // Just to debug where we are
   Debug(F("Serving /config page..."));
   server.send ( 200, "text/json", response );
   Debugln(F("Ok!"));
-  yield();  //Let a chance to other threads to work
 }
 
 /* ======================================================================
@@ -607,7 +539,6 @@ Comments: -
 ====================================================================== */
 void getSpiffsJSONData(String & response)
 {
-  char buffer[32];
   bool first_item = true;
 
   // Json start
@@ -663,10 +594,8 @@ Comments: -
 void spiffsJSONTable()
 {
   String response = "";
-  //ESP.wdtFeed();  //Force software watchdog to restart from 0
   getSpiffsJSONData(response);
   server.send ( 200, "text/json", response );
-  yield();  //Let a chance to other threads to work
 }
 
 /* ======================================================================
@@ -682,8 +611,6 @@ void sendJSON(void)
   ValueList * me = tinfo.getList();
   String response = "";
   
-  ESP.wdtFeed();  //Force software watchdog to restart from 0
-    
   // Got at least one ?
   if (me) {
     // Json start
@@ -695,15 +622,10 @@ void sendJSON(void)
     while (me->next) {
       // go to next node
       me = me->next;
-      if(validate_value_name(me->name)) {
-        //It's a known name : process the entry
-        response += F(",\"") ;
-        response += me->name ;
-        response += F("\":") ;
-        formatNumberJSON(response, me->value);
-      } else {
-        need_reinit=true;
-      }
+      response += F(",\"") ;
+      response += String(me->name);
+      response += F("\":") ;
+      formatNumberJSON(response, (char *)(String(me->value).c_str()));
     }
    // Json end
    response += FPSTR(FP_JSON_END) ;
@@ -712,7 +634,6 @@ void sendJSON(void)
     server.send ( 404, "text/plain", "No data" );
   }
   server.send ( 200, "text/json", response );
-  yield();  //Let a chance to other threads to work
 }
 
 
@@ -740,12 +661,12 @@ void wifiScanJSON(void)
   {
     int8_t rssi = WiFi.RSSI(i);
     
-    uint8_t percent;
+    // uint8_t percent;
 
     // dBm to Quality
-    if(rssi<=-100)      percent = 0;
-    else if (rssi>=-50) percent = 100;
-    else                percent = 2 * (rssi + 100);
+    // if(rssi<=-100)      percent = 0;
+    // else if (rssi>=-50) percent = 100;
+    // else                percent = 2 * (rssi + 100);
 
     if (first) 
       first = false;
@@ -765,7 +686,6 @@ void wifiScanJSON(void)
   Debug(F("sending..."));
   server.send ( 200, "text/json", response );
   Debugln(F("Ok!"));
-  yield();  //Let a chance to other threads to work
 }
 
 
@@ -894,22 +814,3 @@ void handleNotFound(void)
   // Led off
   LedBluOFF();
 }
-/* ======================================================================
-Function: validate_value_name
-Purpose : check if value name is in known range of values....
-Input   : name to check
-Output  : true if OK, false otherwise
-Comments: -
-====================================================================== */
-bool validate_value_name(String name)
-{
-	
-  for (int i=0 ; i < 35; i++ ) {
-    if( (tabnames[i].length() == name.length()) && (tabnames[i] == name) ) {
-      return true;
-    }
-  }
-	return false; //Not an existing name !
-  //return true;
-}
-

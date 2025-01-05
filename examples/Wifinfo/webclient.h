@@ -28,18 +28,12 @@
 
 // Exported variables/object instancied in main sketch
 // ===================================================
-extern bool          need_reinit;
 
-// Exported function instancied in webserver.cpp
-// =============================================
-extern bool          validate_value_name(String name);
-
-// declared exported function from webclient.cpp
+// declared exported function from route.cpp
 // ===================================================
-boolean httpPost(char * host, uint16_t port, char * url);
+boolean httpPost(char * host, uint16_t port, char * url, char * data);
 boolean emoncmsPost(void);
 boolean jeedomPost(void);
 boolean httpRequest(void);
-String  build_emoncms_json(void);
 
 #endif

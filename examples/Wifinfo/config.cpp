@@ -174,21 +174,26 @@ Comments: -
 ====================================================================== */
 void showConfig() 
 {
+  Debugln("");
   DebuglnF("===== Wifi"); 
   DebugF("ssid     :"); Debugln(config.ssid); 
   DebugF("psk      :"); Debugln(config.psk); 
   DebugF("host     :"); Debugln(config.host); 
+  DebuglnF("===== Avancé"); 
   DebugF("ap_psk   :"); Debugln(config.ap_psk); 
   DebugF("OTA auth :"); Debugln(config.ota_auth); 
   DebugF("OTA port :"); Debugln(config.ota_port); 
+  DebugF("syslog host :"); Debugln(config.syslog_host); 
+  DebugF("syslog port :"); Debugln(config.syslog_port); 
   DebugF("Config   :"); 
   if (config.config & CFG_RGB_LED) DebugF(" RGB"); 
   if (config.config & CFG_DEBUG)   DebugF(" DEBUG"); 
   if (config.config & CFG_LCD)     DebugF(" LCD"); 
-
-  DebuglnF("\r\n===== Emoncms"); 
+  Debugln("");
+ 
+  DebuglnF("===== Emoncms"); 
   DebugF("host     :"); Debugln(config.emoncms.host); 
-  DebugF("port     :"); Debugln(config.emoncms.port); 
+  DebugF("port     :"); Debugln((int)config.emoncms.port); 
   DebugF("url      :"); Debugln(config.emoncms.url); 
   DebugF("key      :"); Debugln(config.emoncms.apikey); 
   DebugF("node     :"); Debugln(config.emoncms.node); 
@@ -202,10 +207,12 @@ void showConfig()
   DebugF("compteur :"); Debugln(config.jeedom.adco); 
   DebugF("freq     :"); Debugln(config.jeedom.freq); 
 
-  DebuglnF("\r\n===== HTTP request"); 
+  DebuglnF("===== HTTP request"); 
   DebugF("host     :"); Debugln(config.httpReq.host); 
   DebugF("port     :"); Debugln(config.httpReq.port); 
   DebugF("path     :"); Debugln(config.httpReq.path); 
   DebugF("freq     :"); Debugln(config.httpReq.freq); 
+  DebugF("sw idx   :"); Debugln(config.httpReq.swidx); 
+  delay(1000);
 }
 
