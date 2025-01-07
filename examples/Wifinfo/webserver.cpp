@@ -149,6 +149,23 @@ void handleFormConfig(void)
     strncpy(config.syslog_host ,   server.arg("syslog_host").c_str(),     64 );
     itemp = server.arg("syslog_port").toInt();
     config.syslog_port = (itemp>=0 && itemp<=65535) ? itemp : DEFAULT_SYSLOG_PORT ;
+
+    // mqtt
+    strncpy(config.mqtt.host,   server.arg("mqtt_host").c_str(),  CFG_MQTT_HOST_SIZE );
+    strncpy(config.mqtt.user,    server.arg("mqtt_user").c_str(),   CFG_MQTT_USER_SIZE );
+    strncpy(config.mqtt.pswd, server.arg("mqtt_pswd").c_str(),CFG_MQTT_PSWD_SIZE );
+    strncpy(config.mqtt.topic, server.arg("mqtt_topic").c_str(),CFG_MQTT_TOPIC_SIZE );
+    itemp = server.arg("mqtt_port").toInt();
+    config.mqtt.port = (itemp>=0 && itemp<=65535) ? itemp : CFG_MQTT_DEFAULT_PORT ; 
+    itemp = server.arg("mqtt_freq").toInt();
+    if (itemp>0 && itemp<=86400){
+      // Mqtt Update if needed
+      Tick_mqtt.detach();
+      Tick_mqtt.attach(itemp, Task_mqtt);
+    } else {
+      itemp = 0 ; 
+    }
+    config.mqtt.freq = itemp;
     
     // Emoncms
     strncpy(config.emoncms.host,   server.arg("emon_host").c_str(),  CFG_EMON_HOST_SIZE );
@@ -368,16 +385,25 @@ void getSysJSONData(String & response)
   response += sysinfo.sys_uptime;
   response += "\"},\r\n";
 
+  response += "{\"na\":\"Adresse IP\",\"va\":\"";
+  response += WiFi.localIP().toString();
+  response += "\"},\r\n";
+
+  response += "{\"na\":\"Adresse MAC station\",\"va\":\"";
+  response += WiFi.macAddress();
+  response += "\"},\r\n";
+  
   if (WiFi.status() == WL_CONNECTED)
   {
-      response += "{\"na\":\"Wifi RSSI\",\"va\":\"";
-      response += WiFi.RSSI();
-      response += " dB\"},\r\n";
       response += "{\"na\":\"Wifi network\",\"va\":\"";
       response += config.ssid;
       response += "\"},\r\n";
-      response += "{\"na\":\"Adresse MAC station\",\"va\":\"";
-      response += WiFi.macAddress();
+      response += "{\"na\":\"Wifi RSSI\",\"va\":\"";
+      response += WiFi.RSSI();
+      response += " dB\"},\r\n";
+  } else {
+      response += "{\"na\":\"Wifi network\",\"va\":\"";
+      response += "Not connected";
       response += "\"},\r\n";
   }
 
@@ -484,6 +510,12 @@ void getConfJSONData(String & r)
   r+=CFG_FORM_PSK;       r+=FPSTR(FP_QCQ); r+=config.psk;            r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_HOST;      r+=FPSTR(FP_QCQ); r+=config.host;           r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_AP_PSK;    r+=FPSTR(FP_QCQ); r+=config.ap_psk;         r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_HOST; r+=FPSTR(FP_QCQ); r+=config.mqtt.host;      r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_PORT; r+=FPSTR(FP_QCQ); r+=config.mqtt.port;      r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_USER; r+=FPSTR(FP_QCQ); r+=config.mqtt.user;      r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_PSWD; r+=FPSTR(FP_QCQ); r+=config.mqtt.pswd;      r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_TOPIC;r+=FPSTR(FP_QCQ); r+=config.mqtt.topic;     r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_MQTT_FREQ; r+=FPSTR(FP_QCQ); r+=config.mqtt.freq;      r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_EMON_HOST; r+=FPSTR(FP_QCQ); r+=config.emoncms.host;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_EMON_PORT; r+=FPSTR(FP_QCQ); r+=config.emoncms.port;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_EMON_URL;  r+=FPSTR(FP_QCQ); r+=config.emoncms.url;    r+= FPSTR(FP_QCNL); 

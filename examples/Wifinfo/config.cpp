@@ -47,8 +47,7 @@ Comments: -
 ====================================================================== */
 void eepromDump(uint8_t bytesPerRow) 
 {
-  uint16_t i,b;
-  char buf[10];
+  uint16_t i;
   uint16_t j=0 ;
   
   // default to 16 bytes per row
@@ -191,6 +190,14 @@ void showConfig()
   if (config.config & CFG_LCD)     DebugF(" LCD"); 
   Debugln("");
  
+  DebuglnF("===== Mqtt"); 
+  DebugF("host     :"); Debugln(config.mqtt.host); 
+  DebugF("port     :"); Debugln((int)config.mqtt.port); 
+  DebugF("user      :"); Debugln(config.mqtt.user); 
+  DebugF("pswd      :"); Debugln(config.mqtt.pswd); 
+  DebugF("topic     :"); Debugln(config.mqtt.topic); 
+  DebugF("freq     :"); Debugln(config.mqtt.freq); 
+
   DebuglnF("===== Emoncms"); 
   DebugF("host     :"); Debugln(config.emoncms.host); 
   DebugF("port     :"); Debugln((int)config.emoncms.port); 

@@ -87,7 +87,7 @@
 //             Wifinfo.ino : add void Myprint(const char *msg) to remove C++ warning on Debug(".");
 //           LibTeleinfo.h / LibTeleinfo.cpp : correction erreurs de compilation
 //
-//        Version 2.0.0 (5/01/2025)
+//        Version 2.0.0 (15/01/2025)
 //          Merge avec https://github.com/hallard/LibTeleinfo/tree/master
 //            Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
 //              Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
@@ -96,6 +96,7 @@
 //              #define LINKY_MODE_STANDARD
 //              Si le define est commenté alors mode Historique
 //          Les options de comilation sont affichées sur la page web dans l'onglet Système
+//          Ajout de Mqtt : From https://github.com/Davcail/LibTeleinfo-syslog-mqtt
 //
 //          Environment
 //           Arduino IDE 1.8.18
@@ -126,6 +127,7 @@
 // Include Arduino header
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+#include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
 #include <ESP8266mDNS.h>
@@ -136,7 +138,7 @@
 //#include <WebSocketsServer.h>
 //#include <Hash.h>
 #include <NeoPixelBus.h>
-#include <LibTeleinfo.h>
+#include "LibTeleinfo.h"
 #include <FS.h>
 
 // Global project file
@@ -166,11 +168,13 @@ Ticker rgb_ticker;
 Ticker blu_ticker;
 Ticker red_ticker;
 Ticker Every_1_Sec;
+Ticker Tick_mqtt;
 Ticker Tick_emoncms;
 Ticker Tick_jeedom;
 Ticker Tick_httpRequest;
 
 volatile boolean task_1_sec = false;
+volatile boolean task_mqtt = false;
 volatile boolean task_emoncms = false;
 volatile boolean task_jeedom = false;
 volatile boolean task_httpRequest = false;
@@ -189,6 +193,14 @@ char * s2 = (char *)name2.c_str();
 String value2 = "000060000";
 char * v2 = (char *) value2.c_str();
 #endif
+
+//Client Mqtt
+WiFiClient MqttClient;
+PubSubClient MQTTclient(MqttClient);
+bool Mqtt_Init=0;
+const char* ntpServer = "pool.ntp.org";
+const long  gmtOffset_sec = 0;
+const int   daylightOffset_sec = 3600;
 
 #ifdef SYSLOG
 WiFiUDP udpClient;
@@ -383,6 +395,18 @@ void Task_1_Sec()
 {
   task_1_sec = true;
   seconds++;
+}
+
+/* ======================================================================
+Function: Task_mqtt
+Purpose : callback of mqtt ticker
+Input   : 
+Output  : -
+Comments: Like an Interrupt, need to be short, we set flag for main loop
+====================================================================== */
+void Task_mqtt()
+{
+  task_mqtt = true;
 }
 
 /* ======================================================================
@@ -651,6 +675,13 @@ void ResetConfig(void)
 
   // Add other init default config here
 
+  // Mqtt
+  strcpy_P(config.mqtt.host, CFG_MQTT_DEFAULT_HOST);
+  config.mqtt.port = CFG_MQTT_DEFAULT_PORT;
+  strcpy_P(config.mqtt.pswd, CFG_MQTT_DEFAULT_PSWD);
+  strcpy_P(config.mqtt.user, CFG_MQTT_DEFAULT_USER);
+  strcpy_P(config.mqtt.topic, CFG_MQTT_DEFAULT_TOPIC);
+
   // Emoncms
   strcpy_P(config.emoncms.host, CFG_EMON_DEFAULT_HOST);
   config.emoncms.port = CFG_EMON_DEFAULT_PORT;
@@ -844,6 +875,128 @@ int WifiHandleConn(boolean setup = false)
   return WiFi.status();
 }
 
+boolean Mqttconnect() {
+  boolean ret;
+
+    DebugF("Connexion au serveur MQTT... ");
+    ret = MQTTclient.connect(config.mqtt.topic, config.mqtt.user, config.mqtt.pswd);
+    if (ret) {
+      DebuglnF("OK");
+    } else {
+      DebuglnF("KO");
+    }
+    return(ret);
+}
+
+/* ======================================================================
+Function: mqttPost (called by main sketch on timer, if activated)
+Purpose : Do a http post to mqtt
+Input   : 
+Output  : true if post returned OK
+Comments: -
+====================================================================== */
+boolean mqttPost(void)
+{
+  boolean ret = false;
+  // Some basic checking
+  if (*config.mqtt.host) {
+    ValueList * me = tinfo.getList();
+    // Got at least one ?
+    if (me && me->next) {
+      String topic;
+      Debugln("mqttPost publish");
+      
+      if (config.mqtt.topic>0) {
+        // Publish IP
+        topic= String(config.mqtt.topic);
+        topic+= "/ip";
+        String payload = WiFi.localIP().toString();
+        // And submit all to mqtt
+        Debug(topic);
+        ret=MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+        if (ret)
+          Debugln(" OK");
+        else
+          Debugln(" KO");
+          
+        //Publish Date Heure
+        topic= String(config.mqtt.topic);
+        topic+= "/datetime";
+        struct tm timeinfo;
+        if(getLocalTime(&timeinfo)){
+          char buf[20];
+          strftime(buf,sizeof(buf),"%FT%H:%M:%S",&timeinfo);
+          payload = buf;
+          // And submit all to mqtt
+          Debug(topic);
+          Debug( " value ");
+          Debugln(payload);
+          ret |= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+          if (ret)
+            Debugln(" OK");
+          else
+            Debugln(" KO");
+        }
+        //Publish DATA
+        topic= String(config.mqtt.topic);
+        topic+= "/data";
+         Debug(topic);
+         Debug( " value ");
+         payload = build_mqtt_json();
+        // And submit all to mqtt
+        ret |= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);             
+          if (ret)
+            Debugln(" OK");
+          else
+            Debugln(" KO");
+      } 
+
+    } else {
+      Debugln("mqttPost : list is empty");
+    } // if me
+  } // if host
+  return ret;
+}
+
+/* ======================================================================
+Function: Mqttcallback
+Purpose : Déclenche les actions à la réception d'un message mqtt
+          D'après http://m2mio.tumblr.com/post/30048662088/a-simple-example-arduino-mqtt-m2mio
+Input   : topic
+          payload
+          length
+Output  : - 
+Comments: -
+====================================================================== */
+void Mqttcallback(char* topic, byte* payload, unsigned int length) {
+
+  #ifdef DEBUG 
+    DebugF("Message recu =>  topic: ");
+    Debug(String(topic));
+    DebugF(" | longueur: ");
+    Debugln(String(length,DEC));
+  #endif
+
+  /*
+  // create character buffer with ending null terminator (string)
+  for(i=0; i<length; i++) {
+    buff[i] = payload[i];
+  }
+  buff[i] = '\0';
+  
+  String msgString = String(buff);
+  */
+
+
+  #ifdef DEBUG 
+  // String 3 paramètres n'existe pas xxxxxx
+  // String msgString = String(payload, 0 , length);
+  //  DebuglnF("Payload: ");
+  //  Debugln(msgString);
+  #endif
+
+}
+
 /* ======================================================================
 Function: setup
 Purpose : Setup I/O and other one time startup stuff
@@ -914,8 +1067,10 @@ void setup()
   EEPROM.begin(1024);
 
   DebugF("Config size="); Debug(sizeof(_Config));
-  DebugF(" (emoncms=");   Debug(sizeof(_emoncms));
+  DebugF("  (mqtt=");   Debug(sizeof(_mqtt));
+  DebugF("  emoncms=");   Debug(sizeof(_emoncms));
   DebugF("  jeedom=");   Debug(sizeof(_jeedom));
+  DebugF("  httpRequest=");   Debug(sizeof(_httpRequest));
   Debugln(')');
   Debugflush();
 
@@ -1139,6 +1294,21 @@ void setup()
 
   // Update sysinfo every second
   Every_1_Sec.attach(1, Task_1_Sec);
+
+  // Init and get the time
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)){
+    Debugln("Failed to obtain time");
+  } else {
+    char buf[20];
+    strftime(buf,sizeof(buf),"%FT%H:%M:%S",&timeinfo);
+    Debugln(buf);
+  }
+     
+  // Mqtt Update if needed
+  if (config.mqtt.freq) 
+    Tick_mqtt.attach(config.mqtt.freq, Task_mqtt);
   
   // Emoncms Update if needed
   if (config.emoncms.freq) 
@@ -1204,6 +1374,25 @@ void loop()
     }
 #endif
 
+  } else if (task_mqtt) { 
+    //gestion connexion Mqtt
+    if ( WiFi.status() == WL_CONNECTED){
+      //DebugF ("execution tache MQTT / wifi connecté Init mqtt=");
+      //Debugln (Mqtt_Init);
+      if (!Mqtt_Init){
+        MQTTclient.setServer(config.mqtt.host, 1883);    //Configuration de la connexion au serveur MQTT
+        MQTTclient.setCallback(Mqttcallback);  //La fonction de callback qui est executée à chaque réception de message  
+        Mqtt_Init=1; 
+      }
+      if (!MQTTclient.connected()) {
+        //Debugln ("demande de connexion MQTT");
+        Mqttconnect();
+      }
+    }
+    //Mqtt Publier les data; 
+    mqttPost(); 
+
+    task_mqtt=false; 
   } else if (task_emoncms) { 
     emoncmsPost(); 
     task_emoncms=false; 

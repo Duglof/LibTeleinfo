@@ -158,15 +158,17 @@ extern TInfo tinfo;
 extern uint8_t rgb_brightness;
 extern unsigned long seconds;
 extern _sysinfo sysinfo;
+extern Ticker Tick_mqtt;
 extern Ticker Tick_emoncms;
 extern Ticker Tick_jeedom;
 extern Ticker Tick_httpRequest;
-extern String optval;     // On coserve le même nom
+extern String optval;     // On conserve le même nom
 
 
 // Exported function located in main sketch
 // ===================================================
 void ResetConfig(void);
+void Task_mqtt();
 void Task_emoncms();
 void Task_jeedom();
 void Task_httpRequest();

@@ -5,11 +5,13 @@ This is a generic Teleinfo French Meter Measure Library
 - Modified Github source : <https://github.com/Doume/LibTeleinfo>
 - Modified Github source : <https://github.com/theGressier/LibTeleinfo/tree/syslog>
 - Modified Github source : <https://github.com/Duglof/LibTeleinfo>
+- Modified Github source : <https://github.com/Davcail/LibTeleinfo-syslog-mqtt>
 
 Linky mode Historique et mode Standard (option de compilation Wifinfo.h)
 
 exemples/Wifinfo
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
+  - beta version de mqtt
 
 Wifinfo :  Configuration Wifi
 
@@ -34,6 +36,7 @@ Depuis votre téléphone portable :
     - #define LINKY_MODE_STANDARD
     - Si le define est commenté alors mode Historique
  - Les options de compilation sont affichées sur la page web dans l'onglet Système
+ - Ajout d'une beta version de MQTT
 
 # Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
