@@ -463,11 +463,31 @@ void getSysJSONData(String & response)
   response += buffer ;
   response += "\"},\r\n"; 
 
-  // Free mem should be last one 
+  // Free mem
   response += "{\"na\":\"Free Ram\",\"va\":\"";
   response += formatSize(system_get_free_heap_size()) ;
-  response += "\"}\r\n"; // Last don't have comma at end
+  response += "\"},\r\n";
 
+  // LibTeleinfo Checksum Error Count
+  response += "{\"na\":\"Teleinfo Erreur Checksum\",\"va\":\"";
+  response += String(tinfo.getChecksumErrorCount());
+  response += "\"},\r\n";
+
+  // LibTeleinfo Frame Size Error Count
+  response += "{\"na\":\"Teleinfo Erreur Taille Frame\",\"va\":\"";
+  response += String(tinfo.getFrameSizeErrorCount());
+  response += "\"},\r\n";
+
+  // LibTeleinfo Frame Format Error Count
+  response += "{\"na\":\"Teleinfo Erreur Format Frame\",\"va\":\"";
+  response += String(tinfo.getFrameFormatErrorCount());
+  response += "\"},\r\n";
+
+  // LibTeleinfo Frame Interrupted Count
+  response += "{\"na\":\"Teleinfo Erreur Frame Interrompues\",\"va\":\"";
+  response += String(tinfo.getFrameInterruptedCount());
+  response += "\"}\r\n"; // Last don't have comma at end
+ 
   // Json end
   response += F("]\r\n");
 }
