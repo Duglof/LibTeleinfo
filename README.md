@@ -20,14 +20,17 @@ This is a generic Teleinfo French Meter Measure Library
 Le serveur Web Wifinfo est connecté:
   - en Wifi à votre réseau local
   - au compteur Linky via l'interface OPTO à I1 et I2
+
 Wifinfo permet par configuration d'activer les fonctions suivantes:
     - Envoie périodique des données au plugin Teleinfo de votre Jeedom
     - Envoie périodique des données au serveur emoncms
     - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
     - Envoie de données à un serveur web via une requète http GET
+
 Wifinfo est aussi un serveur json qui permet:
     - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
     - Retounner les données système ((http://192.168.1.x/system.json))
+
 Wifinfo dispose d'une interface d'administation 
     - [Téléinformation](docs/Wifinfo-Teleinformation.png): Visualisation des données du linky (ADCO, HCHC, ...)
     - Configuration: [Réseau Wifi](docs/Wifinfo-configuration-generale.png), [Mqtt](docs/Wifinfo-configuration-mqtt.png), [Emoncms](docs/Wifinfo-configuration-emoncms.png), [Jeedom](docs/Wifinfo-configuration-jeedom.png), [Http Request](docs/Wifinfo-configuration-http-request.png), [Avancée](docs/Wifinfo-configuration-avancee.png)
