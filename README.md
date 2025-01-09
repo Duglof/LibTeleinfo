@@ -7,10 +7,10 @@ This is a generic Teleinfo French Meter Measure Library
 - Modified Github source : <https://github.com/Duglof/LibTeleinfo>
 - Modified Github source : <https://github.com/Davcail/LibTeleinfo-syslog-mqtt>
 
-  Sélection du mode (TINFO_MODE_HISTORIQUE par défaut):
-     TInfo.init(TINFO_MODE_HISTORIQUE); 
+Sélection du mode (TINFO_MODE_HISTORIQUE par défaut):
+  - TInfo.init(TINFO_MODE_HISTORIQUE); 
    ou 
-     TInfo.init(TINFO_MODE_STANDARD); 
+  - TInfo.init(TINFO_MODE_STANDARD); 
 
 
 # Wifinfo
