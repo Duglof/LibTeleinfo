@@ -282,7 +282,7 @@ Il faut installer ESPExceptionDecoder V2.0.0 (Les versions ultérieurs non pas f
 - Il apparaît dans Aduino IDE 1.8.18 Outils/ESP Exception Decoder
 
 # Utilisation
-- Il faut absoluement compiler votre Croquis (sinon il vous demandera de sélection un fichier elf)
+- Il faut absolument compiler votre Croquis (sinon il vous demandera de sélection un fichier elf)
 - Ouvrir le fenêtre Outils/ESP Exception Decoder (qui s'ouvrira sans poser de question)
 - Et coller dans cette fenêtre le message ci-dessus
 - Vous obtiendrez le décodage ci-dessous
