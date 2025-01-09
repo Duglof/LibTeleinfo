@@ -287,6 +287,6 @@ Il faut installer ESPExceptionDecoder V2.0.0 (Les versions ultérieurs non pas f
 - Et coller dans cette fenêtre le message ci-dessus
 - Vous obtiendrez le décodage ci-dessous
 ![ESP Exception Decodeur](docs/Arduino-ESP-Exception-Decoder.png)
-
+- C'est plus clair, le problème est dans le Setup !!!
 
 
