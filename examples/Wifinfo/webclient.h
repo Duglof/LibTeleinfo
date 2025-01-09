@@ -35,6 +35,6 @@ boolean httpPost(char * host, uint16_t port, char * url, char * data);
 boolean emoncmsPost(void);
 boolean jeedomPost(void);
 boolean httpRequest(void);
-String  build_mqtt_json(void);
+// String  build_mqtt_json(void);
 
 #endif

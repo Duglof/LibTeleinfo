@@ -63,8 +63,12 @@ Depuis votre téléphone portable :
   - Configuration dans Wifinfo.h : 
     - #define LINKY_MODE_STANDARD
     - Si le define est commenté alors mode Historique
- - Les options de compilation sont affichées sur la page web dans l'onglet Système
- - Ajout d'une beta version de MQTT
+- Affichage sur la page web dans l'onglet Système
+  - Les options de compilation
+  - Les compteurs d'erreur (checksumerror,framesizeerror,frameformaterror,frameinterrupted)
+- Ajout d'une beta version de MQTT
+   - Envoie de messages de log démarrage (Version, Adresse IP, Date Heure)
+   - Envoie immédiat des données de Téléinformations ajoutées ou modifiées (DataCallback()
 
 # Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"

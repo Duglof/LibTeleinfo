@@ -127,6 +127,8 @@
 // Include Arduino header
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
+// PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
+// Better define : client.setBufferSize(512);
 #include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPClient.h>
@@ -542,6 +544,37 @@ Comments: -
 ====================================================================== */
 void DataCallback(ValueList * me, uint8_t flags)
 {
+ boolean ret = false;
+ String topic,payload;
+ 
+  // Envoie donnée mqtt si freq != 0
+  if (*config.mqtt.host &&  config.mqtt.freq) {
+
+    // Si la données a été 
+    // - ajouté (TINFO_FLAGS_ADDED),
+    // - mise à jour (TINFO_FLAGS_UPDATED),
+    // - ou que c'est un alerte de depassement de consommation ADPS, ADIR1, ADIR2, ADIR3 (TINFO_FLAGS_ALERT)
+    // Alors on l'envoie via mqtt
+    if ((flags & TINFO_FLAGS_ADDED) || (flags & TINFO_FLAGS_UPDATED) || (flags & TINFO_FLAGS_ALERT)) {
+      
+      mqttConnect();
+      
+      if (*config.mqtt.topic) {
+        // Publish 
+        topic = String(config.mqtt.topic);
+        topic += "/data/";
+        topic += String(me->name);
+        payload = String(me->value);
+        // And submit all to mqtt
+        Debug("mqtt publish "); Debug(topic);Debug(" ");Debug(payload);
+        ret=MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+        if (ret)
+          Debugln(" OK");
+        else
+          Debugln(" KO");
+      }
+    }
+  }
 
   // This is for simulating ADPS during my tests
   // ===========================================
@@ -875,11 +908,26 @@ int WifiHandleConn(boolean setup = false)
   return WiFi.status();
 }
 
-boolean Mqttconnect() {
-  boolean ret;
+boolean mqttConnect() {
+  boolean ret = false;
 
     DebugF("Connexion au serveur MQTT... ");
-    ret = MQTTclient.connect(config.mqtt.topic, config.mqtt.user, config.mqtt.pswd);
+
+    if ( WiFi.status() == WL_CONNECTED){
+      //DebugF ("execution tache MQTT / wifi connecté Init mqtt=");
+      //Debugln (Mqtt_Init);
+      if (!Mqtt_Init){
+        MQTTclient.setServer(config.mqtt.host, config.mqtt.port);    //Configuration de la connexion au serveur MQTT
+        MQTTclient.setCallback(Mqttcallback);  //La fonction de callback qui est executée à chaque réception de message  
+        Mqtt_Init=1; 
+      }
+      ret = MQTTclient.connected();
+      if (!ret) {
+        //Debugln ("demande de connexion MQTT");
+        ret = MQTTclient.connect(config.mqtt.topic, config.mqtt.user, config.mqtt.pswd);
+      }
+    }
+
     if (ret) {
       DebuglnF("OK");
     } else {
@@ -889,15 +937,85 @@ boolean Mqttconnect() {
 }
 
 /* ======================================================================
+Function: mqttStartupLogs (called one at startup, if mqtt activated)
+Purpose : Send logs to mqtt ()
+Input   : 
+Output  : true if post returned OK
+Comments: -
+====================================================================== */
+boolean mqttStartupLogs()
+{
+String topic,payload;
+boolean ret = false;
+
+  if (*config.mqtt.host && config.mqtt.freq != 0) {
+    if (*config.mqtt.topic) {
+        // Publish Startup
+        topic= String(config.mqtt.topic);
+        topic+= "/log";
+        String payload = "Wifinfo Startup V";
+        payload += WIFINFO_VERSION;
+        // And submit all to mqtt
+        Debug("mqtt ");
+        Debug(topic);
+        ret = MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+        if (ret)
+          Debugln(" OK");
+        else
+          Debugln(" KO");
+
+        // Publish IP
+        topic= String(config.mqtt.topic);
+        topic+= "/log";
+        payload = WiFi.localIP().toString();
+        // And submit all to mqtt
+        Debug("mqtt ");
+        Debug(topic);
+        ret &= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+        if (ret)
+          Debugln(" OK");
+        else
+          Debugln(" KO");
+      
+        //Publish Date Heure
+        topic= String(config.mqtt.topic);
+        topic+= "/log";
+        struct tm timeinfo;
+        if(getLocalTime(&timeinfo)){
+          char buf[20];
+          strftime(buf,sizeof(buf),"%FT%H:%M:%S",&timeinfo);
+          payload = buf;
+          // And submit all to mqtt
+          Debug("mqtt ");
+          Debug(topic);
+          Debug( " value ");
+          Debug(payload);
+          ret &= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
+          if (ret)
+            Debugln(" OK");
+          else
+            Debugln(" KO");
+        }
+    } else {
+      Debugln("mqtt TOPIC non configuré");
+    }
+  }
+  return(ret);  
+}
+/* ======================================================================
 Function: mqttPost (called by main sketch on timer, if activated)
 Purpose : Do a http post to mqtt
 Input   : 
 Output  : true if post returned OK
 Comments: -
 ====================================================================== */
+// Non utilisé : mqtt data sent by DataCallback()
+/*
 boolean mqttPost(void)
 {
-  boolean ret = false;
+String topic,payload;
+boolean ret = false;
+
   // Some basic checking
   if (*config.mqtt.host) {
     ValueList * me = tinfo.getList();
@@ -906,37 +1024,8 @@ boolean mqttPost(void)
       String topic;
       Debugln("mqttPost publish");
       
-      if (config.mqtt.topic>0) {
-        // Publish IP
-        topic= String(config.mqtt.topic);
-        topic+= "/ip";
-        String payload = WiFi.localIP().toString();
-        // And submit all to mqtt
-        Debug(topic);
-        ret=MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
-        if (ret)
-          Debugln(" OK");
-        else
-          Debugln(" KO");
+      if (*config.mqtt.topic) {
           
-        //Publish Date Heure
-        topic= String(config.mqtt.topic);
-        topic+= "/datetime";
-        struct tm timeinfo;
-        if(getLocalTime(&timeinfo)){
-          char buf[20];
-          strftime(buf,sizeof(buf),"%FT%H:%M:%S",&timeinfo);
-          payload = buf;
-          // And submit all to mqtt
-          Debug(topic);
-          Debug( " value ");
-          Debugln(payload);
-          ret |= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);      
-          if (ret)
-            Debugln(" OK");
-          else
-            Debugln(" KO");
-        }
         //Publish DATA
         topic= String(config.mqtt.topic);
         topic+= "/data";
@@ -944,7 +1033,7 @@ boolean mqttPost(void)
          Debug( " value ");
          payload = build_mqtt_json();
         // And submit all to mqtt
-        ret |= MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);             
+        ret = MQTTclient.publish(String(topic).c_str(), String(payload).c_str() , true);             
           if (ret)
             Debugln(" OK");
           else
@@ -957,6 +1046,7 @@ boolean mqttPost(void)
   } // if host
   return ret;
 }
+*/
 
 /* ======================================================================
 Function: Mqttcallback
@@ -1307,8 +1397,10 @@ void setup()
   }
      
   // Mqtt Update if needed
-  if (config.mqtt.freq) 
+  if (config.mqtt.freq) {
     Tick_mqtt.attach(config.mqtt.freq, Task_mqtt);
+    mqttStartupLogs();  //send startup logs to mqtt
+  }
   
   // Emoncms Update if needed
   if (config.emoncms.freq) 
@@ -1329,10 +1421,12 @@ void setup()
     
     char * s1 = (char *)name1.c_str();
     char * v1 = (char *)value1.c_str();
-    flags = TINFO_FLAGS_ADDED;
-    tinfo.addCustomValue(s1, v1, &flags); //ADCO arbitrary value
-    tinfo.addCustomValue(s2, v2, &flags); //counter value
+    ValueList * me;
     flags = TINFO_FLAGS_NONE;
+    me = tinfo.addCustomValue(s1, v1, &flags); //ADCO arbitrary value
+    DataCallback(me, me->flags);  // addCustomValue n'appelant pas le call back, il faut l'appeler pour mqtt
+    me = tinfo.addCustomValue(s2, v2, &flags); //counter value
+    DataCallback(me, me->flags);  // addCustomValue n'appelant pas le call back, il faut l'appeler pour mqtt
     tinfo.valuesDump();
 #endif
 
@@ -1362,35 +1456,30 @@ void loop()
 
 //To simulate Teleinfo on not connected module
 #ifdef SIMU
+    ValueList * me;
     loop_cpt++;
-    if(loop_cpt % 10)
+    if((loop_cpt % 10) == 0)
     {
       // each 10 second, try to change HCHC value
       //Increase v2 value
       sprintf(v2, "%09d", (loop_cpt) );
       // and update ListValues
-      flags = TINFO_FLAGS_UPDATED;
-      tinfo.addCustomValue(s2, v2, &flags);   
+      flags = TINFO_FLAGS_NONE;
+      me = tinfo.addCustomValue(s2, v2, &flags); 
+      DataCallback(me, me->flags);  // addCustomValue n'appelant pas le call back, il faut l'appeler pour mqtt
     }
 #endif
 
   } else if (task_mqtt) { 
+    // -------------------------------
+    // Les données sont envoyées par DataCallback()
+    // dès l'ajout ou la modification d'une donnée de Téléinformation
+    // Cette tache ici ne fait plus rien
+    // -------------------------------
     //gestion connexion Mqtt
-    if ( WiFi.status() == WL_CONNECTED){
-      //DebugF ("execution tache MQTT / wifi connecté Init mqtt=");
-      //Debugln (Mqtt_Init);
-      if (!Mqtt_Init){
-        MQTTclient.setServer(config.mqtt.host, 1883);    //Configuration de la connexion au serveur MQTT
-        MQTTclient.setCallback(Mqttcallback);  //La fonction de callback qui est executée à chaque réception de message  
-        Mqtt_Init=1; 
-      }
-      if (!MQTTclient.connected()) {
-        //Debugln ("demande de connexion MQTT");
-        Mqttconnect();
-      }
-    }
+    // mqttConnect();
     //Mqtt Publier les data; 
-    mqttPost(); 
+    // mqttPost(); 
 
     task_mqtt=false; 
   } else if (task_emoncms) { 

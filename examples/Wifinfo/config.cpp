@@ -222,4 +222,3 @@ void showConfig()
   DebugF("sw idx   :"); Debugln(config.httpReq.swidx); 
   delay(1000);
 }
-
