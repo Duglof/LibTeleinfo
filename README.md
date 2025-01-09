@@ -139,7 +139,7 @@ Depuis votre téléphone portable :
 - Add all possible variable as listed below : 
 - Add some informations to 'System' page, like Wifi link quality, Wifi network name, and MAC address
 
-Ces différents messages donnent les indications suivantes en fonction de l’abonnement souscrit :
+Ces différents messages donnent les indications suivantes en fonction de l’abonnement souscrit (Base, HP/HC, EJP, Tempo):
 - N° d’identification du compteur : ADCO (12 caractères)
 - Option tarifaire (type d’abonnement) : OPTARIF (4 car.)
 - Intensité souscrite : ISOUSC ( 2 car. unité = ampères)
