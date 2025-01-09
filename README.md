@@ -260,7 +260,7 @@ Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Exception (9):
 epc1=0x40206852 epc2=0x00000000 epc3=0x00000000 excvaddr=0x3fff2432 depc=0x00000000
 
- >>>stack>>>
+ \>>>stack>>>
 
  ctx: cont
 
