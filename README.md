@@ -22,20 +22,20 @@ Le serveur Web Wifinfo est connecté:
   - au compteur Linky via l'interface OPTO à I1 et I2
 
 Wifinfo permet par configuration d'activer les fonctions suivantes:
-    - Envoie périodique des données au plugin Teleinfo de votre Jeedom
-    - Envoie périodique des données au serveur emoncms
-    - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
-    - Envoie de données à un serveur web via une requète http GET
+  - Envoie périodique des données au plugin Teleinfo de votre Jeedom
+  - Envoie périodique des données au serveur emoncms
+  - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
+  - Envoie de données à un serveur web via une requète http GET
 
 Wifinfo est aussi un serveur json qui permet:
-    - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
-    - Retounner les données système ((http://192.168.1.x/system.json))
+  - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
+  - Retounner les données système ((http://192.168.1.x/system.json))
 
 Wifinfo dispose d'une interface d'administation 
-    - [Téléinformation](docs/Wifinfo-Teleinformation.png): Visualisation des données du linky (ADCO, HCHC, ...)
-    - Configuration: [Réseau Wifi](docs/Wifinfo-configuration-generale.png), [Mqtt](docs/Wifinfo-configuration-mqtt.png), [Emoncms](docs/Wifinfo-configuration-emoncms.png), [Jeedom](docs/Wifinfo-configuration-jeedom.png), [Http Request](docs/Wifinfo-configuration-http-request.png), [Avancée](docs/Wifinfo-configuration-avancee.png)
-    - [Système](docs/Wifinfo-systeme.png) : Affichage des informations système ( Version, Réseau, Erreurs, Options de compilation, Mémoire)
-    - [Fichiers](docs/Wifinfo-fichiers.png) : Affichage des informations du système de fichiers (Liste, Taille, Espace libre)
+  - [Téléinformation](docs/Wifinfo-Teleinformation.png): Visualisation des données du linky (ADCO, HCHC, ...)
+  - Configuration: [Réseau Wifi](docs/Wifinfo-configuration-generale.png), [Mqtt](docs/Wifinfo-configuration-mqtt.png), [Emoncms](docs/Wifinfo-configuration-emoncms.png), [Jeedom](docs/Wifinfo-configuration-jeedom.png), [Http Request](docs/Wifinfo-configuration-http-request.png), [Avancée](docs/Wifinfo-configuration-avancee.png)
+  - [Système](docs/Wifinfo-systeme.png) : Affichage des informations système ( Version, Réseau, Erreurs, Options de compilation, Mémoire)
+  - [Fichiers](docs/Wifinfo-fichiers.png) : Affichage des informations du système de fichiers (Liste, Taille, Espace libre)
  
   - Linky mode Historique et mode Standard (option de compilation Wifinfo.h)
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
