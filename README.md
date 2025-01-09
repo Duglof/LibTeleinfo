@@ -260,18 +260,27 @@ Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Exception (9):
 epc1=0x40206852 epc2=0x00000000 epc3=0x00000000 excvaddr=0x3fff2432 depc=0x00000000
 
->>>stack>>>
+ >>>stack>>>
 
-ctx: cont
-sp: 3ffffe10 end: 3fffffd0 offset: 0150
-3fffff60:  3fff26d4 0034003f 80000000 3fff264c
-3fffff70:  0076007f 80000000 3fff1be0 00000000
-3fffff80:  00000000 00000000 00000000 3ffef9bc
-3fffff90:  3fffdad0 3fff0170 3ffef990 3ffef9bc
-3fffffa0:  3ffeef81 00000000 00000001 40205b5a
-3fffffb0:  3fffdad0 00000000 3ffef990 40211064
-3fffffc0:  feefeffe feefeffe 3fffdab0 40100fa9
-<<<stack<<<
+ ctx: cont
+
+ sp: 3ffffe10 end: 3fffffd0 offset: 0150
+
+ 3fffff60:  3fff26d4 0034003f 80000000 3fff264c
+
+ 3fffff70:  0076007f 80000000 3fff1be0 00000000
+
+ 3fffff80:  00000000 00000000 00000000 3ffef9bc
+
+ 3fffff90:  3fffdad0 3fff0170 3ffef990 3ffef9bc
+
+ 3fffffa0:  3ffeef81 00000000 00000001 40205b5a
+
+ 3fffffb0:  3fffdad0 00000000 3ffef990 40211064
+
+ 3fffffc0:  feefeffe feefeffe 3fffdab0 40100fa9
+
+ <<<stack<<<
 
 # Outils à installer
 
