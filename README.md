@@ -162,7 +162,12 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Période tarifaire en cours : PTEC ( 4 car.)
 - Couleur du lendemain si option = tempo : DEMAIN
 - Intensité instantanée : IINST ( 3 car. unité = ampères)
-- Avertissement de dépassement de puissance souscrite : ADPS ( 3 car. unité = ampères) (message émis uniquement en cas de dépassement effectif, dans ce cas il est immédiat)
+- Avertissement de dépassement de puissance souscrite : ADPS ( 3 car. unité = ampères) (message émis uniquement en cas de dépassement effectif)
+  - Valeurs données pour ISOUSC = 60 A)
+  - Dépassement jusqu’à 1.1 x ISOUSC (inférieur à 66 A) alors cela ne coupera jamais.
+  - Dépassement entre 1.1 et 1.4 ISOUSC (66A -> 84A) alors cela mettra 250 secondes avant de couper.
+  - Dépassement entre 1.4 et 2.5 ISOUSC (84 A -> 150 A) alors cela va couper en 40 secondes.
+  - Dépassement supérieur à 2.5 ISOUSC (plus de 150 A) alors la coupure sera instantanée.
 - Intensité maximale : IMAX ( 3 car. unité = ampères)
 - Puissance apparente : PAPP ( 5 car. unité = Volt.ampères)
 - Groupe horaire si option = heures creuses ou tempo : HHPHC (1 car.)
