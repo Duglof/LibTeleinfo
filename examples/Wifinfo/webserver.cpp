@@ -223,6 +223,9 @@ void handleFormConfig(void)
     else
       config.httpReq.swidx = 0;
 
+    itemp = server.arg("linky_mod").toInt();
+    config.linky_mode_standard = itemp;
+
     if ( saveConfig() ) {
       ret = 200;
       response = "OK";
@@ -556,8 +559,9 @@ void getConfJSONData(String & r)
   r+=CFG_FORM_HTTPREQ_PORT; r+=FPSTR(FP_QCQ); r+=config.httpReq.port;   r+= FPSTR(FP_QCNL); 
   r+=CFG_FORM_HTTPREQ_PATH; r+=FPSTR(FP_QCQ); r+=config.httpReq.path;   r+= FPSTR(FP_QCNL);  
   r+=CFG_FORM_HTTPREQ_FREQ; r+=FPSTR(FP_QCQ); r+=config.httpReq.freq;   r+= FPSTR(FP_QCNL);   
-  r+=CFG_FORM_HTTPREQ_SWIDX; r+=FPSTR(FP_QCQ); r+=config.httpReq.swidx;  
+  r+=CFG_FORM_HTTPREQ_SWIDX; r+=FPSTR(FP_QCQ); r+=config.httpReq.swidx;  r+= FPSTR(FP_QCNL); 
   
+  r+=CFG_FORM_LINKY_MOD; r+=FPSTR(FP_QCQ); r+=config.linky_mode_standard; 
 
   r+= F("\""); 
   // Json end

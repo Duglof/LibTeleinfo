@@ -92,9 +92,9 @@
 //            Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
 //              Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
 //          Compile en Linky mode Historique et Linky mode Standard
-//            Configuration dans Wifinfo.h : 
-//              #define LINKY_MODE_STANDARD
-//              Si le define est commenté alors mode Historique
+//            Configuration dans l'interface Web Onglet Configuration / Avancée
+//              Sélectionner le mode du Linky et cliquer sur enregistrer
+//              Cliquer ensuite sur Redémarrer Wifinfo pour que la configuration soit prise en compte
 //          Les options de comilation sont affichées sur la page web dans l'onglet Système
 //          Ajout de Mqtt : From https://github.com/Davcail/LibTeleinfo-syslog-mqtt
 //
@@ -1111,12 +1111,6 @@ void setup()
 
   optval = "";
 
-#ifdef LINKY_MODE_STANDARD
-  optval += "Linky Standard, ";
-#else
-  optval += "Linky Historique, ";
-#endif
-
 #ifdef SIMU
   optval += "SIMU, ";
 #else
@@ -1353,21 +1347,20 @@ void setup()
   // we swap RXD1/RXD1 to RXD2/TXD2 
   // Note that TXD2 is not used teleinfo is receive only
   #ifndef SIMU
-  #ifdef LINKY_MODE_STANDARD
-    Serial.begin(9600, SERIAL_7E1);
-  #else
-    Serial.begin(1200, SERIAL_7E1);
-  #endif
-    Serial.swap();
+    if (config.linky_mode_standard)
+      Serial.begin(9600, SERIAL_7E1);
+    else
+      Serial.begin(1200, SERIAL_7E1);
+
+      Serial.swap();
   #endif
 
   // Init teleinfo
- 
- #ifdef LINKY_MODE_STANDARD
-   tinfo.init(TINFO_MODE_STANDARD);
-#else
-   tinfo.init(TINFO_MODE_HISTORIQUE);
-#endif
+  if (config.linky_mode_standard)
+    tinfo.init(TINFO_MODE_STANDARD);
+  else
+    tinfo.init(TINFO_MODE_HISTORIQUE);
+
 
   // Attach the callback we need
   // set all as an example

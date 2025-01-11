@@ -37,7 +37,7 @@ Wifinfo dispose d'une interface d'administation
   - [Système](docs/Wifinfo-systeme.png) : Affichage des informations système ( Version, Réseau, Erreurs, Options de compilation, Mémoire)
   - [Fichiers](docs/Wifinfo-fichiers.png) : Affichage des informations du système de fichiers (Liste, Taille, Espace libre)
  
-  - Linky mode Historique et mode Standard (option de compilation Wifinfo.h)
+  - Linky mode Historique et mode Standard dans l'onglet Configuration Avancée (Redémarrer Wifinfo après le changement)
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
   - Beta version de mqtt
 
@@ -59,10 +59,10 @@ Depuis votre téléphone portable :
 - Merge avec https://github.com/hallard/LibTeleinfo/tree/master
   - Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
     - Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
-- Compile en Linky mode Historique et Linky mode Standard
-  - Configuration dans Wifinfo.h : 
-    - #define LINKY_MODE_STANDARD
-    - Si le define est commenté alors mode Historique
+- Ajout Configuration Linky Mode dans l'onglet Configuration Avancée
+  - Radio button Linky Mode Historique et Linky Mode Standard dans l'onglet Configuration Avancée
+  - Sélectionner inky Mode Historique ou Linky Mode Standard
+  - Cliquer sur Redémarrer Wifinfo pour que le changement soit pris en compte
 - Affichage sur la page web dans l'onglet Système
   - Les options de compilation
   - Les compteurs d'erreur (checksumerror,framesizeerror,frameformaterror,frameinterrupted)

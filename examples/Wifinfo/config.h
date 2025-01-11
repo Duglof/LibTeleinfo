@@ -113,9 +113,11 @@
 #define CFG_FORM_HTTPREQ_FREQ  FPSTR("httpreq_freq")
 #define CFG_FORM_HTTPREQ_SWIDX FPSTR("httpreq_swidx")
 
-#define CFG_FORM_IP  FPSTR("wifi_ip");
-#define CFG_FORM_GW  FPSTR("wifi_gw");
-#define CFG_FORM_MSK FPSTR("wifi_msk");
+#define CFG_FORM_IP  FPSTR("wifi_ip")
+#define CFG_FORM_GW  FPSTR("wifi_gw")
+#define CFG_FORM_MSK FPSTR("wifi_msk")
+
+#define CFG_FORM_LINKY_MOD FPSTR("linky_mod")
 
 #pragma pack(push)  // push current alignment to stack
 #pragma pack(1)     // set alignment to 1 byte boundary
@@ -140,8 +142,8 @@ typedef struct
 {
   char  host[CFG_EMON_HOST_SIZE+1]; 	  // FQDN 
   char  apikey[CFG_EMON_APIKEY_SIZE+1]; // Secret
-  char  url[CFG_EMON_URL_SIZE+1];  		  // Post URL
-  uint16_t port;    					          // Protocol port (HTTP/HTTPS)
+  char  url[CFG_EMON_URL_SIZE+1];  	    // Post URL
+  uint16_t port;                        // Protocol port (HTTP/HTTPS)
   uint8_t  node;     					          // optional node
   uint32_t freq;                        // refresh rate
 //  uint8_t  filler[22];  				      // in case adding data in config avoiding loosing current conf by bad crc*/
@@ -177,7 +179,7 @@ typedef struct
 // Warning La librairie semble limiter la taille à 1024 pour un ESP8266
 typedef struct 
 {
-  char  ssid[CFG_SSID_SIZE+1]; 		      // SSID     
+  char  ssid[CFG_SSID_SIZE+1]; 	        // SSID     
   char  psk[CFG_PSK_SIZE+1]; 		        // Pre shared key
   char  host[CFG_HOSTNAME_SIZE+1];      // Hostname 
   char  ap_psk[CFG_PSK_SIZE+1];         // Access Point Pre shared key
@@ -190,7 +192,8 @@ typedef struct
   _emoncms emoncms;                     // Emoncms configuration
   _jeedom  jeedom;                      // jeedom configuration
   _httpRequest httpReq;                 // HTTP request
-  uint8_t  filler[45];      		        // in case adding data in config avoiding loosing current conf by bad crc
+  uint8_t linky_mode_standard;          // 0 si mode historique 1 si mode standard
+  uint8_t  filler[44];      		        // in case adding data in config avoiding loosing current conf by bad crc
   uint16_t crc;
 } _Config;
 

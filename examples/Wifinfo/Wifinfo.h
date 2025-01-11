@@ -60,8 +60,9 @@ extern "C" {
 //  vers un serveur rsyslog du réseau
 // #define SYSLOG
 
-// Decommenter LINKY_MODE_STANDARD pour un Lniky en mode Standard
-// #define LINKY_MODE_STANDARD
+// Linky mode Historique ou Linky en mode Standard
+// A définir dans l'onglet Configuration puis déployer Avancée
+// Il faut redémarrer Wifinfo pour que le changement soit pris en compte
 
 #ifdef SIMU
 #define DEBUG_SERIAL  Serial

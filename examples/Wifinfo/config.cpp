@@ -184,6 +184,7 @@ void showConfig()
   DebugF("OTA port :"); Debugln(config.ota_port); 
   DebugF("syslog host :"); Debugln(config.syslog_host); 
   DebugF("syslog port :"); Debugln(config.syslog_port); 
+  DebugF("Linky mode :"); Debugln( (config.linky_mode_standard == 1 ? "Linky Mode Standard" : "Linky Mode Historique" )); 
   DebugF("Config   :"); 
   if (config.config & CFG_RGB_LED) DebugF(" RGB"); 
   if (config.config & CFG_DEBUG)   DebugF(" DEBUG"); 
@@ -219,6 +220,7 @@ void showConfig()
   DebugF("port     :"); Debugln(config.httpReq.port); 
   DebugF("path     :"); Debugln(config.httpReq.path); 
   DebugF("freq     :"); Debugln(config.httpReq.freq); 
-  DebugF("sw idx   :"); Debugln(config.httpReq.swidx); 
+  DebugF("sw idx   :"); Debugln(config.httpReq.swidx);
+
   delay(1000);
 }
