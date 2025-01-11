@@ -184,6 +184,8 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.jpg)
 
+![bs170 To92](docs/bs170-pinout-equivalent.png)
+
 Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
 - Connecter Teleinfo 2 et sur I2 du compteur
