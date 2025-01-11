@@ -208,9 +208,9 @@ const int   daylightOffset_sec = 3600;
 WiFiUDP udpClient;
 Syslog syslog(udpClient, SYSLOG_PROTO_IETF);
 
-char logbuffer[255];
+char logbuffer[1024];
+char waitbuffer[1024];
 
-char waitbuffer[255];
 char *lines[50];
 int in=-1;
 int out=-1;
@@ -359,7 +359,7 @@ void Myprintln(unsigned int i) {
 
 void Myflush() {
 #ifdef DEBUG
-  DEBUG_SERIAL.flush;
+  DEBUG_SERIAL.flush();
 #endif
 }
 
