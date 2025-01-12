@@ -181,7 +181,7 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
 
-#Interface compteur Linky by hallard 
+# Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.png)
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
 
