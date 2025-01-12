@@ -182,10 +182,8 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - G de ESP au -
 
 Interface compteur Linky by hallard 
-![interface linky](docs/schema-interface-linky.jpg)
+![interface linky](docs/schema-interface-linky.png)
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
-![ltv814](docs/ltv-814.jpg)
-![bs170 To92](docs/bs170-pinout-equivalent.png)
 
 Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
