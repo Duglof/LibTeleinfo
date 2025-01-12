@@ -186,7 +186,7 @@ void showConfig()
   DebugF("syslog port :"); Debugln(config.syslog_port); 
   DebugF("Linky mode :"); Debugln( (config.linky_mode_standard == 1 ? "Linky Mode Standard" : "Linky Mode Historique" )); 
   DebugF("Config   :"); 
-  if (config.config & CFG_RGB_LED) DebugF(" RGB"); 
+  if (config.config & CFG_RGB_LED) DebugF(" RGB_LED"); 
   if (config.config & CFG_DEBUG)   DebugF(" DEBUG"); 
   if (config.config & CFG_LCD)     DebugF(" LCD"); 
   Debugln("");

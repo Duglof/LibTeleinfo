@@ -71,8 +71,8 @@
 #define DEFAULT_SYSLOG_PORT   514
 
 // Bit definition for different configuration modes
-#define CFG_LCD				  0x0001	// Enable display
-#define CFG_DEBUG			  0x0002	// Enable serial debug
+#define CFG_LCD				        0x0001	// Enable display
+#define CFG_DEBUG			        0x0002	// Enable serial debug
 #define CFG_RGB_LED           0x0004  // Enable RGB LED
 #define CFG_BAD_CRC           0x8000  // Bad CRC when reading configuration
 
@@ -85,6 +85,9 @@
 #define CFG_FORM_OTA_PORT FPSTR("ota_port")
 #define CFG_FORM_SYSLOG_HOST FPSTR("syslog_host")
 #define CFG_FORM_SYSLOG_PORT FPSTR("syslog_port")
+
+#define CFG_FORM_LCD         FPSTR("cfg_oled")
+#define CFG_FORM_CFG_RGB     FPSTR("cfg_rgb")
 
 #define CFG_FORM_MQTT_HOST  FPSTR("mqtt_host")
 #define CFG_FORM_MQTT_PORT  FPSTR("mqtt_port")

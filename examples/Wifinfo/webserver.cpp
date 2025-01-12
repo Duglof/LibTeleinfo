@@ -150,6 +150,19 @@ void handleFormConfig(void)
     itemp = server.arg("syslog_port").toInt();
     config.syslog_port = (itemp>=0 && itemp<=65535) ? itemp : DEFAULT_SYSLOG_PORT ;
 
+    // Pour les checkbox, l'argument n'est transmit que s'il est coché
+    if(server.hasArg("cfg_oled")){
+      config.config |= CFG_LCD;
+    } else {
+      config.config &= ~CFG_LCD;
+    }
+
+    if(server.hasArg("cfg_rgb")){
+      config.config |= CFG_RGB_LED;
+    } else {
+      config.config &= ~CFG_RGB_LED;
+    }
+
     // mqtt
     strncpy(config.mqtt.host,   server.arg("mqtt_host").c_str(),  CFG_MQTT_HOST_SIZE );
     strncpy(config.mqtt.user,    server.arg("mqtt_user").c_str(),   CFG_MQTT_USER_SIZE );
@@ -560,8 +573,11 @@ void getConfJSONData(String & r)
   r+=CFG_FORM_HTTPREQ_PATH; r+=FPSTR(FP_QCQ); r+=config.httpReq.path;   r+= FPSTR(FP_QCNL);  
   r+=CFG_FORM_HTTPREQ_FREQ; r+=FPSTR(FP_QCQ); r+=config.httpReq.freq;   r+= FPSTR(FP_QCNL);   
   r+=CFG_FORM_HTTPREQ_SWIDX; r+=FPSTR(FP_QCQ); r+=config.httpReq.swidx;  r+= FPSTR(FP_QCNL); 
-  
-  r+=CFG_FORM_LINKY_MOD; r+=FPSTR(FP_QCQ); r+=config.linky_mode_standard; 
+
+  r+=CFG_FORM_LCD;           r+=FPSTR(FP_QCQ); r+=(config.config & CFG_LCD ? 1 : 0);      r+= FPSTR(FP_QCNL); 
+  r+=CFG_FORM_CFG_RGB;       r+=FPSTR(FP_QCQ); r+=(config.config & CFG_RGB_LED ? 1 : 0);  r+= FPSTR(FP_QCNL); 
+
+  r+=CFG_FORM_LINKY_MOD;     r+=FPSTR(FP_QCQ); r+=config.linky_mode_standard; 
 
   r+= F("\""); 
   // Json end

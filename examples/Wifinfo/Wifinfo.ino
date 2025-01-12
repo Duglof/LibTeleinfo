@@ -120,7 +120,7 @@
 //             Cliquer sur sauvegarder
 //             Au premier message reçu, le compteur est créé automatiquement
 //          Hardware : Node MCU Kit de développement V3 CH340 NodeMCU + Motor Shield Wifi Esp8266 Esp-12e
-//            - RGB LED connected on pin 14 : WS2812B : https://wiki.mchobby.be/index.php?title=NeoPixel-UserGuide
+//            - RGB LED connected on pin 14 (D5 /GPIO14) : WS2812B : https://wiki.mchobby.be/index.php?title=NeoPixel-UserGuide
 //            - Red LED connected on pin 12
 //            - Teleinfo connected to RXD2 (GPIO13) Mode historique 1200 bauds
 // **********************************************************************************
