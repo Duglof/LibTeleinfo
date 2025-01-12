@@ -181,7 +181,7 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
 
-Interface compteur Linky by hallard 
+#Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.png)
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
 
@@ -192,7 +192,12 @@ Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 Connexions à ESP-12E
 - GND : G  de ESP (GND) 
 - +V  : 3V de ESP (3.3V)
-- RXD : RX de ESP (RXD0 GPIO3)
+- RXD : D7 de ESP (RXD2 GPIO13)
+# RGB LED 5mm WS2812B
+![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
+Pin 1 -> D5 (GPIO14) de ESP
+Pin 2 -> GND
+Pin 3 -> 3V de ESP (3.3V)
 
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
