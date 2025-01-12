@@ -195,8 +195,9 @@ Connexions à ESP-12E
 - RXD : D7 de ESP (RXD2 GPIO13)
 # RGB LED 5mm WS2812B
 ![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
-
-Pin 1 -> D5 (GPIO14) de ESP     Pin 2 -> GND     Pin 3 -> 3V de ESP (3.3V)
+- Pin 1 -> D5 (GPIO14) de ESP
+- Pin 2 -> GND
+- Pin 3 -> 3V de ESP (3.3V)
 
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
