@@ -1346,6 +1346,11 @@ void setup()
   // avoid conflict when flashing, this is why
   // we swap RXD1/RXD1 to RXD2/TXD2 
   // Note that TXD2 is not used teleinfo is receive only
+  //
+  // From : https://arduino.esp8266.com/Arduino/versions/2.1.0-rc2/doc/reference.html
+  // Serial uses UART0, which is mapped to pins GPIO1 (TX) and GPIO3 (RX).
+  // Serial may be remapped to GPIO15 (TX) and GPIO13 (RX) by calling Serial.swap() after Serial.begin
+  // Calling swap again maps UART0 back to GPIO1 and GPIO3.
   #ifndef SIMU
     if (config.linky_mode_standard)
       Serial.begin(9600, SERIAL_7E1);
