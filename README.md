@@ -278,7 +278,7 @@ Linky Mode Standard en Heure Pleine/Heure Creuse
 ![TELEINFORMATION HPHC](docs/Linky-mode-historique-Teleinformation-01.png)
 
 # Debug avec Syslog
-- Compiler Wifinfo avec le #define SYSLOG (Winfinfo.h) : Ce qui est fait par défaut
+- Compiler Wifinfo avec le #define SYSLOG (Winfinfo.h)
 - Configurer Wifinfo
   - Onglet Configuration
   - Déployer ‘Avancée’
