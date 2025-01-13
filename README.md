@@ -266,11 +266,11 @@ Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Si LED RGB est coché dans Configuration / Avancé alors:
 
 | Evènement |  LED RGB | Commentaire |
-| --------- | -------- |
+|---------|--------|---------|
 | Wifi non connecté | COLOR_ORANGE | Clignotement, Timeout 5 secondes |
 | Attente OTA | COLOR_MAGENTA | Cligontement, 10 fois|
 | Teleinfo Ajout   | COLOR_GREEN| |
-| Teleinfo Mise à jout | COLOR_MAGENTA | |
+| Teleinfo Mise à jour | COLOR_MAGENTA | |
 
 # Téléinformation
 Wifinfo : Onglet Téléinformation
