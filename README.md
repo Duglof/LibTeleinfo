@@ -185,10 +185,17 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 ![interface linky](docs/schema-interface-linky.png)
 Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de D-G-S) ça ne fonctionnait pas !!!
 - C'est reconnaissable, la tension entre Drain et Source était de 0,6V alors que la grille était à zéro.
+
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
-ESP8266 specifications:
-- Vil (max) = 0.25 * 3.3 = 0.825V
-- Vih (min) = 0.75 * 3.3 = 2.475V
+
+ESP8266 specifications (Entrée GPIO13):
+- Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
+- Niveau Haut : Tension supérieure à Vih (min) = 0.75 * 3.3 = 2.475V
+
+Test de l'interface:
+- La LED TIC doit être éteinte (Tension en Drain et Source environ 3.3 Volts)
+- En reliant l'entrée 1 à GND et 2 à 3.3V la LED TIC doit s'allumer (Tension en Drain et Source environ 0 Volt)
+- Avec une tension variant entre 0V et 3.3V on respecte bien les spécifications ESP8266
 
 Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
@@ -253,7 +260,9 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Téléverser
 
 # Tests
+Linky Mode Standard en Heure Pleine/Heure Creuse
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
+![TELEINFORMATION HPHC](docs/Linky-mode-historique-Teleinformation-01.png)
 
 # Debug avec Syslog
 - Compiler Wifinfo avec le #define SYSLOG (Winfinfo.h) : Ce qui est fait par défaut
