@@ -436,7 +436,7 @@ void getSysJSONData(String & response)
   response += "\"},\r\n";
 
   response += "{\"na\":\"Chip ID\",\"va\":\"";
-  sprintf_P(buffer, "0x%0X",system_get_chip_id() );
+  sprintf_P(buffer, "0x%06X",system_get_chip_id() );
   response += buffer ;
   response += "\"},\r\n";
 
