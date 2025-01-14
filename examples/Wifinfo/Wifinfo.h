@@ -24,10 +24,24 @@
 
 // Include Arduino header
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266HTTPClient.h>
-#include <ESP8266mDNS.h>
+#ifdef ESP8266
+  // ESP8266
+  #include <ESP8266WiFi.h>
+  #include <ESP8266WebServer.h>
+  #include <ESP8266HTTPClient.h>
+  #include <ESP8266mDNS.h>
+#elif defined(ESP32)
+  // ESP32
+  #include <WiFi.h>
+  #include <ESP32WebServer.h>    // https://github.com/Pedroalbuquerque/ESP32WebServer download and place in your Libraries folder
+  #include <HTTPClient.h>
+  #include <ESPmDNS.h>
+  #include <esp_wifi.h>
+  #include <SPIFFS.h>
+#else
+  #error "ce n'est ni un ESP8266 ni un ESP32"
+#endif
+
 #include <WiFiUdp.h>
 #include <EEPROM.h>
 #include <Ticker.h>
@@ -37,9 +51,20 @@
 #include <LibTeleinfo.h>
 #include <FS.h>
 
+#ifdef ESP8266
+// ESP8266
 extern "C" {
-#include "user_interface.h"
+  #include "user_interface.h"
 }
+#else
+
+// ESP32 : Vérifier si tous nécessaires !!!
+extern "C" {
+  #include "esp_system.h"
+  // #include "esp_spi_flash.h"  deprecated
+  #include "spi_flash_mmap.h"
+}
+#endif
 
 #include "webserver.h"
 #include "webclient.h"
@@ -64,13 +89,18 @@ extern "C" {
 // A définir dans l'onglet Configuration puis déployer Avancée
 // Il faut redémarrer Wifinfo pour que le changement soit pris en compte
 
-#ifdef SIMU
-#define DEBUG_SERIAL  Serial
+#ifdef ESP8266
+  #ifdef SIMU
+    #define DEBUG_SERIAL  Serial
+  #else
+    #define DEBUG_SERIAL  Serial1
+  #endif  //SIMU
 #else
-#define DEBUG_SERIAL  Serial1
-#endif  //SIMU
+  //ESP32
+  #define DEBUG_SERIAL  Serial
+#endif
 
-#define WIFINFO_VERSION "2.0.0"
+#define WIFINFO_VERSION "3.0.0"
 
 // I prefix debug macro to be sure to use specific for THIS library
 // debugging, this should not interfere with main sketch or other 
@@ -152,7 +182,12 @@ typedef struct
 
 // Exported variables/object instancied in main sketch
 // ===================================================
-extern ESP8266WebServer server;
+#ifdef ESP8266
+  extern ESP8266WebServer server;
+#else
+  extern ESP32WebServer server;
+#endif
+
 extern WiFiUDP OTA;
 extern TInfo tinfo;
 extern uint8_t rgb_brightness;

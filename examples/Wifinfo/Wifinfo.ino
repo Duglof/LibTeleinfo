@@ -124,30 +124,23 @@
 //            - Red LED connected on pin 12
 //            - Teleinfo connected to RXD2 (GPIO13) Mode historique 1200 bauds
 // **********************************************************************************
-// Include Arduino header
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-// PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
-// Better define : client.setBufferSize(512);
-#include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
-#include <ESP8266WebServer.h>
-#include <ESP8266HTTPClient.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
-#include <EEPROM.h>
-#include <Ticker.h>
-//#include <WebSocketsServer.h>
-//#include <Hash.h>
-#include <NeoPixelBus.h>
-#include <LibTeleinfo.h>
-#include <FS.h>
-
 // Global project file
 #include "Wifinfo.h"
 
-//WiFiManager wifi(0);
-ESP8266WebServer server(80);
+
+// PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
+// Better define : client.setBufferSize(512);
+#include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
+#include <ArduinoOTA.h>
+#include <EEPROM.h>
+#include <Ticker.h>
+
+
+#ifdef ESP8266
+  ESP8266WebServer server(80);
+#else
+  ESP32WebServer server(80);
+#endif
 
 bool ota_blink;
 String optval;    // Options de compilation
@@ -159,7 +152,15 @@ TInfo tinfo;
 #ifdef RGB_LED_PIN
 //NeoPixelBus rgb_led = NeoPixelBus(1, RGB_LED_PIN, NEO_RGB | NEO_KHZ800);
 //NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
-NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+#ifdef ESP8266
+  // ESP8266
+  NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+#else
+  // ESP32
+  NeoPixelBus<NeoRgbFeature, Neo800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+#endif
+
 #endif
 
 
@@ -246,7 +247,7 @@ void process_line(char *msg) {
       }
       syslog.log(LOG_INFO,waitbuffer);
       delay(2*pending);
-      memset(waitbuffer,0,sizeof(waitbuffer));
+      memset(waitbuffer,0,255);
       pending=0;
       
     }
@@ -702,7 +703,18 @@ void ResetConfig(void)
   memset(&config, 0, sizeof(_Config));
 
   // Set default Hostname
+#ifdef ESP8266
+  // ESP8266
   sprintf_P(config.host, PSTR("WifInfo-%06X"), ESP.getChipId());
+#else
+  //ESP32
+  int ChipId;
+  uint64_t macAddress = ESP.getEfuseMac();
+  uint64_t macAddressTrunc = macAddress << 40;
+  ChipId = macAddressTrunc >> 40;
+  sprintf_P(config.host, PSTR("WifInfo-%06X"), ChipId);
+#endif
+
   strcpy_P(config.ota_auth, PSTR(DEFAULT_OTA_AUTH));
   config.ota_port = DEFAULT_OTA_PORT ;
 
@@ -751,10 +763,12 @@ int WifiHandleConn(boolean setup = false)
   int ret = WiFi.status();
 
   if (setup) {
+    // Pourquoi ce n'était pas appelé avant V1.0.9 et précédente
+    WiFi.mode(WIFI_STA);
 
-    DebuglnF("========== SDK Saved parameters Start"); 
+    DebuglnF("========== WiFi.printDiag Start"); 
     WiFi.printDiag(DEBUG_SERIAL);
-    DebuglnF("========== SDK Saved parameters End"); 
+    DebuglnF("========== WiFi.printDiag End"); 
     Debugflush();
 
     // no correct SSID
@@ -817,12 +831,14 @@ int WifiHandleConn(boolean setup = false)
       }
     }
 
-
+    // delay(2000);
+    // return(ret);
+    
     // connected ? disable AP, client mode only
     if (ret == WL_CONNECTED)
     {
       DebuglnF("connected!");
-      WiFi.mode(WIFI_STA);
+      // WiFi.mode(WIFI_STA); Ca ne sert à rien, c'est fait au début
 
       DebugF("IP address   : "); Debugln(WiFi.localIP().toString());
       DebugF("MAC address  : "); Debugln(WiFi.macAddress());
@@ -834,7 +850,7 @@ int WifiHandleConn(boolean setup = false)
       syslog.deviceHostname(config.host);
       syslog.appName(APP_NAME);
       syslog.defaultPriority(LOG_KERN);
-      memset(waitbuffer,0,255);
+      memset(waitbuffer,0,sizeof(waitbuffer));
       pending=0;
       SYSLOGusable=true;
     } else {
@@ -861,7 +877,7 @@ int WifiHandleConn(boolean setup = false)
       DebugF("Switching to AP ");
       Debugln(ap_ssid);
       Debugflush();
-
+      
       // protected network
       if (*config.ap_psk) {
         DebugF(" with key '");
@@ -878,8 +894,12 @@ int WifiHandleConn(boolean setup = false)
       DebugF("IP address   : "); Debugln(WiFi.softAPIP().toString());
       DebugF("MAC address  : "); Debugln(WiFi.softAPmacAddress());
     }
+    
     // Version 1.0.7 : Use auto reconnect Wifi
+#ifdef ESP8266
+    // Ne sebme pas exister pour ESP32
     WiFi.setAutoConnect(true);
+#endif
     WiFi.setAutoReconnect(true);
     DebuglnF("auto-reconnect armed !");
       
@@ -1097,7 +1117,13 @@ Comments: -
 void setup()
 {
   // Set CPU speed to 160MHz
+#ifdef ESP8266
+  // ESP8266
   system_update_cpu_freq(160);
+#else
+  //ESP32
+  setCpuFrequencyMhz(160);
+#endif
 
 #ifdef SYSLOG
   for(int i=0; i<50; i++)
@@ -1167,15 +1193,26 @@ void setup()
    
     DebuglnF("SPIFFS Mount succesfull");
 
+#ifdef ESP8266
     Dir dir = SPIFFS.openDir("/");
     while (dir.next()) {    
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
       Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
     }
+#else
+    // ESP32
+    File root = SPIFFS.open("/");
+    File file;
+    while ((file = root.openNextFile())) {
+      String fileName = file.name();
+      size_t fileSize = file.size();
+      Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
+    }
+#endif
     DebuglnF("");
   }
-  
+
   // Read Configuration from EEP
   if (readConfig()) {
       DebuglnF("Good CRC, not set!");
@@ -1193,10 +1230,10 @@ void setup()
   }
 
   // We'll drive our onboard LED
-  // old TXD1, not used anymore, has been swapped
+  // On ESP8266 old TXD1, not used anymore, has been swapped
   pinMode(RED_LED_PIN, OUTPUT); 
   LedRedOFF();
-
+ 
   // start Wifi connect or soft AP
   WifiHandleConn(true);
 
@@ -1289,7 +1326,12 @@ void setup()
 
       if(upload.status == UPLOAD_FILE_START) {
         uint32_t maxSketchSpace = (ESP.getFreeSketchSpace() - 0x1000) & 0xFFFFF000;
+#ifdef ESP8266
         WiFiUDP::stopAll();
+#else
+        // xxxxxxxx ESP32 : je ne sais pas
+      #pragma message "xxxxxxx WiFiUDP::stopAll() n'existe pas pour ESP32 : que mettre ?"
+#endif
         Debugf("Update: %s\n", upload.filename.c_str());
         LedRGBON(COLOR_MAGENTA);
         ota_blink = true;
@@ -1351,14 +1393,23 @@ void setup()
   // Serial uses UART0, which is mapped to pins GPIO1 (TX) and GPIO3 (RX).
   // Serial may be remapped to GPIO15 (TX) and GPIO13 (RX) by calling Serial.swap() after Serial.begin
   // Calling swap again maps UART0 back to GPIO1 and GPIO3.
-  #ifndef SIMU
+#ifndef SIMU
+  #ifdef ESP8266
     if (config.linky_mode_standard)
       Serial.begin(9600, SERIAL_7E1);
     else
       Serial.begin(1200, SERIAL_7E1);
 
       Serial.swap();
+  #else
+  // ESP32
+    if (config.linky_mode_standard)
+      Serial2.begin(9600, SERIAL_7E1);
+    else
+      Serial2.begin(1200, SERIAL_7E1);
   #endif
+
+#endif
 
   // Init teleinfo
   if (config.linky_mode_standard)
@@ -1491,13 +1542,26 @@ void loop()
     task_httpRequest=false;
   } 
 
+#ifdef ESP8266
   // Handle teleinfo serial
   if ( Serial.available() ) {
     // Read Serial and process to tinfo
     c = Serial.read();
+    // Debugf("Serial available '%c'", c);Debugln("");
     //Serial1.print(c);
     tinfo.process(c);
   }
+#else
+  // ESP32
+  // Handle teleinfo serial
+  if ( Serial2.available() ) {
+    // Read Serial and process to tinfo
+    c = Serial2.read();
+    // Debugf("Serial available '%c'", c);Debugln("");
+    //Serial1.print(c);
+    tinfo.process(c);
+  }
+#endif
 
   //delay(10);
 }
