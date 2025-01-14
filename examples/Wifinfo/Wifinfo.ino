@@ -246,7 +246,7 @@ void process_line(char *msg) {
       }
       syslog.log(LOG_INFO,waitbuffer);
       delay(2*pending);
-      memset(waitbuffer,0,255);
+      memset(waitbuffer,0,sizeof(waitbuffer));
       pending=0;
       
     }
