@@ -432,21 +432,41 @@ void getSysJSONData(String & response)
   response += "\"},\r\n";
 
   response += "{\"na\":\"SDK Version\",\"va\":\"";
+#ifdef ESP8266
   response += system_get_sdk_version() ;
+#else
+  response += esp_get_idf_version() ;
+#endif
   response += "\"},\r\n";
 
   response += "{\"na\":\"Chip ID\",\"va\":\"";
-  sprintf_P(buffer, "0x%06X",system_get_chip_id() );
+#ifdef ESP8266
+  sprintf_P(buffer, "0x%0X",system_get_chip_id() );
+#else
+  int ChipId;
+  uint64_t macAddress = ESP.getEfuseMac();
+  uint64_t macAddressTrunc = macAddress << 40;
+  ChipId = macAddressTrunc >> 40;
+  sprintf_P(buffer, PSTR("0x%06X"), ChipId);
+#endif
   response += buffer ;
   response += "\"},\r\n";
 
   response += "{\"na\":\"Boot Version\",\"va\":\"";
+#ifdef ESP8266
   sprintf_P(buffer, "0x%0X",system_get_boot_version() );
   response += buffer ;
+#else
+  response += "??????????";
+#endif
   response += "\"},\r\n";
 
   response += "{\"na\":\"Flash Real Size\",\"va\":\"";
+#ifdef ESP8266
   response += formatSize(ESP.getFlashChipRealSize()) ;
+#else
+  response += formatSize(ESP.getFlashChipSize()) ;
+#endif
   response += "\"},\r\n";
 
   response += "{\"na\":\"Firmware Size\",\"va\":\"";
@@ -463,6 +483,8 @@ void getSysJSONData(String & response)
   response += buffer ;
   response += "\"},\r\n";
 
+#ifdef ESP8266
+  // ESP8266
   FSInfo info;
   SPIFFS.info(info);
 
@@ -476,12 +498,31 @@ void getSysJSONData(String & response)
 
   response += "{\"na\":\"SPIFFS Occupation\",\"va\":\"";
   sprintf_P(buffer, "%d%%",100*info.usedBytes/info.totalBytes);
+#else
+  // ESP32
+  response += "{\"na\":\"SPIFFS Total\",\"va\":\"";
+  response += formatSize(SPIFFS.totalBytes()) ;
+  response += "\"},\r\n";
+
+  response += "{\"na\":\"SPIFFS Used\",\"va\":\"";
+  response += formatSize(SPIFFS.usedBytes()) ;
+  response += "\"},\r\n";
+
+  response += "{\"na\":\"SPIFFS Occupation\",\"va\":\"";
+  sprintf_P(buffer, "%d%%",100*SPIFFS.usedBytes()/SPIFFS.totalBytes());
+#endif
+
+
   response += buffer ;
   response += "\"},\r\n"; 
 
   // Free mem
   response += "{\"na\":\"Free Ram\",\"va\":\"";
+#ifdef ESP8266
   response += formatSize(system_get_free_heap_size()) ;
+#else
+  response += formatSize(esp_get_free_heap_size()) ;
+#endif
   response += "\"},\r\n";
 
   // LibTeleinfo Checksum Error Count
@@ -619,11 +660,20 @@ void getSpiffsJSONData(String & response)
   // Files Array  
   response += F("\"files\":[\r\n");
 
+#ifdef ESP8266
   // Loop trough all files
   Dir dir = SPIFFS.openDir("/");
   while (dir.next()) {    
     String fileName = dir.fileName();
     size_t fileSize = dir.fileSize();
+#else
+  File root = SPIFFS.open("/");
+  File file;
+  while ((file = root.openNextFile())) {
+    String fileName = file.name();
+    size_t fileSize = file.size();
+#endif
+
     if (first_item)  
       first_item=false;
     else
@@ -642,14 +692,27 @@ void getSpiffsJSONData(String & response)
   response += F("\"spiffs\":[\r\n{");
   
   // Get SPIFFS File system informations
+#ifdef ESP8266
   FSInfo info;
   SPIFFS.info(info);
   response += F("\"Total\":");
   response += info.totalBytes ;
   response += F(", \"Used\":");
   response += info.usedBytes ;
+#else
+  response += F("\"Total\":");
+  response += SPIFFS.totalBytes() ;
+  response += F(", \"Used\":");
+  response += SPIFFS.usedBytes() ;
+#endif
+
+
   response += F(", \"ram\":");
+#ifdef ESP8266
   response += system_get_free_heap_size() ;
+#else
+  response += esp_get_free_heap_size() ;
+#endif
   response += F("}\r\n]"); 
 
   // Json end
@@ -773,7 +836,16 @@ void handleFactoryReset(void)
   // Just to debug where we are
   Debug(F("Serving /factory_reset page..."));
   ResetConfig();
+#ifdef ESP8266
   ESP.eraseConfig();
+#else
+  esp_wifi_restore();
+  // wifi_config_t current_conf;
+  // esp_wifi_get_config((wifi_interface_t)ESP_IF_WIFI_STA, &current_conf);
+  // memset(current_conf.sta.ssid, 0, sizeof(current_conf.sta.ssid));
+  // memset(current_conf.sta.password, 0, sizeof(current_conf.sta.password));
+  // esp_wifi_set_config((wifi_interface_t)ESP_IF_WIFI_STA, &current_conf);
+#endif
   Debug(F("sending..."));
   server.send ( 200, "text/plain", FPSTR(FP_RESTART) );
   Debugln(F("Ok!"));
