@@ -178,6 +178,7 @@ void Myprint(const char *msg);
 void Myprint(String msg);
 void Myprint(int i);
 void Myprint(unsigned int i);
+void Myprintf(const char * format, ...);
 void Myprintln(void);
 void Myprintln(char *msg);
 void Myprintln(const char *msg);
@@ -185,7 +186,7 @@ void Myprintln(String msg);
 void Myprintln(const __FlashStringHelper *msg);
 void Myprintln(int i);
 void Myprintln(unsigned int i);
-void Myprintf(const char * format, ...);
+void Myprintln(unsigned long i);
 void Myflush(void);
 #endif  // SYSLOG
 

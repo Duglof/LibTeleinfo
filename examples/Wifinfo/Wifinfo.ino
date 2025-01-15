@@ -344,6 +344,12 @@ void Myprintln(unsigned int i) {
   Myprint(logbuffer);
 }
 
+void Myprintln(unsigned long i)
+{
+  sprintf(logbuffer,"%lu\n", i);
+  Myprint(logbuffer);
+}
+
 void Myflush() {
 #ifdef DEBUG
   DEBUG_SERIAL.flush();
