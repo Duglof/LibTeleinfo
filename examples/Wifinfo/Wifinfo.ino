@@ -124,29 +124,16 @@
 //            - Red LED connected on pin 12
 //            - Teleinfo connected to RXD2 (GPIO13) Mode historique 1200 bauds
 // **********************************************************************************
-// Include Arduino header
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-// PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
-// Better define : client.setBufferSize(512);
-#include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
-#include <ESP8266WebServer.h>
-#include <ESP8266HTTPClient.h>
-#include <ESP8266mDNS.h>
-#include <WiFiUdp.h>
-#include <ArduinoOTA.h>
-#include <EEPROM.h>
-#include <Ticker.h>
-//#include <WebSocketsServer.h>
-//#include <Hash.h>
-#include <NeoPixelBus.h>
-#include <LibTeleinfo.h>
-#include <FS.h>
-
 // Global project file
 #include "Wifinfo.h"
 
-//WiFiManager wifi(0);
+// PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
+// Better define : client.setBufferSize(512);
+#include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
+#include <ArduinoOTA.h>
+#include <EEPROM.h>
+#include <Ticker.h>
+
 ESP8266WebServer server(80);
 
 bool ota_blink;
@@ -1495,6 +1482,7 @@ void loop()
   if ( Serial.available() ) {
     // Read Serial and process to tinfo
     c = Serial.read();
+    // Debugf("Serial available '%c'", c);Debugln("");
     //Serial1.print(c);
     tinfo.process(c);
   }
