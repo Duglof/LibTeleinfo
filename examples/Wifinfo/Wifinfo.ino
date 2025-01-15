@@ -358,7 +358,7 @@ void Myprintln(unsigned int i) {
   Myprint(logbuffer);
 }
 
-void Myprintln(uint32_t i)
+void Myprintln(unsigned long i)
 {
   sprintf(logbuffer,"%lu\n", i);
   Myprint(logbuffer);

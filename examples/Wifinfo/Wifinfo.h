@@ -223,7 +223,7 @@ void Myprintln(String msg);
 void Myprintln(const __FlashStringHelper *msg);
 void Myprintln(int i);
 void Myprintln(unsigned int i);
-void Myprintln(uint32_t i);
+void Myprintln(unsigned long i);
 void Myflush(void);
 #endif  // SYSLOG
 
