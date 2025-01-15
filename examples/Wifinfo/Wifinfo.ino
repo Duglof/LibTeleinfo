@@ -823,7 +823,7 @@ int WifiHandleConn(boolean setup = false)
       syslog.deviceHostname(config.host);
       syslog.appName(APP_NAME);
       syslog.defaultPriority(LOG_KERN);
-      memset(waitbuffer,0,255);
+      memset(waitbuffer,0,sizeof(waitbuffer));
       pending=0;
       SYSLOGusable=true;
     } else {
