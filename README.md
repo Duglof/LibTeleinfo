@@ -185,6 +185,7 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 ![interface linky](docs/schema-interface-linky.png)
 Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de D-G-S) ça ne fonctionnait pas !!!
 - C'est reconnaissable, la tension entre Drain et Source était de 0,6V alors que la grille était à zéro.
+- La led TIC est allumée (elle doit être éteinte quand les entrées Téléinfo 1 et 2 ne sont pas connectées)
 
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
 
