@@ -738,10 +738,12 @@ int WifiHandleConn(boolean setup = false)
   int ret = WiFi.status();
 
   if (setup) {
+    // Pourquoi ce n'était pas appelé avant V1.0.9 et précédente
+    WiFi.mode(WIFI_STA);
 
-    DebuglnF("========== SDK Saved parameters Start"); 
+    DebuglnF("========== WiFi.printDiag Start"); 
     WiFi.printDiag(DEBUG_SERIAL);
-    DebuglnF("========== SDK Saved parameters End"); 
+    DebuglnF("========== WiFi.printDiag End"); 
     Debugflush();
 
     // no correct SSID
@@ -809,7 +811,7 @@ int WifiHandleConn(boolean setup = false)
     if (ret == WL_CONNECTED)
     {
       DebuglnF("connected!");
-      WiFi.mode(WIFI_STA);
+      // WiFi.mode(WIFI_STA); Ca ne sert à rien, c'est fait au début
 
       DebugF("IP address   : "); Debugln(WiFi.localIP().toString());
       DebugF("MAC address  : "); Debugln(WiFi.macAddress());
