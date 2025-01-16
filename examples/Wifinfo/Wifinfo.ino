@@ -222,10 +222,28 @@ void convert(const __FlashStringHelper *ifsh)
   }
 }
 
+/* ======================================================================
+Function: process_line
+Purpose : Ajoute la chaîne dans le buffer d'attente SYSLOG et l'envoi si nécessaire
+Input   : char *msg
+Output  : - 
+Comments: Taille maximale du message envoyé limité à sizeof(waitbuffer)
+Envoi le message SYSLOG si:
+ - Celui-ci est terminé par CR ou LF
+ - Le buffer d'attente est plein 
+   ======================================================================
+ */
 void process_line(char *msg) {
-    strcat(waitbuffer,msg);
+    // Ajouter à waitbuffer et tronquer si nécessaire à la taille maximale de waitbuffer
+    // Dans tous les cas strncat() met un null à la fin
+    strncat(waitbuffer,msg, sizeof(waitbuffer) - strlen(waitbuffer) - 1);
     pending=strlen(waitbuffer);
-    if( waitbuffer[pending-1] == 0x0D || waitbuffer[pending-1] == 0x0A) {
+    // En cas de buffer plein, forcer le dernier caractère à LF (0x0A) ce qui forcera l'envoi
+    // et permettra un affichage correct sur la console socat
+    if ( strlen(waitbuffer) == (sizeof(waitbuffer) - 1) && waitbuffer[pending-1] != 0x0A)
+      waitbuffer[pending-1] = 0x0A;
+    // Si le dernier vaut CR ou LF ou buffer plein => on envoie le message
+    if( waitbuffer[pending-1] == 0x0D || waitbuffer[pending-1] == 0x0A ) {
       //Cette ligne est complete : l'envoyer !
       for(int i=0; i < pending-1; i++) {
         if(waitbuffer[i] <= 0x20)
