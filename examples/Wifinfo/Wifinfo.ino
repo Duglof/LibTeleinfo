@@ -144,9 +144,13 @@ TInfo tinfo;
 
 // RGB Led
 #ifdef RGB_LED_PIN
-//NeoPixelBus rgb_led = NeoPixelBus(1, RGB_LED_PIN, NEO_RGB | NEO_KHZ800);
-//NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
-NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+ // Pour LED WS2812B RGB
+ NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+ // Pour LED WS2812B GRB
+ // NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+ 
 #endif
 
 
@@ -1129,6 +1133,12 @@ void setup()
   // Set CPU speed to 160MHz
   system_update_cpu_freq(160);
 
+  // Init the serial 1, Our Debug Serial TXD0
+  // note this serial can only transmit, just 
+  // enough for debugging purpose
+  DEBUG_SERIAL.begin(115200);
+  Debugln("\r\n\r\n");
+
 #ifdef SYSLOG
   for(int i=0; i<50; i++)
     lines[i]=0;
@@ -1159,15 +1169,31 @@ void setup()
   optval += "No SYSLOG";
 #endif
 
-  // Init the RGB Led, and set it off
+  // Init the RGB Led, test R,G,B and set it off
   rgb_led.Begin();
-  LedRGBOFF();
+  rgb_led.Show();   // // Initialize all pixels to 'off'
 
-  // Init the serial 1, Our Debug Serial TXD0
-  // note this serial can only transmit, just 
-  // enough for debugging purpose
-  DEBUG_SERIAL.begin(115200);
-  Debugln(F("\r\n\r\n=============="));
+  rgb_led.SetPixelColor(0, RgbColor(255,0,0)); 
+  rgb_led.Show();
+  delay(500);
+
+  LedRGBOFF();
+  delay(500);
+
+  rgb_led.SetPixelColor(0, RgbColor(0,255,0)); 
+  rgb_led.Show();
+  delay(500);
+
+  LedRGBOFF();
+  delay(500);
+
+  rgb_led.SetPixelColor(0, RgbColor(0,0,255)); 
+  rgb_led.Show();
+  delay(500);
+  
+  LedRGBOFF();
+  
+  Debugln(F("=============="));
   Debug(F("WifInfo V"));
   Debugln(F(WIFINFO_VERSION));
   Debugln();

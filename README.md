@@ -212,6 +212,13 @@ Connexions à ESP-12E
 - Pin 2 -> GND
 - Pin 3 -> 3V de ESP (3.3V)
 
+Warning : Le WS2812B est RGB mais certains sont GRB :
+- Wifinfo.ino WS2812B RGB :
+  - NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+- Wifinfo.ino WS2812B GRB
+  - NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+- A la mise sous tension vous devez avoir successivement la led Rouge puis Verte, puis bleue. Si ce n'est pas le cas il faut changer la déclaration de rgb_led dans Wifinfo.ino
+ 
 # Compilation / Téléversement
 Utiliser Arduino IDE V1.8.18
 Warning : Déconnecter l'interface Linky du RX de l'ESP
