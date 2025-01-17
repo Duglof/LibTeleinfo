@@ -212,7 +212,7 @@ Connexions à ESP-12E
 - Pin 2 -> GND
 - Pin 3 -> 3V de ESP (3.3V)
 
-Warning : Le WS2812B est RGB mais certains sont GRB :
+Warning : Le WS2812B est RGB mais certains sont GRB (dans ce cas il faut adapter la déclaration dans Wifinfo.ino):
 - Wifinfo.ino WS2812B RGB :
   - NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
 - Wifinfo.ino WS2812B GRB
