@@ -316,13 +316,15 @@ void Myprint() {
 
 void Myprint(const char *msg)
 {
-  strcpy(logbuffer, msg);
-  Myprint(logbuffer);
+  // strcpy(logbuffer, msg);
+  // Myprint(logbuffer);
+  Myprint((char *)msg);
 }
 
 void Myprint(String msg) {
-  sprintf(logbuffer,"%s",msg.c_str());
-  Myprint(logbuffer);
+  // sprintf(logbuffer,"%s",msg.c_str());
+  // Myprint(logbuffer);
+  Myprint((char *)msg.c_str());
 }
 
 void Myprint(int i) {
@@ -354,18 +356,33 @@ void Myprintln() {
 
 void Myprintln(char *msg)
 {
-  sprintf(logbuffer,"%s\n",msg);
+  // sprintf(logbuffer,"%s\n",msg);
+  // Myprint(logbuffer);
+  strncpy(logbuffer,msg, sizeof(logbuffer) - 2);
+  int length = strlen(logbuffer);
+  logbuffer[length] = '\n';
+  logbuffer[length+1] = 0;
   Myprint(logbuffer);
 }
 
 void Myprintln(const char *msg)
 {
-  sprintf(logbuffer,"%s\n",msg);
+  // sprintf(logbuffer,"%s\n",msg);
+  // Myprint(logbuffer);
+  strncpy(logbuffer,msg, sizeof(logbuffer) - 2);
+  int length = strlen(logbuffer);
+  logbuffer[length] = '\n';
+  logbuffer[length+1] = 0;
   Myprint(logbuffer);
 }
 
 void Myprintln(String msg) {
-  sprintf(logbuffer,"%s\n",msg.c_str());
+  // sprintf(logbuffer,"%s\n",msg.c_str());
+  // Myprint(logbuffer);
+  strncpy(logbuffer,msg.c_str(), sizeof(logbuffer) - 2);
+  int length = strlen(logbuffer);
+  logbuffer[length] = '\n';
+  logbuffer[length+1] = 0;
   Myprint(logbuffer);
 }
 
