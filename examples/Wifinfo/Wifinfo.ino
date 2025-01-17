@@ -164,10 +164,10 @@ TInfo tinfo;
 #else
   // ESP32
   // Pour LED WS2812B RGB
-  NeoPixelBus<NeoRgbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  NeoPixelBus<NeoRgbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
   // Pour LED WS2812B GRB
-  // NeoPixelBus<NeoGrbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  // NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
 #endif
 
