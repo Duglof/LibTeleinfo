@@ -127,7 +127,6 @@
 // Global project file
 #include "Wifinfo.h"
 
-
 // PubSubClient V2.8.0 : The maximum message size, including header, is 256 bytes by default. This is configurable via MQTT_MAX_PACKET_SIZE in PubSubClient.h
 // Better define : client.setBufferSize(512);
 #include <PubSubClient.h> //attention mettre #define MQTT_MAX_PACKET_SIZE 512, sinon le payload data ne se raffraichit pas.
@@ -155,10 +154,21 @@ TInfo tinfo;
 
 #ifdef ESP8266
   // ESP8266
-  NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  // Pour LED WS2812B RGB
+  NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+  // Pour LED WS2812B GRB
+  //NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+
 #else
   // ESP32
-  NeoPixelBus<NeoRgbFeature, Neo800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  // Pour LED WS2812B RGB
+  NeoPixelBus<NeoRgbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+  // Pour LED WS2812B GRB
+  // NeoPixelBus<NeoGrbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
 #endif
 
 #endif
@@ -367,12 +377,12 @@ void Myprintln(const __FlashStringHelper *msg) {
 }
 
 void Myprintln(int i) {
-  sprintf((char *)logbuffer,"%d\n", i);
+  sprintf(logbuffer,"%d\n", i);
   Myprint(logbuffer);
 }
 
 void Myprintln(unsigned int i) {
-  sprintf((char *)logbuffer,"%u\n", i);
+  sprintf(logbuffer,"%u\n", i);
   Myprint(logbuffer);
 }
 
@@ -855,9 +865,7 @@ int WifiHandleConn(boolean setup = false)
       }
     }
 
-    // delay(2000);
-    // return(ret);
-    
+
     // connected ? disable AP, client mode only
     if (ret == WL_CONNECTED)
     {
@@ -921,7 +929,7 @@ int WifiHandleConn(boolean setup = false)
     
     // Version 1.0.7 : Use auto reconnect Wifi
 #ifdef ESP8266
-    // Ne sebme pas exister pour ESP32
+    // Ne semble pas exister pour ESP32
     WiFi.setAutoConnect(true);
 #endif
     WiFi.setAutoReconnect(true);
@@ -1149,6 +1157,12 @@ void setup()
   setCpuFrequencyMhz(160);
 #endif
 
+  // Init the serial 1, Our Debug Serial TXD0
+  // note this serial can only transmit, just 
+  // enough for debugging purpose
+  DEBUG_SERIAL.begin(115200);
+  Debugln("\r\n\r\n");
+
 #ifdef SYSLOG
   for(int i=0; i<50; i++)
     lines[i]=0;
@@ -1179,15 +1193,31 @@ void setup()
   optval += "No SYSLOG";
 #endif
 
-  // Init the RGB Led, and set it off
+  // Init the RGB Led, test R,G,B and set it off
   rgb_led.Begin();
+  rgb_led.Show();   // // Initialize all pixels to 'off'
+
+  rgb_led.SetPixelColor(0, RgbColor(255,0,0)); 
+  rgb_led.Show();
+  delay(500);
+
+  LedRGBOFF();
+  delay(500);
+
+  rgb_led.SetPixelColor(0, RgbColor(0,255,0)); 
+  rgb_led.Show();
+  delay(500);
+
+  LedRGBOFF();
+  delay(500);
+
+  rgb_led.SetPixelColor(0, RgbColor(0,0,255)); 
+  rgb_led.Show();
+  delay(500);
+  
   LedRGBOFF();
 
-  // Init the serial 1, Our Debug Serial TXD0
-  // note this serial can only transmit, just 
-  // enough for debugging purpose
-  DEBUG_SERIAL.begin(115200);
-  Debugln(F("\r\n\r\n=============="));
+  Debugln(F("=============="));
   Debug(F("WifInfo V"));
   Debugln(F(WIFINFO_VERSION));
   Debugln();
