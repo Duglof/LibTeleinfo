@@ -842,7 +842,10 @@ int WifiHandleConn(boolean setup = false)
         WiFi.begin(config.ssid);
       }
 
-      timeout = 25; // 25 * 200 ms = 5 sec time out
+      // From https://github.com/esp8266/Arduino/issues/6308
+      // You're only waiting for 5 seconds (10x 500 msec), which may be a bit short.
+      // timeout = 25; // 25 * 200 ms = 5 sec time out
+      timeout = 50; // 50 * 200 ms = 10 sec time out
       // 200 ms loop
       while ( ((ret = WiFi.status()) != WL_CONNECTED) && timeout )
       {
