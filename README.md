@@ -278,7 +278,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 - Compilation
   - Croquis->Compiler
 
-- Téléversement
+- Téléversement (Il faut obligatoirement ces deux actions !!!)
   - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
   - Croquis->Téléverser
 
@@ -318,35 +318,22 @@ Linky Mode Standard en Heure Pleine/Heure Creuse
 - On ne l'a pas avec SYSLOG
 # Exemple de message:
 
-Exception (9):
-epc1=0x40206852 epc2=0x00000000 epc3=0x00000000 excvaddr=0x3fff2432 depc=0x00000000
+Stack smashing protect failure!
 
- \>>>stack>>>
 
- ctx: cont
+Backtrace: 0x40082661:0x3ffb20d0 0x4008f199:0x3ffb20f0 0x40082672:0x3ffb2110 0x400d409d:0x3ffb2130 0x400e4531:0x3ffb2190 0x400d3958:0x3ffb21b0 0x400e942c:0x3ffb2270 0x4008fe12:0x3ffb2290
 
- sp: 3ffffe10 end: 3fffffd0 offset: 0150
 
- 3fffff60:  3fff26d4 0034003f 80000000 3fff264c
 
- 3fffff70:  0076007f 80000000 3fff1be0 00000000
 
- 3fffff80:  00000000 00000000 00000000 3ffef9bc
+ELF file SHA256: a12af395d
 
- 3fffff90:  3fffdad0 3fff0170 3ffef990 3ffef9bc
-
- 3fffffa0:  3ffeef81 00000000 00000001 40205b5a
-
- 3fffffb0:  3fffdad0 00000000 3ffef990 40211064
-
- 3fffffc0:  feefeffe feefeffe 3fffdab0 40100fa9
-
- <<<stack<<<
+Rebooting...
 
 # Outils à installer
 
-Il faut installer ESPExceptionDecoder V2.0.0 (Les versions ultérieurs non pas fonctionnées)
-- https://github.com/me-no-dev/EspExceptionDecoder/releases/download/2.0.0/EspExceptionDecoder-2.0.0.zip
+Il faut installer ESPExceptionDecoder V2.0.3 (Les versions ultérieurs non pas fonctionnées)
+- https://github.com/me-no-dev/EspExceptionDecoder/releases/download/2.0.3/EspExceptionDecoder-2.0.3.zip
 - Télécharger le zip dans Arduino/tools
 - Faire Extraite ici
 - Il apparaît dans Aduino IDE 1.8.18 Outils/ESP Exception Decoder
@@ -356,7 +343,7 @@ Il faut installer ESPExceptionDecoder V2.0.0 (Les versions ultérieurs non pas f
 - Ouvrir le fenêtre Outils/ESP Exception Decoder (qui s'ouvrira sans poser de question)
 - Et coller dans cette fenêtre le message ci-dessus
 - Vous obtiendrez le décodage ci-dessous
-![ESP Exception Decodeur](docs/Arduino-ESP-Exception-Decoder.png)
-- C'est plus clair, le problème est dans le Setup !!!
+![ESP Exception Decodeur](docs/Arduino-ESP32-Exception-Decoder.png)
+- C'est plus clair, le problème est dans Wifinfo ligne 741 !!!
 
 
