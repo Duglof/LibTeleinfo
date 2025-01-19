@@ -174,9 +174,9 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
 # Hardware
-ESP-12E Dev Kit (type NodeMCU 1.0) avec 4 Mo de flash (30 broches)
-![esp12e ch340](docs/esp12e.png) 
-![esp12e gpio](docs/esp12e-gpio.png)
+ESP32 Dev Kit (type WROOM 32) avec 4 Mo de flash (30 broches)
+![esp32 cp2102](docs/ESP32S-30P-CP2102-MicroUSB.png) 
+![esp32 gpio](docs/ESP32-dev-kit-30pins-pinout.png)
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
