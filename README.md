@@ -207,7 +207,7 @@ Connexions à Serial2 de ESP32 WROOM
 - RXD : D4  de ESP (GPIO4)
 
 L'entrée RX2 par défaut est GPIO4 
-- Linux voir /home/<user>/.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+- Linux voir <home_dir>.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
   - #define RX2 (gpio_num_t)4
 
 # RGB LED 5mm WS2812B
