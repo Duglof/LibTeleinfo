@@ -249,10 +249,15 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Télécharger https://github.com/lorol/arduino-esp32fs-plugin/releases/download/2.0.7/esp32fs.zip
   - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP32FS/tool/esp8266fs.jar)
   - Redémarrer Arduino IDE
-  - Dans le menu Outils vous devez avoir 'ESP8266 Sketch Data Upload'
+  - Dans le menu Outils vous devez avoir 'ESP32 Sketch Data Upload'
 
 - Ajout de la librairie LibTeleinfo
-  - Depuis https://github.com/Duglof/LibTeleinfo
+  - Depuis https://github.com/Duglof/LibTeleinfo/tree/esp32
+  - Choisir Code->Download ZIP (Choisir le répertoire <home_dir>/Arduino/libraries)
+  - Décompresser le ZIP dans ce répertoire
+
+- Ajout de la librairie ESP32WebServer 
+  - Depuis https://github.com/Pedroalbuquerque/ESP32WebServer
   - Choisir Code->Download ZIP (Choisir le répertoire <home_dir>/Arduino/libraries)
   - Décompresser le ZIP dans ce répertoire
 
@@ -260,7 +265,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Syslog-master
     - Decompresser <home_dir>Arduino/libraries/LibTeleinfo/librairie/Syslog-master.zip dans <home_dir>Arduino/libraries
   - NeoPixelBus_by_Makuna V2.8.3 : l'installer depuis l'Arduino IDE
-
+ 
 - Ouvrir le projet Wifinfo
   - Fichiers->Exemples->LibTeleinfo
   - Sélectionner 'Wifinfo'
@@ -269,7 +274,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Compiler
 
 - Téléversement
-  - Outils->ESP8266 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
+  - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
   - Croquis->Téléverser
 
 # Tests
