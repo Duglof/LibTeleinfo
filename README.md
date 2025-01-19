@@ -12,8 +12,10 @@ Sélection du mode (TINFO_MODE_HISTORIQUE par défaut):
    ou 
   - TInfo.init(TINFO_MODE_STANDARD); 
 
+# Wifinfo pour ESP32 (branche esp32)
+Prenez la version de la branche esp32 : https://github.com/Duglof/LibTeleinfo/tree/esp32
 
-# Wifinfo
+# Wifinfo pour ESP12E (ESP8266) (branche master)
 
   exemples/Wifinfo
 
