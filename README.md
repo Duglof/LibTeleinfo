@@ -201,10 +201,15 @@ Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
 - Connecter Teleinfo 2 et sur I2 du compteur
 
-Connexions à ESP-12E
+Connexions à Serial2 de ESP32 WROOM
 - GND : G  de ESP (GND) 
 - +V  : 3V de ESP (3.3V)
-- RXD : D7 de ESP (RXD2 GPIO13)
+- RXD : D4 de ESP (GPIO4)
+
+L'entrée RX2 par défaut est GPIO4 
+- Linux voir /home/<user>/.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+  - #define RX2 (gpio_num_t)4
+
 # RGB LED 5mm WS2812B
 ![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
 - Pin 1 -> D5 (GPIO14) de ESP
