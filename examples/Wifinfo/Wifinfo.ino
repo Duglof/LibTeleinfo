@@ -650,7 +650,10 @@ Comments: -
 ====================================================================== */
 void NewFrame(ValueList * me) 
 {
-  char buff[32];
+// Sur ESP12E : "Updated Frame (34720 Bytes free)" : char buff[32] : c'est trop petit : 32 plus le null, ça fait 33 !!!
+// char buff[32];
+//  sprintf_P( buff, PSTR("Updated Frame (%ld Bytes free)"), ESP.getFreeHeap() );
+//  Debugln(buff);
 
   // Light the RGB LED 
   if ( config.config & CFG_RGB_LED) {
@@ -660,8 +663,7 @@ void NewFrame(ValueList * me)
     rgb_ticker.once_ms( (uint32_t) BLINK_LED_MS, LedOff, (int) RGB_LED_PIN);
   }
 
-  sprintf_P( buff, PSTR("New Frame (%ld Bytes free)"), ESP.getFreeHeap() );
-  Debugln(buff);
+  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
 }
 
 /* ======================================================================
@@ -674,7 +676,10 @@ Comments: it's called only if one data in the frame is different than
 ====================================================================== */
 void UpdatedFrame(ValueList * me)
 {
-  char buff[32];
+// Sur ESP12E : "Updated Frame (34720 Bytes free)" : char buff[32] : c'est trop petit : 32 plus le null, ça fait 33 !!!
+// char buff[32];
+//  sprintf_P( buff, PSTR("Updated Frame (%ld Bytes free)"), ESP.getFreeHeap() );
+//  Debugln(buff);
   
   // Light the RGB LED (purple)
   if ( config.config & CFG_RGB_LED) {
@@ -684,9 +689,8 @@ void UpdatedFrame(ValueList * me)
     rgb_ticker.once_ms(BLINK_LED_MS, LedOff, RGB_LED_PIN);
   }
 
-  sprintf_P( buff, PSTR("Updated Frame (%ld Bytes free)"), ESP.getFreeHeap() );
-  Debugln(buff);
-
+  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
+  
 /*
   // Got at least one ?
   if (me) {
