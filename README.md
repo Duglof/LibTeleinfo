@@ -202,9 +202,9 @@ Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 2 et sur I2 du compteur
 
 Connexions à Serial2 de ESP32 WROOM
-- GND : G  de ESP (GND) 
-- +V  : 3V de ESP (3.3V)
-- RXD : D4 de ESP (GPIO4)
+- GND : GND de ESP (GND) 
+- +V  : 3V  de ESP (3.3V)
+- RXD : D4  de ESP (GPIO4)
 
 L'entrée RX2 par défaut est GPIO4 
 - Linux voir /home/<user>/.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
