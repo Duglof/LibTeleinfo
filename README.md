@@ -255,6 +255,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP32FS/tool/esp8266fs.jar)
   - Redémarrer Arduino IDE
   - Dans le menu Outils vous devez avoir 'ESP32 Sketch Data Upload'
+![Arduino IDE ESP32 Sketch Data Upload](docs/Arduino-ESP32-Sketch-Data-Upload.png)
 
 - Ajout de la librairie LibTeleinfo
   - Depuis https://github.com/Duglof/LibTeleinfo/tree/esp32
