@@ -71,6 +71,12 @@ Depuis votre téléphone portable :
 - Ajout d'une beta version de MQTT
    - Envoie de messages de log démarrage (Version, Adresse IP, Date Heure)
    - Envoie immédiat des données de Téléinformations ajoutées ou modifiées (DataCallback()
+- Report des corrections faites dans la branche esp32
+  - Correction débordement de pile char buff[32] trop petit
+  - Set Wifi connect timeout to 10 seconds
+  - Correction pour que le LED RGB ou GRB fonctionne
+  - Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
+  - Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
 
 # Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
