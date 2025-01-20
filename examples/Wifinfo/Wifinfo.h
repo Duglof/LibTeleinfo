@@ -80,7 +80,7 @@ extern "C" {
 // Attention : si SIMU n'est pas déclaré, le debug est envoyé sur Serial1
 //  donc n'est pas visible au travers du port USB pour Arduino IDE !
 // Pour un ESP32 le debug est toujours sur Serial et la reception
-// Teleinfo soit sur Serial2 s'il existe sinon sur Serial2
+// Teleinfo soit sur Serial2 s'il existe sinon sur Serial1
 // Voir l'onglet Système pour visualiser l'entrée
 #define DEBUG
 

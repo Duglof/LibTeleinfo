@@ -430,7 +430,7 @@ void getSysJSONData(String & response)
   #ifdef SIMU
     response += "Pas d'entrée : Mode SIMU";
   #else
-    response += "GPIO13" + " Serial.swap()";        // Serial.swap()
+    response += "GPIO13 (Serial.swap() )";        // Serial.swap()
   #endif
 #else
   response += "GPIO";
