@@ -683,7 +683,13 @@ void NewFrame(ValueList * me)
     rgb_ticker.once_ms( (uint32_t) BLINK_LED_MS, LedOff, (int) RGB_LED_PIN);
   }
 
-  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
+#ifdef ESP8266
+  // ESP8266 unsigned int ESP.getFreeHeap()
+  Debugf("Updated Frame (%u Bytes free)\n", ESP.getFreeHeap());
+#else
+  // ESP32  long unsigned int getFreeHeap();      //available heap
+  Debugf("Updated Frame (%lu Bytes free)\n", ESP.getFreeHeap());
+#endif
 }
 
 /* ======================================================================
@@ -709,7 +715,13 @@ void UpdatedFrame(ValueList * me)
     rgb_ticker.once_ms(BLINK_LED_MS, LedOff, RGB_LED_PIN);
   }
 
-  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
+#ifdef ESP8266
+  // ESP8266 unsigned int ESP.getFreeHeap()
+  Debugf("Updated Frame (%u Bytes free)\n", ESP.getFreeHeap());
+#else
+  // ESP32  long unsigned int getFreeHeap();      //available heap
+  Debugf("Updated Frame (%lu Bytes free)\n", ESP.getFreeHeap());
+#endif
   
 /*
   // Got at least one ?
