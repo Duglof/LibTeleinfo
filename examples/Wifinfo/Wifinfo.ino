@@ -663,7 +663,7 @@ void NewFrame(ValueList * me)
     rgb_ticker.once_ms( (uint32_t) BLINK_LED_MS, LedOff, (int) RGB_LED_PIN);
   }
 
-  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
+  Debugf("Updated Frame (%d Bytes free)\n", ESP.getFreeHeap());
 }
 
 /* ======================================================================
@@ -689,7 +689,7 @@ void UpdatedFrame(ValueList * me)
     rgb_ticker.once_ms(BLINK_LED_MS, LedOff, RGB_LED_PIN);
   }
 
-  Debugf("Updated Frame (%ld Bytes free)\n", ESP.getFreeHeap());
+  Debugf("Updated Frame (%d Bytes free)\n", ESP.getFreeHeap());
   
 /*
   // Got at least one ?
