@@ -425,6 +425,14 @@ void getSysJSONData(String & response)
 
   response += "{\"na\":\"WifInfo Version\",\"va\":\"" WIFINFO_VERSION "\"},\r\n";
 
+  response += "{\"na\":\"Entrée Téléinfo\",\"va\":\"";
+  #ifdef SIMU
+    response += "Pas d'entrée : Mode SIMU";
+  #else
+    response += "GPIO13 (Serial.swap() )";        // Serial.swap()
+  #endif
+  response += "\"},\r\n";
+
   response += "{\"na\":\"Compile le\",\"va\":\"" __DATE__ " " __TIME__ "\"},\r\n";
   
   response += "{\"na\":\"Options de compilation\",\"va\":\"";
