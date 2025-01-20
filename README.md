@@ -182,13 +182,30 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Groupe horaire si option = heures creuses ou tempo : HHPHC (1 car.)
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
-# Hardware
+# Hardware de test
 ESP32 Dev Kit (type WROOM 32) avec 4 Mo de flash (30 broches)
 ![esp32 cp2102](docs/ESP32S-30P-CP2102-MicroUSB.png) 
 ![esp32 gpio](docs/ESP32-dev-kit-30pins-pinout.png)
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
+
+# Hardware compatible
+Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
+L'onglet système donne l'entrée pour connecter l'interface Teleinfo
+Si le module possède 3 entrées série, Serial2 est utilisée pour la reception (RX2)
+Si le module possède 2 entrées série, Serial1 est utilisée pour la reception (RX1)
+
+|          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
+| UART1 RX | RX1  | 26    | 4       | 15      | 10      | 18      | 4       | 0       | 11      |
+| UART1 TX | TX1  | 27    | 5       | 16      | 18      | 19      | 5       | 1       | 10      |
+| UART2 RX | RX2  | 4     | --      | 19      | --      | --      | --      | --      | --      |
+| UART2 TX | TX2  | 25    | --      | 20      | --      | --      | --      | --      | --      |
+
+- Serial1 : RX1, TX1
+- Serial2 : RX2, TX2
+- '--' : n'existe pas
+- Information extraitent de .arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
 
 # Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.png)

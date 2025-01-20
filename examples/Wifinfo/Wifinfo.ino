@@ -1483,23 +1483,31 @@ void setup()
   // Serial uses UART0, which is mapped to pins GPIO1 (TX) and GPIO3 (RX).
   // Serial may be remapped to GPIO15 (TX) and GPIO13 (RX) by calling Serial.swap() after Serial.begin
   // Calling swap again maps UART0 back to GPIO1 and GPIO3.
-#ifndef SIMU
+  
   #ifdef ESP8266
-    if (config.linky_mode_standard)
-      Serial.begin(9600, SERIAL_7E1);
-    else
-      Serial.begin(1200, SERIAL_7E1);
+    #ifndef SIMU
+      if (config.linky_mode_standard)
+        Serial.begin(9600, SERIAL_7E1);
+      else
+        Serial.begin(1200, SERIAL_7E1);
 
       Serial.swap();
+    #endif
   #else
-  // ESP32
-    if (config.linky_mode_standard)
-      Serial2.begin(9600, SERIAL_7E1);
-    else
-      Serial2.begin(1200, SERIAL_7E1);
+    // ESP32
+    // Certains modules ESP ne possède pas de Serial2
+    #ifdef RX2
+      if (config.linky_mode_standard)
+        Serial2.begin(9600, SERIAL_7E1);
+      else
+        Serial2.begin(1200, SERIAL_7E1);
+    #else
+      if (config.linky_mode_standard)
+        Serial1.begin(9600, SERIAL_7E1);
+      else
+        Serial1.begin(1200, SERIAL_7E1);
+    #endif
   #endif
-
-#endif
 
   // Init teleinfo
   if (config.linky_mode_standard)
@@ -1643,6 +1651,8 @@ void loop()
   }
 #else
   // ESP32
+  // Certains modules ESP ne possède pas de Serial2
+  #ifdef RX2
   // Handle teleinfo serial
   if ( Serial2.available() ) {
     // Read Serial and process to tinfo
@@ -1651,6 +1661,16 @@ void loop()
     //Serial1.print(c);
     tinfo.process(c);
   }
+  #else
+  // Handle teleinfo serial
+  if ( Serial1.available() ) {
+    // Read Serial and process to tinfo
+    c = Serial1.read();
+    // Debugf("Serial available '%c'", c);Debugln("");
+    //Serial1.print(c);
+    tinfo.process(c);
+  }
+  #endif
 #endif
 
   //delay(10);

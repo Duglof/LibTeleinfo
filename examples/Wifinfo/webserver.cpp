@@ -425,6 +425,24 @@ void getSysJSONData(String & response)
 
   response += "{\"na\":\"WifInfo Version\",\"va\":\"" WIFINFO_VERSION "\"},\r\n";
 
+  response += "{\"na\":\"Entrée Téléinfo\",\"va\":\"";
+#ifdef ESP8266
+  #ifdef SIMU
+    response += "Pas d'entrée : Mode SIMU";
+  #else
+    response += "GPIO13" + " Serial.swap()";        // Serial.swap()
+  #endif
+#else
+  response += "GPIO";
+  // Certains modules ESP ne possède pas de Serial2
+  #ifdef RX2
+    response += String(RX2) + " (Serial2 RX2)";     // Serial2 default pin
+  #else
+    response += String(RX1) + " (Serial1 RX1)";     // Serial1 default pin
+  #endif
+#endif
+  response += "\"},\r\n";
+
   response += "{\"na\":\"Compile le\",\"va\":\"" __DATE__ " " __TIME__ "\"},\r\n";
   
   response += "{\"na\":\"Options de compilation\",\"va\":\"";
@@ -477,9 +495,9 @@ void getSysJSONData(String & response)
   response += formatSize(ESP.getFreeSketchSpace()) ;
   response += "\"},\r\n";
 
-  response += "{\"na\":\"Analog\",\"va\":\"";
-  adc = ( (1000 * analogRead(A0)) / 1024);
-  sprintf_P( buffer, PSTR("%d mV"), adc);
+  response += "{\"na\":\"Analog A0\",\"va\":\"";
+  adc = ( (1000L * (long)analogRead(A0)) / 1024L);
+  sprintf_P( buffer, PSTR("%ld mV"), adc);
   response += buffer ;
   response += "\"},\r\n";
 
