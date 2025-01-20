@@ -197,6 +197,7 @@ Si le module possède 3 entrées série, Serial2 est utilisée pour la reception
 Si le module possède 2 entrées série, Serial1 est utilisée pour la reception (RX1)
 
 |          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
+|----------|------|-------|---------|---------|---------|---------|---------|---------|---------|
 | UART1 RX | RX1  | 26    | 4       | 15      | 10      | 18      | 4       | 0       | 11      |
 | UART1 TX | TX1  | 27    | 5       | 16      | 18      | 19      | 5       | 1       | 10      |
 | UART2 RX | RX2  | 4     | --      | 19      | --      | --      | --      | --      | --      |
