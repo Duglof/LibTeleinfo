@@ -195,8 +195,11 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
+
 L'onglet système donne l'entrée pour connecter l'interface Teleinfo
+
 Si le module possède 3 entrées série, Serial2 est utilisée pour la reception (RX2)
+
 Si le module possède 2 entrées série, Serial1 est utilisée pour la reception (RX1)
 
 |          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
