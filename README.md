@@ -320,6 +320,9 @@ Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Winfinfo V3.0.0 version validée Linky Mode Historique
 Winfinfo V3.0.0 version validée Linky Mode Standard by Noyax37
 
+Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
+![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
+
 # LED RGB
 Si LED RGB est coché dans Configuration / Avancé alors:
 
