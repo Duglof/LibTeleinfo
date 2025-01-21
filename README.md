@@ -349,6 +349,22 @@ Wifinfo : Onglet Téléinformation
 Linky Mode Standard en Heure Pleine/Heure Creuse
 ![TELEINFORMATION HPHC](docs/Linky-mode-historique-Teleinformation-01.png)
 
+# Mise à jour via WIFI (OTA : Over-The-Air)
+Wifinfo est prévu pour être mis à jour via le réseau Wifi sans avoir besoin de connecter directement la carte ESP sur le port de l'ordinateur
+
+Il faut effectuer les opérations suivantes:
+- Aller sur le page de la configuration avancée de Wifinfo
+- Supprimer le mote de passe OTA
+- Mettre OTA port à 3232
+- Sélectionner le port OTA dans Arduino IDE
+
+- ![OTA Adruino IDE port](docs/Wifinfo-OTA-Sketch-Data-Upload-01.png) 
+- Exécuter ensuite 'Croquis/Téléverser' ou ESP32 Sketch Data Upload, ils seront effectués via le réseau Wifi
+
+- ![OTA Adruino IDE Sketch Data Upload](docs/Wifinfo-OTA-Sketch-Data-Upload-01.png)
+ 
+- Restaurer ensuite le port et le mot de passe initial pour des raisons de sécurité
+ 
 # Debug avec Syslog
 - Compiler Wifinfo avec le #define SYSLOG (Winfinfo.h)
 - Configurer Wifinfo
