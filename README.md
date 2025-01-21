@@ -359,7 +359,7 @@ Il faut effectuer les opérations suivantes:
 - Sélectionner le port OTA dans Arduino IDE
 
 - ![OTA Adruino IDE port](docs/Wifinfo-OTA-Sketch-Data-Upload-01.png) 
-- Exécuter ensuite 'Croquis/Téléverser' ou ESP32 Sketch Data Upload, ils seront effectués via le réseau Wifi
+- Exécuter ensuite 'Croquis/Téléverser' ou 'Outils/ESP32 Sketch Data Upload', ils seront effectués via le réseau Wifi
 
 - ![OTA Adruino IDE Sketch Data Upload](docs/Wifinfo-OTA-Sketch-Data-Upload-02.png)
  
