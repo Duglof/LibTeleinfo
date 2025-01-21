@@ -29,6 +29,7 @@ Wifinfo permet par configuration d'activer les fonctions suivantes:
   - Envoie périodique des données au serveur emoncms
   - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
   - Envoie de données à un serveur web via une requète http GET
+    - les tags %HCHP% %HCHC% %PAPP% %IINST% etc sont remplacés par leur valeur
 
 Wifinfo est aussi un serveur json qui permet:
   - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
