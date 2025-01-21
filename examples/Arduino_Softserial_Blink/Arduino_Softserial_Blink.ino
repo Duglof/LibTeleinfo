@@ -21,17 +21,27 @@
 //
 // All text above must be included in any redistribution.
 //
+// V3.0.0 Dugolf Adaptation ESP32
+
 // **********************************************************************************
-#include <SoftwareSerial.h>
+#include <Arduino.h>
+
+#include <HardwareSerial.h>
+
 #include <LibTeleinfo.h>
 
-// Arduino on board LED
-// I use moteino, so it's D9
-// classic Arduino is D13
-#define LEDPIN 9
+#ifndef ESP32
+  #error Ne fonctionne que sur ESP32
+#endif
+
+// Décommenter pour choisir le mode de votre compteur linky
+#define  TELEINFO_MODE    TINFO_MODE_HISTORIQUE
+// #define  TELEINFO_MODE    TINFO_MODE_STANDARD
+
+// ESP32 ON Board LED GPIO 2
+#define LEDPIN 2
 //#define LEDPIN 13
 
-SoftwareSerial Serial1(3,4); // Teleinfo Serial
 TInfo          tinfo; // Teleinfo object
 
 // Pour clignotement LED asynchrone
@@ -100,9 +110,9 @@ void DataCallback(ValueList * me, uint8_t  flags)
     Serial.print(F("MAJ -> "));
 
   // Display values
-  Serial.print(me->name);
+  Serial.print(String(me->name));
   Serial.print("=");
-  Serial.println(me->value);
+  Serial.println(String(me->value));
 }
 
 /* ======================================================================
@@ -166,15 +176,6 @@ void setup()
   Serial.println(F(__DATE__ " " __TIME__));
   Serial.println();
 
-  // Configure Teleinfo Soft serial 
-  // La téléinfo est connectee sur D3
-  // ceci permet d'eviter les conflits avec la 
-  // vraie serial lors des uploads
-  Serial1.begin(1200);
-
-  // Init teleinfo
-  tinfo.init();
-
   // Attacher les callback dont nous avons besoin
   // pour cette demo, toutes
   tinfo.attachADPS(ADPSCallback);
@@ -215,5 +216,3 @@ void loop()
     blinkLed = 0;
   }
 }
-
-

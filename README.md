@@ -12,6 +12,8 @@ Sélection du mode (TINFO_MODE_HISTORIQUE par défaut):
    ou 
   - TInfo.init(TINFO_MODE_STANDARD); 
 
+  exemples/Arduino_Softserial_Etiquette : Affiche des informations de téléinformation reçue étiquette par étiquette
+  exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformation reçue trame par trame avec clignotement LED court/long si les données ont été modifiés
 
 # Wifinfo pour ESP32
 
@@ -29,7 +31,7 @@ Wifinfo permet par configuration d'activer les fonctions suivantes:
 
 Wifinfo est aussi un serveur json qui permet:
   - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
-  - Retounner les données système ((http://192.168.1.x/system.json))
+  - Retourner les données système ((http://192.168.1.x/system.json))
 
 Wifinfo dispose d'une interface d'administation 
   - [Téléinformation](docs/Wifinfo-Teleinformation.png): Visualisation des données du linky (ADCO, HCHC, ...)

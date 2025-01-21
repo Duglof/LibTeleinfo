@@ -11,7 +11,8 @@
 // For any explanation about teleinfo or use, see my blog
 // https://hallard.me/category/tinfo
 //
-// connect Teleinfo RXD pin To Arduin D3
+// connect Teleinfo sur GPIO indiqué par le Setup()
+// 
 // see schematic here https://hallard.me/demystifier-la-teleinfo/
 // and dedicated article here 
 //
@@ -21,11 +22,24 @@
 //
 // All text above must be included in any redistribution.
 //
+// V3.0.0 Dugolf Adaptation ESP32
+
 // **********************************************************************************
-#include <SoftwareSerial.h>
+#include <Arduino.h>
+
+#include <HardwareSerial.h>
+
 #include <LibTeleinfo.h>
 
-SoftwareSerial Serial1(3,4); // Teleinfo Serial
+#ifndef ESP32
+  #error Ne fonctionne que sur ESP32
+#endif
+
+// Décommenter pour choisir le mode de votre compteur linky
+#define  TELEINFO_MODE    TINFO_MODE_HISTORIQUE
+// #define  TELEINFO_MODE    TINFO_MODE_STANDARD
+
+
 TInfo          tinfo; // Teleinfo object
 
 /* ======================================================================
@@ -64,9 +78,9 @@ void DataCallback(ValueList * me, uint8_t  flags)
     Serial.print(F("MAJ -> "));
 
   // Display values
-  Serial.print(me->name);
+  Serial.print(String(me->name));
   Serial.print("=");
-  Serial.println(me->value);
+  Serial.println(String(me->value));
 }
 
 /* ======================================================================
@@ -86,14 +100,23 @@ void setup()
   Serial.println(F(__DATE__ " " __TIME__));
   Serial.println();
 
-  // Configure Teleinfo Soft serial 
-  // La téléinfo est connectee sur D3
-  // ceci permet d'eviter les conflits avec la 
-  // vraie serial lors des uploads
-  Serial1.begin(1200);
+  Serial.println("Sélection du mode du Linky en entête du programme");
+  Serial.println("  #define  TELEINFO_MODE    TINFO_MODE_HISTORIQUE ou");
+  Serial.println("  #define  TELEINFO_MODE    TINFO_MODE_STANDARD");
 
+#if TELEINFO_MODE == TINFO_MODE_HISTORIQUE
+  Serial.println("Linky mode Historique 1200 bauds");
+  Serial1.begin(1200, SERIAL_7E1);
+#else
+  Serial.println("Linky mode Standard 9600 bauds");
+  Serial1.begin(9600, SERIAL_7E1);
+#endif
+
+  Serial.print("Interface TELEINFO connectée sur GPIO");
+  Serial.println(RX1);
+  
   // Init teleinfo
-  tinfo.init();
+  tinfo.init(TELEINFO_MODE);
 
   // Attacher les callback dont nous avons besoin
   // pour cette demo, ici attach data
@@ -117,5 +140,3 @@ void loop()
     tinfo.process(Serial1.read());
   }
 }
-
-
