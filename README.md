@@ -397,7 +397,7 @@ Rebooting...
 
 # Outils à installer
 
-Il faut installer ESPExceptionDecoder V2.0.3 (Les versions ultérieurs non pas fonctionnées)
+Il faut installer ESPExceptionDecoder V2.0.3
 - https://github.com/me-no-dev/EspExceptionDecoder/releases/download/2.0.3/EspExceptionDecoder-2.0.3.zip
 - Télécharger le zip dans Arduino/tools
 - Faire Extraite ici
