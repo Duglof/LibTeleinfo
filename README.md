@@ -12,8 +12,8 @@ Sélection du mode (TINFO_MODE_HISTORIQUE par défaut):
    ou 
   - TInfo.init(TINFO_MODE_STANDARD); 
 
-  exemples/Arduino_Softserial_Etiquette : Affiche des informations de téléinformation reçue étiquette par étiquette
-  exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformation reçue trame par trame avec clignotement LED court/long si les données ont été modifiés
+exemples/Arduino_Softserial_Etiquette : Affiche des informations de téléinformation reçue étiquette par étiquette.
+exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformation reçue trame par trame avec clignotement LED court/long si les données ont été modifiés.
 
 # Wifinfo pour ESP32
 
