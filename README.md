@@ -315,6 +315,12 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 - Téléversement (Il faut obligatoirement ces deux actions !!!)
   - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
     - Choisir le format SPIFFS et cliquer sur OK
+  - Si Erreur error: esptool not found
+    - Ouvrir le dossier <home_dir>/.arduino15/packages/esp8266/hardware/esp8266/3.1.2/tools
+    - Click droit sur le dossier esptool et faire copier
+    - Ouvrir le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools
+    - Click droit et faire coller
+
 ![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-SPIFFS.png)
   - Croquis->Téléverser
 
