@@ -246,6 +246,7 @@ L'Entrée Teleinfo de l'ESP est affichée dans l'onglet [Système](docs/Wifinfo-
 
 ESP32 : L'entrée Teleinfo est RX2 si Serial2 existe sinon c'est RX1 (Voir tableau ci-dessus)
 - Linux voir <home_dir>.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+
 ESP12E : L'entrée Teleinfo est GPIO4
 
 # RGB LED 5mm WS2812B
