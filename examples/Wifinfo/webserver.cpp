@@ -112,7 +112,7 @@ bool handleFileRead(String path) {
     return true;
   }
 
-  Debugln("");
+  Debugln(" File Not Found");
 
   server.send(404, "text/plain", "File Not Found");
   return false;
