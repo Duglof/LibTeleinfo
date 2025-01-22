@@ -16,7 +16,7 @@ exemples/Arduino_Softserial_Etiquette : Affiche des informations de téléinform
 
 exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformation reçue trame par trame avec clignotement LED court/long si les données ont été modifiés.
 
-# Wifinfo pour ESP32
+# Wifinfo pour ESP32 (mais aussi ESP8266)
 
   exemples/Wifinfo
 
@@ -222,14 +222,14 @@ Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de
 
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
 
-ESP8266 specifications (Entrée GPIO13):
+ESP (ESP8266 or ESP32) Input specifications (Entrée Teleinfo):
 - Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
 - Niveau Haut : Tension supérieure à Vih (min) = 0.75 * 3.3 = 2.475V
 
 Test de l'interface:
 - La LED TIC doit être éteinte (Tension en Drain et Source environ 3.3 Volts)
 - En reliant l'entrée 1 à GND et 2 à 3.3V la LED TIC doit s'allumer (Tension en Drain et Source environ 0 Volt)
-- Avec une tension variant entre 0V et 3.3V on respecte bien les spécifications ESP8266
+- Avec une tension variant entre 0V et 3.3V on respecte bien les spécifications ESP
 
 Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 - Connecter Teleinfo 1 et sur I1 du compteur
@@ -238,11 +238,15 @@ Connexions au compteur Linky (il n'y a pas de sens, on peut inverser)
 Connexions à Serial2 de ESP32 WROOM
 - GND : GND de ESP (GND) 
 - +V  : 3V  de ESP (3.3V)
-- RXD : D4  de ESP (GPIO4)
+- RXD : Entrée Teleinfo de l'ESP
 
-L'entrée RX2 par défaut est GPIO4 
+L'Entrée Teleinfo de l'ESP est affichée dans l'onglet [Système](docs/Wifinfo-systeme.png) de l'interface Web
+- Compiler, téléverser le Croquis, Uploader le répertoire data,
+- Aller sur l'interface Web dans l'onglet Système' : la ligne 'Entrée Téléinfo' vous donnera le GPIO à connecter
+
+ESP32 : L'entrée Teleinfo est RX2 si Serial2 existe sinon c'est RX1 (Voir tableau ci-dessus)
 - Linux voir <home_dir>.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
-  - #define RX2 (gpio_num_t)4
+ESP12E : L'entrée Teleinfo est GPIO4
 
 # RGB LED 5mm WS2812B
 ![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
