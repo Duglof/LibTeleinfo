@@ -22,12 +22,18 @@ Prenez la version de la branche esp32 : https://github.com/Duglof/LibTeleinfo/tr
 Le serveur Web Wifinfo est connecté:
   - en Wifi à votre réseau local
   - au compteur Linky via l'interface OPTO à I1 et I2
+  - A une alimentation 5V via le connecteur USB (micro USB ou USB-C ou autre si l'ESP choisi n'a pas de prise USB) 
+
+Wifinfo est compatible avec tous les contrats car il ne fait pas de filtrage sur les données reçues ( BASE, HPHC, TEMPO, etc)
+
+Wifinfo est compatiple Linky Mode Historique et Linky Mode Standard (à configurer dans l'interfece Web Onglet Configuration : Section Avancée)
 
 Wifinfo permet par configuration d'activer les fonctions suivantes:
   - Envoie périodique des données au plugin Teleinfo de votre Jeedom
   - Envoie périodique des données au serveur emoncms
   - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
   - Envoie de données à un serveur web via une requète http GET
+    - les tags %HCHP% %HCHC% %PAPP% %IINST% etc sont remplacés par leur valeur
 
 Wifinfo est aussi un serveur json qui permet:
   - Retourner les données de téléinformation du Linky (http://192.168.1.x/json)
