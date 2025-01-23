@@ -1286,6 +1286,8 @@ void setup()
 #ifdef ESP8266
     Dir dir = SPIFFS.openDir("/");
     while (dir.next()) {    
+      // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
+      // ESP8266 : name() : Return short file name (no path)
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
       Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
@@ -1295,7 +1297,9 @@ void setup()
     File root = SPIFFS.open("/");
     File file;
     while ((file = root.openNextFile())) {
-      String fileName = file.name();
+      // ESP32 : path() : Return path ex: /css/wifinfo.css.gz
+      // ESP32 : name() : Return short file name (no path) ex : wifinfo.css.gz
+      String fileName = file.path();
       size_t fileSize = file.size();
       Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
     }
