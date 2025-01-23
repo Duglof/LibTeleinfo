@@ -1232,6 +1232,8 @@ void setup()
 
     Dir dir = SPIFFS.openDir("/");
     while (dir.next()) {    
+      // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
+      // ESP8266 : name() : Return short file name (no path)
       String fileName = dir.fileName();
       size_t fileSize = dir.fileSize();
       Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
