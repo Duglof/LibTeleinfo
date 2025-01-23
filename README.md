@@ -25,7 +25,7 @@ Le serveur Web Wifinfo est connecté:
   - au compteur Linky via l'interface OPTO à I1 et I2
   - A une alimentation 5V via le connecteur USB (micro USB ou USB-C ou autre si l'ESP choisi n'a pas de prise USB) 
 
-Wifinfo avec tous les contrats car il ne fait pas de filtrage sur les données reçues ( BASE, HPHC, TEMPO, etc)
+Wifinfo est compatible avec tous les contrats car il ne fait pas de filtrage sur les données reçues ( BASE, HPHC, TEMPO, etc)
 
 Wifinfo est compatiple Linky Mode Historique et Linky Mode Standard (à configurer dans l'interfece Web Onglet Configuration : Section Avancée)
 
