@@ -199,6 +199,8 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
 
+Alimentation possible avec un charger de téléphone connecté sur la prise USB 
+
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
 
