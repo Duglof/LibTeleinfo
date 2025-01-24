@@ -29,6 +29,9 @@ Wifinfo est compatible avec tous les contrats car il ne fait pas de filtrage sur
 
 Wifinfo est compatiple Linky Mode Historique et Linky Mode Standard (à configurer dans l'interfece Web Onglet Configuration : Section Avancée)
 
+Wifinfo peut utiliser le système de fichier SPIFFS ou LittleFS
+  - Option de compilation Wifinfo.h : #define WIFINFO_FS_LittleFS
+ 
 Wifinfo permet par configuration d'activer les fonctions suivantes:
   - Envoie périodique des données au plugin Teleinfo de votre Jeedom
   - Envoie périodique des données au serveur emoncms
