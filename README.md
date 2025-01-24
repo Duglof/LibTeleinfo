@@ -76,6 +76,19 @@ Depuis votre téléphone portable :
 - Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
 - Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
 
+# Modification par dugolf (vVersion 3.1.0)
+  - Ajout support système de fichiers LittleFS ou SPIFFS par option de compilation
+    - Wifinfo.h : #define WIFINFO_FS SPIFFS
+
+# Modification par dugolf (version 3.0.0)
+- Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
+- Mise à jour de Readme.md pour ESP32
+- Correction débordement de pile char buff[32] trop petit
+- Set Wifi connect timeout to 10 seconds
+- Correction pour que le LED RGB ou GRB fonctionne
+- Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
+- Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
+
 # Modification par dugolf (version 2.0.0)
 - Merge avec https://github.com/hallard/LibTeleinfo/tree/master
   - Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
