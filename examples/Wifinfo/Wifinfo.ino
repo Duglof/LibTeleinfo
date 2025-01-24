@@ -98,6 +98,15 @@
 //          Les options de comilation sont affichées sur la page web dans l'onglet Système
 //          Ajout de Mqtt : From https://github.com/Davcail/LibTeleinfo-syslog-mqtt
 //
+//        Version 3.0.0
+//          Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
+//          Mise à jour de Readme.md pour ESP32
+//          Correction débordement de pile char buff[32] trop petit
+//          Set Wifi connect timeout to 10 seconds
+//          Correction pour que le LED RGB ou GRB fonctionne
+//          Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
+//          Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug//
+//
 //          Environment
 //           Arduino IDE 1.8.18
 //             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
