@@ -98,6 +98,19 @@
 //          Les options de comilation sont affichées sur la page web dans l'onglet Système
 //          Ajout de Mqtt : From https://github.com/Davcail/LibTeleinfo-syslog-mqtt
 //
+//        Version 3.0.0
+//          Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
+//          Mise à jour de Readme.md pour ESP32
+//          Correction débordement de pile char buff[32] trop petit
+//          Set Wifi connect timeout to 10 seconds
+//          Correction pour que le LED RGB ou GRB fonctionne
+//          Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
+//          Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug//
+
+//        Version 3.1.0
+//          Ajout support système de fichiers LittleFS ou SPIFFS par option de compilation
+//            Wifinfo.h : #define WIFINFO_FS SPIFFS
+//
 //          Environment
 //           Arduino IDE 1.8.18
 //             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
@@ -164,10 +177,10 @@ TInfo tinfo;
 #else
   // ESP32
   // Pour LED WS2812B RGB
-  NeoPixelBus<NeoRgbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  // NeoPixelBus<NeoRgbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
   // Pour LED WS2812B GRB
-  // NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
 #endif
 
@@ -1175,6 +1188,52 @@ void Mqttcallback(char* topic, byte* payload, unsigned int length) {
 
 }
 
+#ifdef WIFINFO_FS_LittleFS
+/* ======================================================================
+Function: littleFSlistAllFilesInDir
+Purpose : List au files in folder and subfolders
+Input   : -
+Output  : - 
+Comments: -
+====================================================================== */
+void littleFSlistAllFilesInDir(String dir_path)
+{
+#ifdef ESP8266
+  Dir dir = LittleFS.openDir(dir_path);
+
+  if (dir) { 
+    while(dir.next()) {
+      if (dir.isFile()) {
+        String fileName = dir_path + dir.fileName();
+        size_t fileSize = dir.fileSize();
+        Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
+      }
+      if (dir.isDirectory()) {
+        littleFSlistAllFilesInDir(dir_path + dir.fileName() + "/");
+      }
+    }
+  }
+#else
+  File root = LittleFS.open(dir_path.c_str());
+
+  File file;
+  
+  if (root) {
+    while ((file = root.openNextFile())) {
+      if (file.isDirectory()) {
+        littleFSlistAllFilesInDir(String(file.path()) + "/");
+      } else {
+        String fileName = dir_path + file.name();
+        size_t fileSize = file.size();
+        Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
+      }      
+    }
+  }
+#endif  // ESP8266
+
+}
+#endif // WIFINFO_FS_LittleFS
+
 /* ======================================================================
 Function: setup
 Purpose : Setup I/O and other one time startup stuff
@@ -1275,35 +1334,43 @@ void setup()
   Debugflush();
 
   // Check File system init 
-  if (!SPIFFS.begin())
+  if (!WIFINFO_FS.begin())
   {
     // Serious problem
-    DebuglnF("SPIFFS Mount failed");
+    Debugf("%s Mount failed\n", WIFINFO_FS_NAME);
   } else {
    
-    DebuglnF("SPIFFS Mount succesfull");
+    Debugf("%s Mount succesfull\n", WIFINFO_FS_NAME);
 
-#ifdef ESP8266
-    Dir dir = SPIFFS.openDir("/");
-    while (dir.next()) {    
-      // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
-      // ESP8266 : name() : Return short file name (no path)
-      String fileName = dir.fileName();
-      size_t fileSize = dir.fileSize();
-      Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
-    }
-#else
-    // ESP32
-    File root = SPIFFS.open("/");
-    File file;
-    while ((file = root.openNextFile())) {
-      // ESP32 : path() : Return path ex: /css/wifinfo.css.gz
-      // ESP32 : name() : Return short file name (no path) ex : wifinfo.css.gz
-      String fileName = file.path();
-      size_t fileSize = file.size();
-      Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
-    }
-#endif
+    #ifdef WIFINFO_FS_LittleFS
+      // LittleFS (ESP8266 or ESP32)
+      littleFSlistAllFilesInDir("/");
+    #else
+      // SPIFFS
+      #ifdef ESP8266
+        // ESP8266 : SPIFFS
+        Dir dir = SPIFFS.openDir("/");
+        while (dir.next()) {    
+          // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
+          // ESP8266 : name() : Return short file name (no path)
+          String fileName = dir.fileName();
+          size_t fileSize = dir.fileSize();
+          Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
+        }
+      #else
+        // ESP32 : SPIFFS
+        File root = SPIFFS.open("/");
+        File file;
+        while ((file = root.openNextFile())) {
+          // ESP32 : path() : Return path ex: /css/wifinfo.css.gz
+          // ESP32 : name() : Return short file name (no path) ex : wifinfo.css.gz
+          String fileName = file.path();
+          size_t fileSize = file.size();
+          Debugf("FS File: %s, size: %d\n", fileName.c_str(), fileSize);
+        }
+      #endif
+    #endif
+    
     DebuglnF("");
   }
 
@@ -1466,11 +1533,11 @@ void setup()
   // All other not known 
   server.onNotFound(handleNotFound);
   
-  // serves all SPIFFS Web file with 24hr max-age control
+  // serves all SPIFFS / LittleFS Web file with 24hr max-age control
   // to avoid multiple requests to ESP
-  server.serveStatic("/font", SPIFFS, "/font","max-age=86400"); 
-  server.serveStatic("/js",   SPIFFS, "/js"  ,"max-age=86400"); 
-  server.serveStatic("/css",  SPIFFS, "/css" ,"max-age=86400"); 
+  server.serveStatic("/font", WIFINFO_FS, "/font","max-age=86400"); 
+  server.serveStatic("/js",   WIFINFO_FS, "/js"  ,"max-age=86400"); 
+  server.serveStatic("/css",  WIFINFO_FS, "/css" ,"max-age=86400"); 
   server.begin();
 
   // Display configuration

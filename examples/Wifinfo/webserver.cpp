@@ -83,7 +83,7 @@ String getContentType(String filename) {
 
 /* ======================================================================
 Function: handleFileRead 
-Purpose : return content of a file stored on SPIFFS file system
+Purpose : return content of a file stored on SPIFFS / LittleFS file system
 Input   : file path
 Output  : true if file found and sent
 Comments: -
@@ -98,15 +98,15 @@ bool handleFileRead(String path) {
   DebugF("handleFileRead ");
   Debug(path);
 
-  if(SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)) {
-    if( SPIFFS.exists(pathWithGz) ){
+  if(WIFINFO_FS.exists(pathWithGz) || WIFINFO_FS.exists(path)) {
+    if( WIFINFO_FS.exists(pathWithGz) ){
       path += ".gz";
       DebugF(".gz");
     }
 
     DebuglnF(" found on FS");
  
-    File file = SPIFFS.open(path, "r");
+    File file = WIFINFO_FS.open(path, "r");
     server.streamFile(file, contentType);
     file.close();
     return true;
@@ -504,32 +504,31 @@ void getSysJSONData(String & response)
 #ifdef ESP8266
   // ESP8266
   FSInfo info;
-  SPIFFS.info(info);
-
-  response += "{\"na\":\"SPIFFS Total\",\"va\":\"";
-  response += formatSize(info.totalBytes) ;
-  response += "\"},\r\n";
-
-  response += "{\"na\":\"SPIFFS Used\",\"va\":\"";
-  response += formatSize(info.usedBytes) ;
-  response += "\"},\r\n";
-
-  response += "{\"na\":\"SPIFFS Occupation\",\"va\":\"";
-  sprintf_P(buffer, "%d%%",100*info.usedBytes/info.totalBytes);
-#else
-  // ESP32
-  response += "{\"na\":\"SPIFFS Total\",\"va\":\"";
-  response += formatSize(SPIFFS.totalBytes()) ;
-  response += "\"},\r\n";
-
-  response += "{\"na\":\"SPIFFS Used\",\"va\":\"";
-  response += formatSize(SPIFFS.usedBytes()) ;
-  response += "\"},\r\n";
-
-  response += "{\"na\":\"SPIFFS Occupation\",\"va\":\"";
-  sprintf_P(buffer, "%d%%",100*SPIFFS.usedBytes()/SPIFFS.totalBytes());
+  WIFINFO_FS.info(info);
 #endif
 
+  response += "{\"na\":\""; response += WIFINFO_FS_NAME; response += " Total\",\"va\":\"";
+#ifdef ESP8266
+  response += formatSize(info.totalBytes) ;
+#else
+  response += formatSize(WIFINFO_FS.totalBytes()) ;
+#endif
+  response += "\"},\r\n";
+
+  response += "{\"na\":\""; response += WIFINFO_FS_NAME; response += " Used\",\"va\":\"";
+#ifdef ESP8266
+  response += formatSize(info.usedBytes) ;
+#else
+  response += formatSize(WIFINFO_FS.usedBytes()) ;
+#endif
+  response += "\"},\r\n";
+
+  response += "{\"na\":\""; response += WIFINFO_FS_NAME; response += " Occupation\",\"va\":\"";
+#ifdef ESP8266
+  sprintf_P(buffer, "%d%%",100*info.usedBytes/info.totalBytes);
+#else
+  sprintf_P(buffer, "%d%%",100 * WIFINFO_FS.usedBytes() / WIFINFO_FS.totalBytes());
+#endif
 
   response += buffer ;
   response += "\"},\r\n"; 
@@ -661,9 +660,77 @@ void confJSONTable()
   Debugln(F("Ok!"));
 }
 
+#ifdef WIFINFO_FS_LittleFS
+
+/* ======================================================================
+Function: jsonlittleFSlistAllFilesInDir 
+Purpose : Return JSON string containing list of LittleFS files
+Input   : Response String
+Output  : - 
+Comments: recursive in each subfolders
+====================================================================== */
+void jsonlittleFSlistAllFilesInDir(String &response, String dir_path, bool &first_item)
+{
+#ifdef ESP8266
+  // ESP8266 : LittleFS
+  Dir dir = LittleFS.openDir(dir_path);
+
+  while(dir.next()) {
+    if (dir.isFile()) {
+      String fileName = dir_path + dir.fileName();
+      size_t fileSize = dir.fileSize();
+      
+      if (first_item)  
+        first_item=false;
+      else
+        response += ",";
+  
+      response += F("{\"na\":\"");
+      response += fileName.c_str();
+      response += F("\",\"va\":\"");
+      response += fileSize;
+      response += F("\"}\r\n");
+      
+    }
+    if (dir.isDirectory()) {
+      jsonlittleFSlistAllFilesInDir(response, dir_path + dir.fileName() + "/", first_item);
+    }
+    
+  }
+#else
+  // ESP32 : LittleFS
+  File root = LittleFS.open(dir_path.c_str());
+
+  File file;
+  
+  if (root) {
+    while ((file = root.openNextFile())) {
+      if (file.isDirectory()) {
+        jsonlittleFSlistAllFilesInDir(response,String(file.path()) + "/", first_item);
+      } else {
+        String fileName = dir_path + file.name();
+        size_t fileSize = file.size();
+        
+        if (first_item)  
+          first_item=false;
+        else
+          response += ",";
+    
+        response += F("{\"na\":\"");
+        response += fileName.c_str();
+        response += F("\",\"va\":\"");
+        response += fileSize;
+        response += F("\"}\r\n");
+      }      
+    }
+  }
+#endif
+}
+#endif  // WIFINFO_FS_LittleFS
+
 /* ======================================================================
 Function: getSpiffsJSONData 
-Purpose : Return JSON string containing list of SPIFFS files
+Purpose : Return JSON string containing list of SPIFFS / LittleFS files
 Input   : Response String
 Output  : - 
 Comments: -
@@ -675,57 +742,68 @@ void getSpiffsJSONData(String & response)
   // Json start
   response = FPSTR(FP_JSON_START);
 
-  // Files Array  
+  // Files Array ; Début
   response += F("\"files\":[\r\n");
 
-#ifdef ESP8266
-  // Loop trough all files
-  Dir dir = SPIFFS.openDir("/");
-  while (dir.next()) {    
-    // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
-    // ESP8266 : name() : Return short file name (no path)
-    String fileName = dir.fileName();
-    size_t fileSize = dir.fileSize();
+#ifdef WIFINFO_FS_LittleFS
+  // LittleFS
+  jsonlittleFSlistAllFilesInDir(response, "/", first_item);
 #else
-  File root = SPIFFS.open("/");
-  File file;
-  while ((file = root.openNextFile())) {
-    // ESP32 : path() : Return path ex: /css/wifinfo.css.gz
-    // ESP32 : name() : Return short file name (no path) ex : wifinfo.css.gz
-    String fileName = file.path();
-    size_t fileSize = file.size();
+  // SPIFFS
+  #ifdef ESP8266
+    // Loop trough all files
+    Dir dir = SPIFFS.openDir("/");
+    while (dir.next()) {    
+      // ESP8266 : fileName() : Return full name ex: /css/wifinfo.css.gz
+      // ESP8266 : name() : Return short file name (no path)
+      String fileName = dir.fileName();
+      size_t fileSize = dir.fileSize();
+  #else
+    File root = SPIFFS.open("/");
+    File file;
+    while ((file = root.openNextFile())) {
+      // ESP32 : path() : Return path ex: /css/wifinfo.css.gz
+      // ESP32 : name() : Return short file name (no path) ex : wifinfo.css.gz
+      String fileName = file.path();
+      size_t fileSize = file.size();
+  #endif
+  
+      if (first_item)  
+        first_item=false;
+      else
+        response += ",";
+  
+      response += F("{\"na\":\"");
+      response += fileName.c_str();
+      response += F("\",\"va\":\"");
+      response += fileSize;
+      response += F("\"}\r\n");
+    }
 #endif
-
-    if (first_item)  
-      first_item=false;
-    else
-      response += ",";
-
-    response += F("{\"na\":\"");
-    response += fileName.c_str();
-    response += F("\",\"va\":\"");
-    response += fileSize;
-    response += F("\"}\r\n");
-  }
-  response += F("],\r\n");
-
+    // File Arrau : Fin
+    response += F("],\r\n");
 
   // SPIFFS File system array
+#ifdef WIFINFO_FS_LittleFS
+  // Warning spiffs : ce nom est utilisé dans la partie index.html !!!!!
   response += F("\"spiffs\":[\r\n{");
-  
-  // Get SPIFFS File system informations
+#else  
+  response += F("\"spiffs\":[\r\n{");
+#endif
+
+  // Get SPIFFS / LittleFS File system informations
 #ifdef ESP8266
   FSInfo info;
-  SPIFFS.info(info);
+  WIFINFO_FS.info(info);
   response += F("\"Total\":");
   response += info.totalBytes ;
   response += F(", \"Used\":");
   response += info.usedBytes ;
 #else
   response += F("\"Total\":");
-  response += SPIFFS.totalBytes() ;
+  response += WIFINFO_FS.totalBytes() ;
   response += F(", \"Used\":");
-  response += SPIFFS.usedBytes() ;
+  response += WIFINFO_FS.usedBytes() ;
 #endif
 
 
@@ -743,7 +821,7 @@ void getSpiffsJSONData(String & response)
 
 /* ======================================================================
 Function: spiffsJSONTable 
-Purpose : dump all spiffs system in JSON table format for browser
+Purpose : dump all spiffs / littlefs system in JSON table format for browser
 Input   : -
 Output  : - 
 Comments: -
@@ -752,6 +830,10 @@ void spiffsJSONTable()
 {
   String response = "";
   getSpiffsJSONData(response);
+
+  // xxxxxx
+  Debugln(response);
+  
   server.send ( 200, "text/json", response );
 }
 

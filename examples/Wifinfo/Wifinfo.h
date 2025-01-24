@@ -22,6 +22,11 @@
 #ifndef WIFINFO_H
 #define WIFINFO_H
 
+// Choose File System to Use
+// Uncomment to use LittleFS
+// Comment to use SPIFFS
+#define WIFINFO_FS_LittleFS
+
 // Include Arduino header
 #include <Arduino.h>
 #ifdef ESP8266
@@ -30,6 +35,14 @@
   #include <ESP8266WebServer.h>
   #include <ESP8266HTTPClient.h>
   #include <ESP8266mDNS.h>
+  #ifdef WIFINFO_FS_LittleFS
+    #include "LittleFS.h"
+    #define WIFINFO_FS LittleFS
+    #define WIFINFO_FS_NAME "LittleFS"
+  #else
+    #define WIFINFO_FS SPIFFS
+    #define WIFINFO_FS_NAME "SPIFFS"
+  #endif
 #elif defined(ESP32)
   // ESP32
   #include <WiFi.h>
@@ -37,7 +50,16 @@
   #include <HTTPClient.h>
   #include <ESPmDNS.h>
   #include <esp_wifi.h>
-  #include <SPIFFS.h>
+
+  #ifdef WIFINFO_FS_LittleFS
+    #include "LittleFS.h"
+    #define WIFINFO_FS LittleFS
+    #define WIFINFO_FS_NAME "LittleFS"
+  #else
+    #include <SPIFFS.h>
+    #define WIFINFO_FS SPIFFS
+    #define WIFINFO_FS_NAME "SPIFFS"
+  #endif
 #else
   #error "ce n'est ni un ESP8266 ni un ESP32"
 #endif
@@ -103,7 +125,7 @@ extern "C" {
   #define DEBUG_SERIAL  Serial
 #endif
 
-#define WIFINFO_VERSION "3.0.0"
+#define WIFINFO_VERSION "3.1.0"
 
 // I prefix debug macro to be sure to use specific for THIS library
 // debugging, this should not interfere with main sketch or other 
