@@ -364,14 +364,21 @@ Linky Mode Standard en Heure Pleine/Heure Creuse
 # Mise à jour via WIFI (OTA : Over-The-Air)
 Wifinfo est prévu pour être mis à jour via le réseau Wifi sans avoir besoin de connecter directement la carte ESP sur le port de l'ordinateur
 
-Il faut effectuer les opérations suivantes:
+Mise à jour du croquis
+- Il n'y a rien à modifier
+- Sélectionner le port OTA dans Arduino IDE (comme ci-dessous)
+- Exécuter ensuite 'Croquis/Téléverser'
+- Entrer le mot de passe OTA (qui est défini dans Configuration Avancée)
+- Le Croquis sera mis à jour via le réseau Wifi
+
+Mise à jour des data (Fichiers)
 - Aller sur le page de la configuration avancée de Wifinfo
 - Supprimer le mote de passe OTA
 - Mettre OTA port à 3232
 - Sélectionner le port OTA dans Arduino IDE
 
 - ![OTA Adruino IDE port](docs/Wifinfo-OTA-Sketch-Data-Upload-01.png) 
-- Exécuter ensuite 'Croquis/Téléverser' ou 'Outils/ESP32 Sketch Data Upload', ils seront effectués via le réseau Wifi
+- Exécuter ensuite 'Outils/ESP32 Sketch Data Upload', ils seront effectués via le réseau Wifi
 
 - ![OTA Adruino IDE Sketch Data Upload](docs/Wifinfo-OTA-Sketch-Data-Upload-02.png)
  
