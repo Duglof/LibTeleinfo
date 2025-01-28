@@ -1201,7 +1201,6 @@ void littleFSlistAllFilesInDir(String dir_path)
 #ifdef ESP8266
   Dir dir = LittleFS.openDir(dir_path);
 
-  if (dir) { 
     while(dir.next()) {
       if (dir.isFile()) {
         String fileName = dir_path + dir.fileName();
@@ -1212,7 +1211,6 @@ void littleFSlistAllFilesInDir(String dir_path)
         littleFSlistAllFilesInDir(dir_path + dir.fileName() + "/");
       }
     }
-  }
 #else
   File root = LittleFS.open(dir_path.c_str());
 
