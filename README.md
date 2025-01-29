@@ -69,7 +69,7 @@ Depuis votre téléphone portable :
 
 # Modification par dugolf (vVersion 3.1.0)
   - Ajout support système de fichiers LittleFS ou SPIFFS par option de compilation
-    - Wifinfo.h : #define WIFINFO_FS SPIFFS
+    - Wifinfo.h : #define WIFINFO_FS_LittleFS
 
 # Modification par dugolf (version 3.0.0)
 - Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
