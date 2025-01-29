@@ -303,12 +303,18 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Outils->Port (il faut que ESP32 soit connecté à l'ordinateur)
     - Sélectionner le port
 
-- Ajout ESP32 Sketch Data Upload v2.0.7
+- Ajout ESP32 Sketch Data Upload v2.0.7 (Si votre cible est un ESP32)
   - Télécharger https://github.com/lorol/arduino-esp32fs-plugin/releases/download/2.0.7/esp32fs.zip
   - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP32FS/tool/esp8266fs.jar)
   - Redémarrer Arduino IDE
   - Dans le menu Outils vous devez avoir 'ESP32 Sketch Data Upload'
 ![Arduino IDE ESP32 Sketch Data Upload](docs/Arduino-ESP32-Sketch-Data-Upload.png)
+
+- Ajout de ESP8266LittleFS-2.6.0 (Si votre cible est un ESP8266)
+  - Télécharger https://github.com/earlephilhower/arduino-esp8266littlefs-plugin/releases/download/2.6.0/ESP8266LittleFS-2.6.0.zip
+  - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP8266LittleFS/tool/esp8266littlefs.jar)
+  - Redémarrer Arduino IDE
+  - Dans le menu Outils vous devez avoir 'ESP8266 LittleFS Data Upload'
 
 - Ajout de la librairie LibTeleinfo
   - Depuis https://github.com/Duglof/LibTeleinfo/tree/esp32
@@ -333,16 +339,18 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Compiler
 
 - Téléversement (Il faut obligatoirement ces deux actions !!!)
-  - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
-    - Choisir le format SPIFFS et cliquer sur OK
-![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-SPIFFS.png)
+  - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo) (Si votre cible est un ESP32)
+    - Choisir le format LittleFS et cliquer sur OK
+![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-LITTLEFS.png)
     - Si Erreur error: esptool not found
       - Ouvrir le dossier <home_dir>/.arduino15/packages/esp8266/hardware/esp8266/3.1.2/tools
       - Click droit sur le dossier esptool et faire copier
       - Ouvrir le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools
       - Click droit et faire coller
 
-  - Croquis->Téléverser
+  - Outils->ESP8255 LittleFS Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo) (Si votre cible est un ESP8266)
+
+ - Croquis->Téléverser
 
 # Tests
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
