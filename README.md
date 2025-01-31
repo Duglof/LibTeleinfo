@@ -234,7 +234,7 @@ Si le module possède 2 entrées série, Serial1 est utilisée pour la reception
 Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de D-G-S) ça ne fonctionnait pas !!!
 - C'est reconnaissable, la tension entre Drain et Source était de 0,6V alors que la grille était à zéro.
 
-Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
+Pour un linky en mode standard, il faut peut être passer la valeur de la résistance R1 à 1k.
 
 ESP (ESP8266 or ESP32) Input specifications (Entrée Teleinfo):
 - Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
