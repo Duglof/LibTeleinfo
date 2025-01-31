@@ -204,7 +204,7 @@ Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de
 - C'est reconnaissable, la tension entre Drain et Source était de 0,6V alors que la grille était à zéro.
 - La led TIC est allumée (elle doit être éteinte quand les entrées Téléinfo 1 et 2 ne sont pas connectées)
 
-Pour un linky en mode standard, il faut peut être passer la valeur de la résistance de pulldown sur la grille du MOSFET à 4,7k (R2).
+Pour un linky en mode standard, il faut peut être passer la valeur de la résistance R1 à 1k.
 
 ESP8266 specifications (Entrée GPIO13):
 - Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
