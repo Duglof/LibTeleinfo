@@ -1,4 +1,7 @@
 # Teleinfo Universal Library
+
+![Wifinfo exemple](./Wifinfo-ecran-principal.png)
+
 This is a fork of Teleinfo Universal Library for the ESP8266 MCU
 This is a generic Teleinfo French Meter Measure Library
 - Initial Github source : <https://github.com/hallard/LibTeleinfo>
