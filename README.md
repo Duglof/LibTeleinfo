@@ -31,7 +31,7 @@ Le serveur Web Wifinfo est connecté:
 
 Wifinfo est compatible avec tous les contrats car il ne fait pas de filtrage sur les données reçues ( BASE, HPHC, TEMPO, etc)
 
-Wifinfo est compatible Linky Mode Historique et Linky Mode Standard (à configurer dans l'interfece Web Onglet Configuration : Section Avancée)
+Wifinfo est compatible Linky Mode Historique et Linky Mode Standard (à configurer dans l'interface Web Onglet Configuration : Section Avancée)
 
 Wifinfo permet par configuration d'activer les fonctions suivantes:
   - Envoie périodique des données au plugin Teleinfo de votre Jeedom
