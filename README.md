@@ -339,6 +339,8 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
     - Choisir le format SPIFFS et cliquer sur OK
 ![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-SPIFFS.png)
+    - Si erreur 'Timed out waiting for packet header
+      - Quand vous voyez “Connecting…” (ou juste avant), appuyez et maintenez le 'BOOT Button' (pb rencontré avec ESP32 WROOM 32D)
     - Si Erreur error: esptool not found
       - Ouvrir le dossier <home_dir>/.arduino15/packages/esp8266/hardware/esp8266/3.1.2/tools
       - Click droit sur le dossier esptool et faire copier
