@@ -300,6 +300,12 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Outils->Port (il faut que ESP32 soit connecté à l'ordinateur)
     - Sélectionner le port
 
+- Ajout Arduino ESP8266 filesystem uploader v0.5.0
+  - Télécharger https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
+  - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP8266FS/tool/esp8266fs.jar)
+  - Redémarrer Arduino IDE
+  - Dans le menu Outils vous devez avoir 'ESP8266 Sketch Data Upload'
+
 - Ajout ESP32 Sketch Data Upload v2.0.7
   - Télécharger https://github.com/lorol/arduino-esp32fs-plugin/releases/download/2.0.7/esp32fs.zip
   - Décompresser l'outils dans le répertoire Arduino ( répertoire qui devrait ressembler à <home_dir>/Arduino/tools/ESP32FS/tool/esp8266fs.jar)
