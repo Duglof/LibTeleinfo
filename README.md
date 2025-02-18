@@ -456,7 +456,7 @@ Il faut installer ESPExceptionDecoder V2.0.3
 | PCB double face vert 50x70mm    | [PCB 50x70](docs/Materiel-pcb.png)                   |
 | PCB double face vert 60x80mm    | [PCB 60x80](docs/Materiel-pcb.png)                   |
 | Support de LED 5mm              |                                                      |
-| Bornier 5,08 deux pôles (x2)    |                                                      |
+| Bornier 5,08 deux pôles (x2)    | [Bornier 5.08 2P](docs/Materiel-bornier-5.08-2P.png) |
 | Divers : fil électrique         |                                                      |
 | Divers : soudure D 1mm          |                                                      |
 | Gaine thermo rétractable 2mm    |                                                      |
