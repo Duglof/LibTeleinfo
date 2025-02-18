@@ -442,4 +442,21 @@ Il faut installer ESPExceptionDecoder V2.0.3
 ![ESP Exception Decodeur](docs/Arduino-ESP32-Exception-Decoder.png)
 - C'est plus clair, le problème est dans Wifinfo ligne 741 !!!
 
+# Réalisation (maquette)
 
+|  Matériel                       |  Photo                                              |
+|---------------------------------|-----------------------------------------------------|
+| Boitier étanche 100x68x50mm     | [Boitier](docs/Matériel-Boitier.png                 |
+| Câble + prise secteur           |                                                     |
+| 4 vis 3mmx15mm                  |                                                     |
+| 4 colonnettes 20mm mâle femelle |                                                     |
+| 4 écrous plastique 3mm          |                                                     |
+| Support fusible 5x20mm          | [Support fusible](docs/Matériel-support-fusible.png |
+| Fusible 5x20mm 0.2A             |                                                     |
+| PCB double face vert 50x70mm    | [PCB 50x70](docs/Matériel-pcb.png)                  |
+| PCB double face vert 60x80mm    | [PCB 60x80](docs/Matériel-pcb.png)                  |
+| Support de LED 5mm              |                                                     |
+| Bornier 5,08 deux pôles (x2)    |                                                     |
+| Divers : fil électrique         |                                                     |
+| Divers : soudure D 1mm          |                                                     |
+| Gaine thermo rétractable 2mm    |                                                     |
