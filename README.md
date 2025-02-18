@@ -268,7 +268,7 @@ ESP12E : L'entrée Teleinfo est GPIO4
 
 # RGB LED 5mm WS2812B
 ![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
-- Pin 1 -> D5 (GPIO14) de ESP
+- Pin 1 -> GPIO14 (D5 pour ESP8266, D14 pour ESP32)
 - Pin 2 -> GND
 - Pin 3 -> 3V de ESP (3.3V)
 
