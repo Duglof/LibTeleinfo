@@ -482,7 +482,10 @@ Il faut installer ESPExceptionDecoder V2.0.3
 
 ## Fonctionnement des LEDS
 
-- Si I1 et I2 ne sont pas connectés, la LED blanche de l'interface doit être éteinte
+- Test préliminaires :
+  - Si I1 et I2 ne sont pas connectés, la LED blanche de l'interface doit être éteinte
+  - En connectant I1 au +3.3V et I2 au GND, la LED blanche de l'interface doit s'allumer
+
 - La LED RVB cliqnote Rouge, puis Vert, puis Bleu à la mise sous tension
   - Si ce n'est pas dans cet ordre changer la déclaration de la led dans Wifinfo.ino
   - Mais c'est sans importance pour le fonctionnement
