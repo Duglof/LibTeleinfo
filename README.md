@@ -449,30 +449,44 @@ Il faut installer ESPExceptionDecoder V2.0.3
 # Réalisation (maquette)
 ![Wifinfo réalisation](docs/Wifinfo-realisation.jpg)
 
-|  Matériel                                         |  Photo                                               |
-|---------------------------------------------------|------------------------------------------------------|
-| Boitier étanche 100x68x50mm                       | [Boitier](docs/Materiel-Boitier.png)                 |
-| Câble + prise secteur                             |                                                      |
-| 4 vis 3mmx15mm                                    |                                                      |
-| 4 colonnettes 20mm mâle femelle                   |                                                      |
-| 4 écrous plastique 3mm                            |                                                      |
-| Support fusible 5x20mm avec couvercle transparent | [Support fusible](docs/Materiel-support-fusible.png) |
-| Fusible 5x20mm 0.2A                               |                                                      |
-| PCB double face vert 50x70mm                      | [PCB 50x70](docs/Materiel-pcb.png)                   |
-| PCB double face vert 60x80mm                      | [PCB 60x80](docs/Materiel-pcb.png)                   |
-| Support de LED 5mm                                |                                                      |
-| Bornier 5,08 deux pôles (x2)                      | [Bornier 5.08 2P](docs/Materiel-bornier-5.08-2P.png) |
-| Divers : fil électrique                           |                                                      |
-| Divers : soudure D 1mm                            |                                                      |
-| Gaine thermo rétractable 2mm                      |                                                      |
-| -                                                 |                                                      |
-| ESP32 WROOM 32S 30 broches (ici USB-C)            |                                                      |
-| Hi-Link HLK-PM01 AC 100-240V 5V DC 0.6A           |                                                      |
-| Opto-coupleur LTV-814 DIP-4                       |                                                      |
-| BS170 TO-92                                       |                                                      |
-| LED RVB puce Ws2812 5mm ronde claire              |                                                      |
-| 2 x Résistance 10K 1/4w                           |                                                      |
-| 2 x Résistance 1K 1/4w                            |                                                      |
-| 1 LED 3mm blanche                                 |                                                      |
+## Matériel
 
+|  Matériel                                         |  Photo                                               | Commentaire                    |
+|---------------------------------------------------|------------------------------------------------------|--------------------------------|
+| Boitier étanche 100x68x50mm                       | [Boitier](docs/Materiel-Boitier.png)                 |                                |
+| Câble + prise secteur                             |                                                      |                                |
+| 4 vis 3mmx15mm                                    |                                                      |                                |
+| 4 colonnettes 20mm mâle femelle                   |                                                      |                                |
+| 4 écrous plastique 3mm                            |                                                      |                                |
+| Support fusible 5x20mm avec couvercle transparent | [Support fusible](docs/Materiel-support-fusible.png) |                                |
+| Fusible 5x20mm 0.2A                               |                                                      |                                |
+| PCB double face vert 50x70mm                      | [PCB 50x70](docs/Materiel-pcb.png)                   |                                |
+| PCB double face vert 60x80mm                      | [PCB 60x80](docs/Materiel-pcb.png)                   |                                |
+| Support de LED 5mm                                |                                                      |                                |
+| Bornier 5,08 deux pôles (x2)                      | [Bornier 5.08 2P](docs/Materiel-bornier-5.08-2P.png) |                                |
+| Divers : fil électrique                           |                                                      |                                |
+| Divers : soudure D 1mm                            |                                                      |                                |
+| Gaine thermo rétractable 2mm                      |                                                      |                                |
+| -                                                 |                                                      |                                |
+| ESP32 WROOM 32S 30 broches (ici USB-C)            |                                                      |                                |
+| Hi-Link HLK-PM01 AC 100-240V 5V DC 0.6A           |                                                      |                                |
+| Opto-coupleur LTV-814 DIP-4                       |                                                      |                                |
+| BS170 TO-92                                       |                                                      | Attention au sens Drain Source |
+| LED RVB puce Ws2812 5mm ronde claire              |                                                      | Les miennes etaient GRB        |
+| 2 x Résistance 10K 1/4w                           |                                                      |                                |
+| 2 x Résistance 1K 1/4w                            |                                                      |                                |
+| 1 LED 3mm blanche                                 |                                                      |                                |
 
+- L'utilisation d'un multimètre est conseillée
+- Il n'y a pas de sens pour I1 et I2 : on peut les inverser
+
+## Fonctionnement des LEDS
+
+- La LED RVB cliqnote Rouge, puis Vert, puis Bleu à la mise sous tension
+  - Si ce n'est pas dans c'est ordre changer la déclaration de la led dans Wifinfo.ino
+  - Mais c'est sans importance pour le fonctionnement
+- La LED blanche de l'interface est presque toujours allumée avec de brèves extinction
+- La LED RVB fait ensuite plusieurs clignotement Violets (initialisation OTA)
+- La LED RVB fait ensuite un clignotement à chaque réception de trame (toutes les 3 ou 4 secondes)
+
+ 
