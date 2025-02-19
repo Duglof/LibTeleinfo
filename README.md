@@ -466,7 +466,7 @@ Il faut installer ESPExceptionDecoder V2.0.3
 | Divers : soudure D 1mm                            |                                                      |
 | Gaine thermo rétractable 2mm                      |                                                      |
 | -                                                 |                                                      |
-| ESP32 WROOM 32S (ici USB-C)                       |                                                      |
+| ESP32 WROOM 32S 30 broches (ici USB-C)            |                                                      |
 | Hi-Link HLK-PM01 AC 100-240V 5V DC 0.6A           |                                                      |
 | Opto-coupleur LTV-814 DIP-4                       |                                                      |
 | BS170 TO-92                                       |                                                      |
