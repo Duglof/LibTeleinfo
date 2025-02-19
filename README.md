@@ -483,7 +483,7 @@ Il faut installer ESPExceptionDecoder V2.0.3
 ## Fonctionnement des LEDS
 
 - La LED RVB cliqnote Rouge, puis Vert, puis Bleu à la mise sous tension
-  - Si ce n'est pas dans c'est ordre changer la déclaration de la led dans Wifinfo.ino
+  - Si ce n'est pas dans cet ordre changer la déclaration de la led dans Wifinfo.ino
   - Mais c'est sans importance pour le fonctionnement
 - La LED blanche de l'interface est presque toujours allumée avec de brèves extinction
 - La LED RVB fait ensuite plusieurs clignotement Violets (initialisation OTA)
