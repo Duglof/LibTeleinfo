@@ -445,19 +445,30 @@ Il faut installer ESPExceptionDecoder V2.0.3
 # Réalisation (maquette)
 ![Wifinfo réalisation](docs/Wifinfo-realisation.jpg)
 
-|  Matériel                       |  Photo                                               |
-|---------------------------------|------------------------------------------------------|
-| Boitier étanche 100x68x50mm     | [Boitier](docs/Materiel-Boitier.png)                 |
-| Câble + prise secteur           |                                                      |
-| 4 vis 3mmx15mm                  |                                                      |
-| 4 colonnettes 20mm mâle femelle |                                                      |
-| 4 écrous plastique 3mm          |                                                      |
-| Support fusible 5x20mm          | [Support fusible](docs/Materiel-support-fusible.png) |
-| Fusible 5x20mm 0.2A             |                                                      |
-| PCB double face vert 50x70mm    | [PCB 50x70](docs/Materiel-pcb.png)                   |
-| PCB double face vert 60x80mm    | [PCB 60x80](docs/Materiel-pcb.png)                   |
-| Support de LED 5mm              |                                                      |
-| Bornier 5,08 deux pôles (x2)    | [Bornier 5.08 2P](docs/Materiel-bornier-5.08-2P.png) |
-| Divers : fil électrique         |                                                      |
-| Divers : soudure D 1mm          |                                                      |
-| Gaine thermo rétractable 2mm    |                                                      |
+|  Matériel                                         |  Photo                                               |
+|---------------------------------------------------|------------------------------------------------------|
+| Boitier étanche 100x68x50mm                       | [Boitier](docs/Materiel-Boitier.png)                 |
+| Câble + prise secteur                             |                                                      |
+| 4 vis 3mmx15mm                                    |                                                      |
+| 4 colonnettes 20mm mâle femelle                   |                                                      |
+| 4 écrous plastique 3mm                            |                                                      |
+| Support fusible 5x20mm avec couvercle transparent | [Support fusible](docs/Materiel-support-fusible.png) |
+| Fusible 5x20mm 0.2A                               |                                                      |
+| PCB double face vert 50x70mm                      | [PCB 50x70](docs/Materiel-pcb.png)                   |
+| PCB double face vert 60x80mm                      | [PCB 60x80](docs/Materiel-pcb.png)                   |
+| Support de LED 5mm                                |                                                      |
+| Bornier 5,08 deux pôles (x2)                      | [Bornier 5.08 2P](docs/Materiel-bornier-5.08-2P.png) |
+| Divers : fil électrique                           |                                                      |
+| Divers : soudure D 1mm                            |                                                      |
+| Gaine thermo rétractable 2mm                      |                                                      |
+| -                                                 |                                                      |
+| ESP32 WROOM 32S (ici USB-C)                       |                                                      |
+| Hi-Link HLK-PM01 AC 100-240V 5V DC 0.6A           |                                                      |
+| Opto-coupleur LTV-814 DIP-4                       |                                                      |
+| BS170 TO-92                                       |                                                      |
+| LED RVB puce Ws2812 5mm ronde claire              |                                                      |
+| 2 x Résistance 10K 1/4w                           |                                                      |
+| 2 x Résistance 1K 1/4w                            |                                                      |
+| 1 LED 3mm blanche                                 |                                                      |
+
+
