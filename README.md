@@ -472,7 +472,7 @@ Il faut installer ESPExceptionDecoder V2.0.3
 | Hi-Link HLK-PM01 AC 100-240V 5V DC 0.6A           |                                                      |                                |
 | Opto-coupleur LTV-814 DIP-4                       |                                                      |                                |
 | BS170 TO-92                                       |                                                      | Attention au sens Drain Source |
-| LED RVB puce Ws2812 5mm ronde claire              |                                                      | Les miennes etaient GRB        |
+| LED RVB puce Ws2812 5mm ronde claire              |                                                      | Les miennes étaient GRB        |
 | 2 x Résistance 10K 1/4w                           |                                                      |                                |
 | 2 x Résistance 1K 1/4w                            |                                                      |                                |
 | 1 LED 3mm blanche                                 |                                                      |                                |
@@ -482,11 +482,12 @@ Il faut installer ESPExceptionDecoder V2.0.3
 
 ## Fonctionnement des LEDS
 
+- Si I1 et I2 ne sont pas connectés, la LED blanche de l'interface doit être éteinte
 - La LED RVB cliqnote Rouge, puis Vert, puis Bleu à la mise sous tension
   - Si ce n'est pas dans cet ordre changer la déclaration de la led dans Wifinfo.ino
   - Mais c'est sans importance pour le fonctionnement
 - La LED blanche de l'interface est presque toujours allumée avec de brèves extinctions
 - La LED RVB fait ensuite plusieurs clignotement Violets (initialisation OTA)
-- La LED RVB fait ensuite un clignotement à chaque réception de trame (toutes les 3 ou 4 secondes)
+- La LED RVB fait ensuite un clignotement à chaque réception de trame (toutes les 3 ou 4 secondes en mode historique).
 
  
