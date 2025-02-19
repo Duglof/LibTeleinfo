@@ -1,6 +1,10 @@
 # Wifinfo 
 ![Wifinfo exemple](docs/Wifinfo-ecran-principal.png)
 
+Le système de fichier utilisé pour stocker le contenu du répertoire data est au format SPIFFS qui est déprécié.
+Si l'utilisation était supprimée, prenez la version V3.1.0 de la branche littlefs.
+Elle est identique. La seule différence, c'est le système de fichier.
+
 # Teleinfo Universal Library
 
 This is a fork of Teleinfo Universal Library for the ESP8266 MCU
