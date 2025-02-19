@@ -443,6 +443,7 @@ Il faut installer ESPExceptionDecoder V2.0.3
 - C'est plus clair, le problème est dans Wifinfo ligne 741 !!!
 
 # Réalisation (maquette)
+![Wifinfo réalisation](docs/Wifinfo-realisation.jpg)
 
 |  Matériel                       |  Photo                                               |
 |---------------------------------|------------------------------------------------------|
