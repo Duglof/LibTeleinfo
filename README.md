@@ -374,7 +374,7 @@ Si LED RGB est coché dans Configuration / Avancé alors:
 
 # Téléinformation
 Wifinfo : Onglet Téléinformation
-Linky Mode Standard en Heure Pleine/Heure Creuse
+Linky Mode Historique en Heure Pleine/Heure Creuse
 ![TELEINFORMATION HPHC](docs/Linky-mode-historique-Teleinformation-01.png)
 
 # Mise à jour via WIFI (OTA : Over-The-Air)
