@@ -362,6 +362,8 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
 
 ![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
 
+![jeedom teleinfo desktop](docs/Jeedom_Teleinfo_Plugin.png)
+
 # LED RGB
 Si LED RGB est coché dans Configuration / Avancé alors:
 
