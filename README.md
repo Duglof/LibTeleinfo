@@ -333,6 +333,9 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Syslog-master
     - Decompresser <home_dir>Arduino/libraries/LibTeleinfo/librairie/Syslog-master.zip dans <home_dir>Arduino/libraries
   - NeoPixelBus_by_Makuna V2.8.3 : l'installer depuis l'Arduino IDE
+  - PubSubClient V2.8
+    - Telecharger pubsubclient.zip from https://github.com/knolleary/pubsubclient/tree/master
+    - Decompresser dans <home_dir>Arduino/libraries
  
 - Ouvrir le projet Wifinfo
   - Fichiers->Exemples->LibTeleinfo
@@ -356,6 +359,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
  - Croquis->Téléverser
 
 # Tests
+## Test avec Jeedom
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Winfinfo V3.0.0 version validée Linky Mode Historique
 Winfinfo V3.0.0 version validée Linky Mode Standard by Noyax37
@@ -363,6 +367,11 @@ Winfinfo V3.0.0 version validée Linky Mode Standard by Noyax37
 Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
 
 ![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
+
+![jeedom teleinfo desktop](docs/Jeedom_Teleinfo_Plugin.png)
+
+## Test Mqtt
+![Test](docs/Wifinfo-mqtt.png)
 
 # LED RGB
 Si LED RGB est coché dans Configuration / Avancé alors:
