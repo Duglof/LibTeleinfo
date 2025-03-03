@@ -89,7 +89,7 @@ Depuis votre téléphone portable :
     - Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
 - Ajout Configuration Linky Mode dans l'onglet Configuration Avancée
   - Radio button Linky Mode Historique et Linky Mode Standard dans l'onglet Configuration Avancée
-  - Sélectionner inky Mode Historique ou Linky Mode Standard
+  - Sélectionner Linky Mode Historique ou Linky Mode Standard
   - Cliquer sur Redémarrer Wifinfo pour que le changement soit pris en compte
 - Affichage sur la page web dans l'onglet Système
   - Les options de compilation
