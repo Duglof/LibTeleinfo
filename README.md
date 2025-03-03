@@ -331,6 +331,9 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Syslog-master
     - Decompresser <home_dir>Arduino/libraries/LibTeleinfo/librairie/Syslog-master.zip dans <home_dir>Arduino/libraries
   - NeoPixelBus_by_Makuna V2.8.3 : l'installer depuis l'Arduino IDE
+  - PubSubClient V2.8
+    - Telecharger pubsubclient.zip from https://github.com/knolleary/pubsubclient/tree/master
+    - Decompresser dans <home_dir>Arduino/libraries
  
 - Ouvrir le projet Wifinfo
   - Fichiers->Exemples->LibTeleinfo
