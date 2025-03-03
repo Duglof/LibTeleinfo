@@ -357,6 +357,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Téléverser
 
 # Tests
+## Test avec Jeedom
 Jeedom V4.4.19 : Plugin Teleinfo by Noyax37 V4.8.7
 Winfinfo V3.0.0 version validée Linky Mode Historique
 Winfinfo V3.0.0 version validée Linky Mode Standard by Noyax37
@@ -366,6 +367,9 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
 ![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
 
 ![jeedom teleinfo desktop](docs/Jeedom_Teleinfo_Plugin.png)
+
+## Test Mqtt
+![Test](docs/Wifinfo-mqtt.png)
 
 # LED RGB
 Si LED RGB est coché dans Configuration / Avancé alors:
