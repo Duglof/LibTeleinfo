@@ -70,6 +70,13 @@ Depuis votre téléphone portable :
 - Wifinfo se connectera à votre réseau Wifi
 - Accéder à votre box pour connaître sa nouvelle adresse IP
 
+# Modification Version 3.1.1
+- Configuration du port OTA par defaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
+- Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
+- mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
+- WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
+  - pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
+
 # Modification par dugolf (vVersion 3.1.0)
   - Ajout support système de fichiers LittleFS ou SPIFFS par option de compilation
     - Wifinfo.h : #define WIFINFO_FS_LittleFS
