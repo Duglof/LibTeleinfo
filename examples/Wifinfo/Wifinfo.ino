@@ -107,6 +107,13 @@
 //          Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
 //          Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug//
 //
+//        Version 3.0.1
+//          Configuration du port OTA par defaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
+//          Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
+//          mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
+//          WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
+//            pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
+//
 //          Environment
 //           Arduino IDE 1.8.18
 //             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
@@ -839,9 +846,26 @@ int WifiHandleConn(boolean setup = false)
   int ret = WiFi.status();
 
   if (setup) {
+
+    #ifdef ESP32
+    // Pour que le ping Wifinfo-xxxxxx
+    if(*config.host) {
+      // The hostname must be no longer than 32
+      // The setHostname() function must be called BEFORE Wi-Fi is started with WiFi.begin(), WiFi.softAP(), WiFi.mode(), or WiFi.run()
+      WiFi.setHostname(config.host);
+     }
+    #endif
+    
     // Pourquoi ce n'était pas appelé avant V1.0.9 et précédente
     WiFi.mode(WIFI_STA);
 
+    #ifdef ESP8266
+    // Pour que le ping Wifinfo-xxxxxx
+    if(*config.host) {
+        WiFi.hostname(config.host);
+    }
+    #endif
+    
     DebuglnF("========== WiFi.printDiag Start"); 
     WiFi.printDiag(DEBUG_SERIAL);
     DebuglnF("========== WiFi.printDiag End"); 
@@ -1002,6 +1026,8 @@ int WifiHandleConn(boolean setup = false)
 
   } // if setup
 
+  Debugf("Hostname = %s\r\n",WiFi.getHostname());
+  
   return WiFi.status();
 }
 
@@ -1020,7 +1046,8 @@ boolean mqttConnect() {
       }
       ret = MQTTclient.connected();
       if (!ret) {
-        //Debugln ("demande de connexion MQTT");
+        Debugln (">>>> Connect again MQTT ...");
+        MQTTclient.setKeepAlive(MQTT_KeepAlive_Timeout);
         ret = MQTTclient.connect(config.mqtt.topic, config.mqtt.user, config.mqtt.pswd);
       }
     }
@@ -1559,6 +1586,7 @@ void setup()
   // Mqtt Update if needed
   if (config.mqtt.freq) {
     Tick_mqtt.attach(config.mqtt.freq, Task_mqtt);
+    mqttConnect();
     mqttStartupLogs();  //send startup logs to mqtt
   }
   

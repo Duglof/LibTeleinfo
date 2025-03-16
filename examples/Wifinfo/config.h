@@ -65,7 +65,11 @@
 #define CFG_HTTPREQ_DEFAULT_PATH  "/json.htm?type=command&param=udevice&idx=1&nvalue=0&svalue=%HCHP%;%HCHC%;0;0;%PAPP%;0"
 
 // Port pour l'OTA
-#define DEFAULT_OTA_PORT      8266
+#ifdef ESP8266
+  #define DEFAULT_OTA_PORT      8266
+#else
+  #define DEFAULT_OTA_PORT      3232
+#endif
 #define DEFAULT_OTA_AUTH      "OTA_WifInfo"
 //#define DEFAULT_OTA_AUTH    ""
 #define DEFAULT_SYSLOG_PORT   514
@@ -88,6 +92,9 @@
 
 #define CFG_FORM_LCD         FPSTR("cfg_oled")
 #define CFG_FORM_CFG_RGB     FPSTR("cfg_rgb")
+
+// Time in seconds a client connection is keptconnected if no messages are exchanged (server calculate time * 1.5)
+#define MQTT_KeepAlive_Timeout     3600
 
 #define CFG_FORM_MQTT_HOST  FPSTR("mqtt_host")
 #define CFG_FORM_MQTT_PORT  FPSTR("mqtt_port")
