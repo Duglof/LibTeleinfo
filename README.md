@@ -373,6 +373,14 @@ Winfinfo V3.0.0 version validée Linky Mode Historique
 Winfinfo V3.0.0 version validée Linky Mode Standard by Noyax37
 
 Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
+- Sur Jeedom
+  - Ajouter le plugin Téléinfo
+- Sur Wifinfo : Onglet configuration
+  - Port de votre jeedom : 80
+  - Serveur Jeedom : IP de votre Jeedom: Exemple 192.168.1.88
+  - URL : /plugins/teleinfo/core/php/jeeTeleinfo.php
+  - Clé API : La clé API du plugin teleinfo : Jeedom / Système / Configuration : Onglet API : Clé API : Téléinfo
+  - Redémarrer Wifinfo
 
 ![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
 
