@@ -380,7 +380,8 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
   - Serveur Jeedom : IP de votre Jeedom: Exemple 192.168.1.88
   - URL : /plugins/teleinfo/core/php/jeeTeleinfo.php
   - Clé API : La clé API du plugin teleinfo : Jeedom / Système / Configuration : Onglet API : Clé API : Téléinfo
-  - Redémarrer Wifinfo
+  - Enregistrer
+  - Redémarrer Wifinfo (Onglet Avancée)
 
 ![jeedom hphc](docs/Jeedom_Linky_HPHC.png)
 
