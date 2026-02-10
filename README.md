@@ -29,8 +29,8 @@ exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformatio
   exemples/Wifinfo
 
 Le serveur Web Wifinfo est connecté:
-  - en Wifi à votre réseau local
-  - au compteur Linky via l'interface OPTO à I1 et I2
+  - En Wifi à votre réseau local
+  - Au compteur Linky via l'interface OPTO à I1 et I2 (avec 10 mètres de câble téléphone, c'est ok)
   - A une alimentation 5V via le connecteur USB (micro USB ou USB-C ou autre si l'ESP choisi n'a pas de prise USB) 
 
 Wifinfo est compatible avec tous les contrats car il ne fait pas de filtrage sur les données reçues ( BASE, HPHC, TEMPO, etc)
@@ -56,7 +56,7 @@ Wifinfo dispose d'une interface d'administation
  
   - Linky mode Historique et mode Standard dans l'onglet Configuration Avancée (Redémarrer Wifinfo après le changement)
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
-  - Beta version de mqtt
+  - Compatible avec Home Assistant avec l'interface MQTT
 
 Wifinfo : Configuration Wifi
 
@@ -66,7 +66,7 @@ Depuis votre téléphone portable :
 - Sélectionner l'onglet Configuration
 - Réseau Wifi : Mettre le SSID
 - Clé Wifi    : Mettre le mot de passe de votre réseau Wifi
-- Clicker sur Enregistrer
+- Cliquer sur Enregistrer
 - Déployer Avancée
 - Cliquer sur Redémarrer Wifinfo
 - Wifinfo se connectera à votre réseau Wifi
@@ -244,6 +244,9 @@ Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de
 
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance R1 à 1k.
 
+Si vous ne voulez vous lancer dans la réalisation de l'interface il existe plusieurs modèles
+- Faites une recherche 'PiTInfo from Charles' et choisisez celle qui correspond le mieux. Il ne vous restera plus qu'à la connecter sur la bonne entrée qui est indiquée dans l'onglet système
+
 ESP (ESP8266 or ESP32) Input specifications (Entrée Teleinfo):
 - Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
 - Niveau Haut : Tension supérieure à Vih (min) = 0.75 * 3.3 = 2.475V
@@ -350,7 +353,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Compiler
 
 - Téléversement (Il faut obligatoirement ces deux actions !!!)
-  - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
+  - 1 - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
     - Choisir le format SPIFFS et cliquer sur OK
 ![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-SPIFFS.png)
     - Si erreur 'Timed out waiting for packet header
@@ -361,7 +364,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
       - Ouvrir le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools
       - Click droit et faire coller
 
-  - Croquis->Téléverser
+  - 2 - Croquis->Téléverser
 
 # Tests
 ## Test avec Jeedom
@@ -375,7 +378,89 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
 
 ![jeedom teleinfo desktop](docs/Jeedom_Teleinfo_Plugin.png)
 
-## Test Mqtt
+## Test Mqtt avec Home Assistant (2026.1.3)
+- Sur Wifinfo:
+  - Paramètre MQTT
+    - IP de votre Home Assistant: exemple 192.168.1.32
+    - Fréquence : 1 minute
+    - Port par défaut : 1883
+    - user/password : ceux de MQTT Mosquito
+  - Paramètre système : mode historique 1200 bauds
+  - Redémarrer Wifinfo
+  - Aucune valeur à configurer : quel que soit votre abonnement, wifinfo envoie toutes les infos qu’il reçoit du Linky
+
+- Sur Home Assisant:
+  - Installation de MQTT Mosquitto et création de son utilisateur
+  - Ajouter dans configuration.yaml la déclaration suivante (pour un abonnement Heures Creuses)
+```
+# Linky : Capteur MQTT
+mqtt:
+    sensor:
+        # Linky : Puissance apparente PAPP 
+        - state_topic: "TIC/data/PAPP"
+          name: "Linky PAPP"
+          unit_of_measurement: "W"
+          state_class: "measurement"
+          device_class: "power"
+          unique_id: linky_papp
+
+        # Linky : Intensité Instantanée 
+        - state_topic: "TIC/data/IINST"
+          name: "Linky IINST"
+          unit_of_measurement: "A"
+          state_class: measurement
+          device_class: current
+          unique_id: linky_iinst
+
+        # Linky : Intensité Maximale 
+        - state_topic: "TIC/data/IMAX"
+          name: "Linky IMAX"
+          unit_of_measurement: "A"
+          state_class: measurement
+          device_class: current
+          unique_id: linky_imax
+
+        # Linky : Total Heures creuses HCHC (Les index du Linky sont en WH)
+        - state_topic: "TIC/data/HCHC"
+          name: "Linky HCHC"
+          unit_of_measurement: "Wh"
+          device_class: energy
+          state_class: total_increasing
+          unique_id: linky_hchc
+      
+        # Linky : Total Heures pleines HCHP (Les index du Linky sont en WH)
+        - state_topic: "TIC/data/HCHP"
+          name: "Linky HCHP"
+          unit_of_measurement: "Wh"
+          device_class: energy
+          state_class: total_increasing
+          unique_id: linky_hchp
+
+        # Linky : PTEC : Permet de savoir si l’on est en HP ou HC
+        # ne pas mettre state_class: "measurement" : state_class n’est autorisé que pour des nombres (W, kWh, V, A…).
+        - state_topic: "TIC/data/PTEC"
+          name: "Linky Tarif"
+          unique_id: linky_ptec
+```
+  - Redémarrer Home Assistant
+  - Dans le module Energie, ajouter  (à vous d’ajuster)
+  - Consommation du réseau:
+    - Linky HCHC avec un prix statique à 0.1636
+    - Linky HCHP avec un prix statique à 0.2081
+  - Puissance du réseau:
+    - Linky PAPP
+  - Résultat dans la Vue Automatique en cliquant sur Linky PAPP
+![Test](docs/HomeAssistant-Energie-0.png)
+  - Résultat du module Energie Standard:
+![Test](docs/HomeAssistant-Energie-1.png)
+![Test](docs/HomeAssistant-Energie-2.png)
+
+
+- Visualisation des données reçues par MQTT Mosquito avec MQTT explorer installé sur votre ordinateur personnel
+  - IP de votre Home Assistant: exemple 192.168.1.32
+  - Port par défaut : 1883
+  - User/password : ceux de MQTT Mosquito
+  - Se connecter 
 ![Test](docs/Wifinfo-mqtt.png)
 
 # LED RGB
