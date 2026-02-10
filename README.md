@@ -73,7 +73,7 @@ Depuis votre téléphone portable :
 - Accéder à votre box pour connaître sa nouvelle adresse IP
 
 # Modification Version 3.0.1
-- Configuration du port OTA par defaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
+- Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
 - Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
 - mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
 - WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
@@ -85,12 +85,12 @@ Depuis votre téléphone portable :
 - Correction débordement de pile char buff[32] trop petit
 - Set Wifi connect timeout to 10 seconds
 - Correction pour que le LED RGB ou GRB fonctionne
-- Eviter les débordements de logbuffer de SYSLOG en cas de message de Debug
-- Eviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
+- Éviter les débordements de logbuffer de SYSLOG en cas de message de Debug
+- Éviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
 
 # Modification par dugolf (version 2.0.0)
 - Merge avec https://github.com/hallard/LibTeleinfo/tree/master
-  - Integration nouvelle LibTeleinfo compatible mode Historique et mode Standard
+  - Intégration nouvelle LibTeleinfo compatible mode Historique et mode Standard
     - Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
 - Ajout Configuration Linky Mode dans l'onglet Configuration Avancée
   - Radio button Linky Mode Historique et Linky Mode Standard dans l'onglet Configuration Avancée
@@ -221,9 +221,9 @@ Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionne
 
 L'onglet système donne l'entrée pour connecter l'interface Teleinfo
 
-Si le module possède 3 entrées série, Serial2 est utilisée pour la reception (RX2)
+Si le module possède 3 entrées série, Serial2 est utilisée pour la réception (RX2)
 
-Si le module possède 2 entrées série, Serial1 est utilisée pour la reception (RX1)
+Si le module possède 2 entrées série, Serial1 est utilisée pour la réception (RX1)
 
 |          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
 |----------|------|-------|---------|---------|---------|---------|---------|---------|---------|
@@ -235,7 +235,7 @@ Si le module possède 2 entrées série, Serial1 est utilisée pour la reception
 - Serial1 : RX1, TX1
 - Serial2 : RX2, TX2
 - '--' : n'existe pas
-- Information extraitent de .arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+- Information extraite de .arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
 
 # Interface compteur Linky by hallard 
 ![interface linky](docs/schema-interface-linky.png)
@@ -245,7 +245,7 @@ Attention, les BS170 que j'ai reçu avait un brochage inversé S-G-D (au lieu de
 Pour un linky en mode standard, il faut peut être passer la valeur de la résistance R1 à 1k.
 
 Si vous ne voulez vous lancer dans la réalisation de l'interface il existe plusieurs modèles
-- Faites une recherche 'PiTInfo from Charles' et choisisez celle qui correspond le mieux. Il ne vous restera plus qu'à la connecter sur la bonne entrée qui est indiquée dans l'onglet système
+- Faites une recherche 'PiTInfo from Charles' et choisissez celle qui correspond le mieux. Il ne vous restera plus qu'à la connecter sur la bonne entrée qui est indiquée dans l'onglet système
 
 ESP (ESP8266 or ESP32) Input specifications (Entrée Teleinfo):
 - Niveau bas : Tension inférieure à Vil (max) = 0.25 * 3.3 = 0.825V
@@ -393,7 +393,7 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
   - Installation de MQTT Mosquitto et création de son utilisateur
   - Ajouter dans configuration.yaml la déclaration suivante (pour un abonnement Heures Creuses)
 ```
-# Linky : Capteur MQTT
+# Linky : Sensor MQTT
 mqtt:
     sensor:
         # Linky : Puissance apparente PAPP 
@@ -449,7 +449,7 @@ mqtt:
     - Linky HCHP avec un prix statique à 0.2081
   - Puissance du réseau:
     - Linky PAPP
-  - Résultat dans la Vue Automatique en cliquant sur Linky PAPP
+  - Résultat dans la Vue Automatique en cliquant sur Linky HCHP
 ![Test](docs/HomeAssistant-Energie-0.png)
   - Résultat du module Energie Standard:
 ![Test](docs/HomeAssistant-Energie-1.png)
