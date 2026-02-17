@@ -1,14 +1,22 @@
-# Wifinfo : Fonctionnalités principales
-- Wifinfo permet de transmettre les données du compteur électrique Linky à votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz)
-- Wifinfo s'adapte automatiquement à votre abonnement (Base, Heures Creuses, Tempo, Production, EJP) et transmet toutes les données
-- Wifinfo dispose d'une interface web de configuration et de visualisation des données
-- Wifinfo est compatible Linky mode historique et Linky mode standard (configurable via l'interface WEB )
-- Wifinfo se connecte a votre système domotique avec une liaison sans fil WI-FI
-- Wifinfo est connecté au broches I1 et I2 du compteur Linky avec l'interface PtInfo from Charles (distance de 10 mètres possible avec du câble téléphone)
-- Wifinfo est alimenté avec un simple chargeur de téléphone
-- Wifinfo est reconfigurable avec un simple téléphone portable en cas de changement de Box Internet (Réseau Wifinfo-XXXXXX, http://192.168.4.1)
-- Wifinfo compatible avec les modules ESP32 et ESP8266
-- Dépot Github : https://github.com/duglof/libteleinfo : En cas de panne de votre module ESP vous pouvez installer la même version.
+# Wifinfo - Pésentaion et fonctionnalités
+
+Wifinfo est une solution permettant de récuếrer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
+
+## Fonctionnalités principales
+- Transmission Wifinfo dispose d'une interface web de configuration et de visualisation des données
+- Détection automatique du type d'abonnement
+- Interface web intégrée pour la configuration et la visualisation des données
+- Compatibilité avec les modes Linky **Historique** et **Standard** (configurable via l'interface WEB )
+- Connexion Wi-Fi pour l'intégration dans votre réseau domestique
+- Connection au compteur via les broches **I1/I2** grâce à l'interface 'PtInfo from Charles' (jusqu'à 10 mètres avec un câble téléphonique)
+- Alimentation via un simple chargeur de téléphone connecté sur la prise USB du module ESP
+- Reconfiguration facile en cas de changement de box internet (Réseau **Wifinfo-XXXXXX**, accès via http://192.168.4.1)
+- Compatible avec les modules **ESP8266** et **ESP32** 
+
+## Dépôt Github
+
+Vous pouvez retrouver le projet et installer la version correspondant à votre module ESP en cas de panne.
+ https://github.com/duglof/libteleinfo : En cas de panne de votre module ESP vous pouvez installer la même version.
 
 ## Connexions
 ![Wifinfo connexions](docs/Wifinfo-connexions.png)
@@ -42,6 +50,7 @@ exemples/Arduino_Softserial_Blink : Affiche des informations de téléinformatio
 
 # Wifinfo pour ESP32 (mais aussi ESP8266)
 
+Il se trouve dans les exemples de la librairie LibTeleinfo
   exemples/Wifinfo
 
 Le serveur Web Wifinfo est connecté:
@@ -88,14 +97,15 @@ Depuis votre téléphone portable :
 - Wifinfo se connectera à votre réseau Wifi
 - Accéder à votre box pour connaître sa nouvelle adresse IP
 
-# Modification Version 3.0.1
+# Historique des versions
+## Modification Version 3.0.1
 - Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
 - Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
 - mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
 - WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
   - pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
 
-# Modification par dugolf (version 3.0.0)
+## Modification par dugolf (version 3.0.0)
 - Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
 - Mise à jour de Readme.md pour ESP32
 - Correction débordement de pile char buff[32] trop petit
@@ -104,7 +114,7 @@ Depuis votre téléphone portable :
 - Éviter les débordements de logbuffer de SYSLOG en cas de message de Debug
 - Éviter les débordements de waitbuffer de SYSLOG en cas de message de Debug
 
-# Modification par dugolf (version 2.0.0)
+## Modification par dugolf (version 2.0.0)
 - Merge avec https://github.com/hallard/LibTeleinfo/tree/master
   - Intégration nouvelle LibTeleinfo compatible mode Historique et mode Standard
     - Presque identique à https://github.com/arendst/Tasmota/tree/development/lib/lib_div/LibTeleinfo
@@ -119,7 +129,7 @@ Depuis votre téléphone portable :
    - Envoie de messages de log démarrage (Version, Adresse IP, Date Heure)
    - Envoie immédiat des données de Téléinformations ajoutées ou modifiées (DataCallback()
 
-# Modifications par dugolf (version 1.0.8)
+## Modifications par dugolf (version 1.0.8)
 - Wifinfo.h : #define WIFINFO_VERSION "1.0.8"
 - library.json : "version": "1.0.8"
 - library.properties : version=1.0.8
@@ -134,11 +144,11 @@ Depuis votre téléphone portable :
 - Warning C++ conversion const char * en char * (Wifinfo.ino)
   - add void Myprint(const char *msg)
 
-# Modifications par theGressier (version 1.0.7)
+## Modifications par theGressier (version 1.0.7)
 - Modification de l'envoi des données à Jeedom suite à la mise à jour du plugin Teleinfo en v4 (changement API, POST JSON)
 - Reconnect WiFi automatically after incident
 
-# Modifications par Doume (version 1.0.6) branche 'syslog' :
+## Modifications par Doume (version 1.0.6) branche 'syslog' :
 
 - Permettre l'envoi des messages de debugging à un serveur rsyslog du réseau local
 
@@ -152,13 +162,13 @@ Depuis votre téléphone portable :
    Pour compiler avec l'option SYSLOG, vous devrez installer la librairie Syslog-master.zip
    qui se trouve dans le répertoire 'librairie', dans votre environnement Arduino IDE
 			
-# Modifications par Doume (version 1.0.5a) branche 'static' :
+## Modifications par Doume (version 1.0.5a) branche 'static' :
 
 - Ajout de la gestion d'un contact sec, dont l'état peut être remonté vers Domoticz
      exemple : le compteur EDF est souvent près du portail, donc on peut notifier
      			l'état ouvert/fermé du portail en utilisant Wifinfo
 			
-# Modifications par Doume (version 1.0.5) branche 'static' :
+## Modifications par Doume (version 1.0.5) branche 'static' :
 
 - Add support for request /emoncms.json
 
@@ -187,7 +197,7 @@ Depuis votre téléphone portable :
 			environment (generally ~/Arduino/libraries/LibTeleinfo-master/src )
 			before to compile sketch
 
-# Added features :
+### Added features :
 - Add possibility to configure HttpRequest to send parameters/values to Domoticz
 - Add all possible variable as listed below : 
 - Add some informations to 'System' page, like Wifi link quality, Wifi network name, and MAC address
