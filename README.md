@@ -1,6 +1,18 @@
-# Wifinfo 
+# Wifinfo : Fonctionnalités principales
+- Wifinfo permet de transmettre les données du compteur électrique Linky à votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz)
+- Wifinfo s'adapte automatiquement à votre abonnement (Base, Heures Creuses, Tempo, Production, EJP) et transmet toutes les données
+- Wifinfo dispose d'une interface web de configuration et de visualisation des données
+- Wifinfo est compatible Linky mode historique et Linky mode standard (configurable via l'interface WEB )
+- Wifinfo se connecte a votre système domotique avec une liaison sans fil WI-FI
+- Wifinfo est connecté au broches I1 et I2 du compteur Linky avec l'interface PtInfo from Charles (distance de 10 mètres possible avec du câble téléphone)
+- Wifinfo est alimenté avec un simple chargeur de téléphone
+- Wifinfo est reconfigurable avec un simple téléphone portable en cas de changement de Box Internet (Réseau Wifinfo-XXXXXX, http://192.168.4.1)
+- Wifinfo compatible avec les modules ESP32 et ESP8266
+- Dépot Github : https://github.com/duglof/libteleinfo : En cas de panne de votre module ESP vous pouvez installer la même version.
+
 ![Wifinfo exemple](docs/Wifinfo-ecran-principal.png)
 
+P.S.
 Le système de fichier utilisé pour stocker le contenu du répertoire data est au format SPIFFS qui est déprécié.
 Si l'utilisation était supprimée, prenez la version V3.1.0 de la branche littlefs.
 Elle est identique. La seule différence, c'est le système de fichier.
