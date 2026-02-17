@@ -1,16 +1,19 @@
 # Wifinfo - Présentation et fonctionnalités
 
-Wifinfo est une solution permettant de récuếrer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
+Wifinfo est une solution permettant de récuếrer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz, Mqtt). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
 
 ## Fonctionnalités principales
-- Transmission Wifinfo dispose d'une interface web de configuration et de visualisation des données
+- Transmission des données Linky vers n'importe quelle plateforme domotique compatible
+- Mise à jour via Wi‑Fi (OTA – Over‑The‑Air)
 - Détection automatique du type d'abonnement
 - Interface web intégrée pour la configuration et la visualisation des données
 - Compatibilité avec les modes Linky **Historique** et **Standard** (configurable via l'interface WEB )
 - Connexion Wi-Fi pour l'intégration dans votre réseau domestique
 - Connection au compteur via les broches **I1/I2** grâce à l'interface 'PtInfo from Charles' (jusqu'à 10 mètres avec un câble téléphonique)
 - Alimentation via un simple chargeur de téléphone connecté sur la prise USB du module ESP
-- Reconfiguration facile en cas de changement de box internet (Réseau **Wifinfo-XXXXXX**, accès via http://192.168.4.1)
+- Reconfiguration facile en cas de changement de box internet:
+  - Réseau **Wifinfo-XXXXXX**
+  - Accès via http://192.168.4.1
 - Compatible avec les modules **ESP8266** et **ESP32** 
 
 ## Dépôt Github
@@ -65,7 +68,7 @@ Wifinfo est compatible Linky Mode Historique et Linky Mode Standard (à configur
 Wifinfo permet par configuration d'activer les fonctions suivantes:
   - Envoie périodique des données au plugin Teleinfo de votre Jeedom
   - Envoie périodique des données au serveur emoncms
-  - Envoie de données à un serveur MQTT (Jeedom, HomeAssistant ou autre)
+  - Envoie de données à un serveur Mqtt (Jeedom, HomeAssistant ou autre)
   - Envoie de données à un serveur web via une requète http GET
     - les tags %HCHP% %HCHC% %PAPP% %IINST% etc sont remplacés par leur valeur
 
@@ -81,7 +84,7 @@ Wifinfo dispose d'une interface d'administation
  
   - Linky mode Historique et mode Standard dans l'onglet Configuration Avancée (Redémarrer Wifinfo après le changement)
   - Compatible jeedom v4 / clé API plugin Teleinfo 64 caractères
-  - Compatible avec Home Assistant avec l'interface MQTT
+  - Compatible avec Home Assistant avec l'interface Mqtt
 
 Wifinfo : Configuration Wifi
 
@@ -125,7 +128,7 @@ Depuis votre téléphone portable :
 - Affichage sur la page web dans l'onglet Système
   - Les options de compilation
   - Les compteurs d'erreur (checksumerror,framesizeerror,frameformaterror,frameinterrupted)
-- Ajout d'une beta version de MQTT
+- Ajout d'une beta version de Mqtt
    - Envoie de messages de log démarrage (Version, Adresse IP, Date Heure)
    - Envoie immédiat des données de Téléinformations ajoutées ou modifiées (DataCallback()
 
@@ -240,7 +243,7 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - VIN de ESP au +
 - G de ESP au -
 
-Alimentation possible avec un charger de téléphone connecté sur la prise USB 
+Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
 
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
@@ -415,20 +418,20 @@ Jeedom Plugin Teleinfo : compteur heures pleines / heures creuses
 
 ## Test Mqtt avec Home Assistant (2026.1.3)
 - Sur Wifinfo:
-  - Paramètre MQTT
+  - Paramètre Mqtt
     - IP de votre Home Assistant: exemple 192.168.1.32
     - Fréquence : 1 minute
     - Port par défaut : 1883
-    - user/password : ceux de MQTT Mosquito
+    - user/password : ceux de Mqtt Mosquito
   - Paramètre système : mode historique 1200 bauds
   - Redémarrer Wifinfo
   - Aucune valeur à configurer : quel que soit votre abonnement, wifinfo envoie toutes les infos qu’il reçoit du Linky
 
 - Sur Home Assisant:
-  - Installation de MQTT Mosquitto et création de son utilisateur
+  - Installation de Mqtt Mosquitto et création de son utilisateur
   - Ajouter dans configuration.yaml la déclaration suivante (pour un abonnement Heures Creuses)
 ```
-# Linky : Sensor MQTT
+# Linky : Sensor Mqtt
 mqtt:
     sensor:
         # Linky : Puissance apparente PAPP 
@@ -491,10 +494,10 @@ mqtt:
 ![Test](docs/HomeAssistant-Energie-2.png)
 
 
-- Visualisation des données reçues par MQTT Mosquito avec MQTT explorer installé sur votre ordinateur personnel
+- Visualisation des données reçues par Mqtt Mosquito avec Mqtt explorer installé sur votre ordinateur personnel
   - IP de votre Home Assistant: exemple 192.168.1.32
   - Port par défaut : 1883
-  - User/password : ceux de MQTT Mosquito
+  - User/password : ceux de Mqtt Mosquito
   - Se connecter 
 ![Test](docs/Wifinfo-mqtt.png)
 
