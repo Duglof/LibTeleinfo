@@ -10,7 +10,11 @@
 - Wifinfo compatible avec les modules ESP32 et ESP8266
 - Dépot Github : https://github.com/duglof/libteleinfo : En cas de panne de votre module ESP vous pouvez installer la même version.
 
-![Wifinfo exemple](docs/Wifinfo-ecran-principal.png)
+## Connexions
+![Wifinfo connexions](docs/Wifinfo-connexions.png)
+
+## Écran principal
+![Wifinfo ecran principal](docs/Wifinfo-ecran-principal.png)
 
 P.S.
 Le système de fichier utilisé pour stocker le contenu du répertoire data est au format SPIFFS qui est déprécié.
