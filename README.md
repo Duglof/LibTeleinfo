@@ -299,7 +299,7 @@ L'Entrée Teleinfo de l'ESP est affichée dans l'onglet [Système](docs/Wifinfo-
 - Aller sur l'interface Web dans l'onglet Système' : la ligne 'Entrée Téléinfo' vous donnera le GPIO à connecter
 
 ESP32 : L'entrée Teleinfo est RX2 si Serial2 existe sinon c'est RX1 (Voir tableau ci-dessus)
-- Linux voir <home_dir>.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+- Linux voir <home_dir>.arduino15/packages/esp32/hardware/esp32/3.3.7/cores/esp32/HardwareSerial.h
 
 ESP12E : L'entrée Teleinfo est GPIO4
 
@@ -334,7 +334,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 
   - Outils->Type de carte 'xxxx'->Gestionnaire de carte
     - Filtrer esp32
-    - esp32 by Espressif Systems v3.1.1
+    - esp32 by Espressif Systems v3.3.7
     - Cliquer sur Installer
 
   - Outils-> Type de carte 'xxxx'->ESP32 Arduino
@@ -382,18 +382,23 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
   - Croquis->Compiler
 
 - Téléversement (Il faut obligatoirement ces deux actions !!!)
-  - 1 - Outils->ESP32 Sketch Data Upload (cela téléverse le contenu du répertoire data du projet Wifinfo)
+  - 1 - **Outils->ESP32 Sketch Data Upload** (cela téléverse le contenu du répertoire data du projet Wifinfo)
     - Choisir le format SPIFFS et cliquer sur OK
 ![Arduino IDE ESP32 Sketch Data Upload SPIFFS](docs/ESP32-Sketch-Data-Upload-Choisir-SPIFFS.png)
     - Si erreur 'Timed out waiting for packet header
       - Quand vous voyez “Connecting…” (ou juste avant), appuyez et maintenez le 'BOOT Button' (pb rencontré avec ESP32 WROOM 32D)
-    - Si Erreur error: esptool not found
-      - Ouvrir le dossier <home_dir>/.arduino15/packages/esp8266/hardware/esp8266/3.1.2/tools
-      - Click droit sur le dossier esptool et faire copier
-      - Ouvrir le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools
-      - Click droit et faire coller
+    - Si Erreur error: esptool not found (arduino ide installé sur linux mint)
+      - Prendre la dernière version de esptool depuis : https://github.com/espressif/esptool/tree/master
+      - Cliquer sur **Code** et faire **Download ZIP** (esptool-master.zip)
+      - Copier **esptool-master.zip** dans le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.3.7/tools
+      - Click droit sur **esptool-master.zip** et faire extraire ici
+      - Renommer le dossier créé **esptool-master** en **esptool**
+      - Vérification : Ouvrez une fenetre terminal
+        - cd .arduino15/packages/esp32/hardware/esp32/3.3.7/tools/esptool
+        - ./esptool.py
+        - esptool V4.7.0 ...
 
-  - 2 - Croquis->Téléverser
+  - 2 - **Croquis->Téléverser**
 
 # Tests
 ## Test avec Jeedom
