@@ -254,7 +254,7 @@ LED RGB
   - A connecter sur GPIO 14 (Wifinfo.h : #define RGB_LED_PIN    14)
 
 ## ESP8266 Wemos Mini D1 (Type LOLIN(WEMOS D1 mini))
-![esp8266 wemos gpio]()Esp8266-wemos-d1-mini-pinout.png)
+![esp8266 wemos gpio](docs/Esp8266-wemos-d1-mini-pinout.png)
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - Alimentation via les pins
   - VIN de ESP au +5V
