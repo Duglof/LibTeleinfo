@@ -317,7 +317,7 @@ Warning : Le WS2812B est RGB mais certains sont GRB (dans ce cas il faut adapter
 - A la mise sous tension vous devez avoir successivement la led Rouge puis Verte, puis bleue. Si ce n'est pas le cas il faut changer la déclaration de rgb_led dans Wifinfo.ino
 
 # Compilation / Téléversement
-Utiliser Arduino IDE V1.8.18
+Utiliser Arduino IDE V1.8.18 / V1.8.19
 Warning : Déconnecter l'interface Linky du RX de l'ESP
 
 - Ajout du type de carte 'ESP32-WROOM-DA Module'
@@ -334,7 +334,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 
   - Outils->Type de carte 'xxxx'->Gestionnaire de carte
     - Filtrer esp32
-    - esp32 by Espressif Systems v3.3.7
+    - esp32 by Espressif Systems : Sélectionner la version v3.1.1 (**ne pas prendre une version supérieure**)
     - Cliquer sur Installer
 
   - Outils-> Type de carte 'xxxx'->ESP32 Arduino
@@ -388,15 +388,15 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
     - Si erreur 'Timed out waiting for packet header
       - Quand vous voyez “Connecting…” (ou juste avant), appuyez et maintenez le 'BOOT Button' (pb rencontré avec ESP32 WROOM 32D)
     - Si Erreur error: esptool not found (arduino ide installé sur linux mint)
-      - Prendre la dernière version de esptool depuis : https://github.com/espressif/esptool/tree/master
-      - Cliquer sur **Code** et faire **Download ZIP** (esptool-master.zip)
-      - Copier **esptool-master.zip** dans le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.3.7/tools
-      - Click droit sur **esptool-master.zip** et faire extraire ici
-      - Renommer le dossier créé **esptool-master** en **esptool**
+      - **Ne pas prendre une version supérieure à la v5.2.0** car elle ne contiendra plus esptool.py
+      - Prendre la version d'esptool V5.2.0 depuis : https://github.com/espressif/esptool/archive/refs/tags/v5.2.0.zip
+      - Copier **esptool-5.2.0.zip** dans le dossier <home_dir>/.arduino15/packages/esp32/hardware/esp32/3.1.1/tools
+      - Click droit sur **esptool-5.2.0.zip** et faire extraire ici
+      - Renommer le dossier créé **esptool-5.2.0** en **esptool**
       - Vérification : Ouvrez une fenetre terminal
-        - cd .arduino15/packages/esp32/hardware/esp32/3.3.7/tools/esptool
+        - cd .arduino15/packages/esp32/hardware/esp32/3.1.1/tools/esptool
         - ./esptool.py
-        - esptool V4.7.0 ...
+        - esptool V5.2.0 ...
 
   - 2 - **Croquis->Téléverser**
 
