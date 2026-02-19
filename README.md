@@ -236,14 +236,33 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
 # Hardware de test
-ESP32 Dev Kit (type WROOM 32) avec 4 Mo de flash (30 broches)
+## ESP32 Dev Kit (Type ESP32 WROOM DA Module) avec 4 Mo de flash (30 broches)
 ![esp32 cp2102](docs/ESP32S-30P-CP2102-MicroUSB.png) 
 ![esp32 gpio](docs/ESP32-dev-kit-30pins-pinout.png)
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
-- VIN de ESP au +
-- G de ESP au -
+- Alimentation via les pins
+  - VIN de ESP au +5V
+  - G de ESP au -5V
+- Alimentation via la prise USB
+  - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
 
-Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
+Interface PiTinfo
+  - TXD => Entrée Téléinfo GPIO 4 (affichée dans l'onglet Système de l'interface Web) 
+  - LED => GPIO 12 (Wifinfo.h : #define RED_LED_PIN    12)
+
+LED RGB
+  - A connecter sur GPIO 14 (Wifinfo.h : #define RGB_LED_PIN    14)
+
+## ESP8266 Wemos Mini D1 (Type LOLIN(WEMOS D1 mini))
+![esp8266 wemos gpio]()Esp8266-wemos-d1-mini-pinout.png)
+Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
+- Alimentation via les pins
+  - VIN de ESP au +5V
+  - G de ESP au -5V
+- Alimentation via la prise USB
+  - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
+Interface Wemos Téléinfo
+  - TXD => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web') 
 
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
