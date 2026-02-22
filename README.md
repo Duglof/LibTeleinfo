@@ -4,6 +4,9 @@ Wifinfo est une solution permettant de récuếrer et transmettre les données d
 
 ## Fonctionnalités principales
 - Transmission des données Linky vers n'importe quelle plateforme domotique compatible
+- Accessible directement par nom sur le reseau (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
+  - **http://Wifinfo-23178F.local**
+  - **ping Wifinfo-23178F.local**
 - Mise à jour via Wi‑Fi (OTA – Over‑The‑Air)
 - Détection automatique du type d'abonnement
 - Interface web intégrée pour la configuration et la visualisation des données
@@ -106,7 +109,7 @@ Depuis votre téléphone portable :
 - Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
 - mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
 - WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
-  - pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
+  - pour que le ping à partir du Nom réseau fonctionne (ex: ping **Wifinfo-23178F.local** ) (mineur)
 
 ## Modification par dugolf (version 3.0.0)
 - Compilation pour ESP12E (ESP8266) et pour ESP32 (ESP32 WROOM32)
