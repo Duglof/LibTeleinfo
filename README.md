@@ -1,6 +1,6 @@
 # Wifinfo - Présentation et fonctionnalités
 
-Wifinfo est une solution permettant de récuếrer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz, Mqtt). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
+Wifinfo est une solution permettant de récupérer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz, Mqtt). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
 
 ## Fonctionnalités principales
 - Transmission des données Linky vers n'importe quelle plateforme domotique compatible
