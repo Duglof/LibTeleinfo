@@ -4,7 +4,7 @@ Wifinfo est une solution permettant de récupérer et transmettre les données d
 
 ## Fonctionnalités principales
 - Transmission des données Linky vers n'importe quelle plateforme domotique compatible
-- Accessible directement par nom sur le reseau (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
+- Accessible directement par nom sur le reseau via mDNS (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
   - **http://Wifinfo-23178F.local**
   - **ping Wifinfo-23178F.local**
 - Mise à jour via Wi‑Fi (OTA – Over‑The‑Air)
