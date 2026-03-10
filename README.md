@@ -289,6 +289,11 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 Interface Wemos Téléinfo
   - TXD => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web) 
 
+LED RGB
+- Pin 1 -> GPIO14 (D5)
+- Pin 2 -> GND
+- Pin 3 -> 3V de ESP (3.3V)
+
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
 
