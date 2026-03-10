@@ -276,7 +276,7 @@ LED RGB
 
 ## ESP8266 Wemos Mini D1 (Type LOLIN(WEMOS D1 mini))
 ![esp8266 wemos gpio](docs/Esp8266-wemos-d1-mini-pinout.png)
-![wemos teleinfo](docs/Wemos-teleinfo)
+![wemos teleinfo](docs/Wemos-teleinfo.jpg)
 Avec interface Wemos Teleinfo by Charles
 
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
