@@ -286,8 +286,8 @@ Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - Alimentation via la prise USB
   - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
 
-Interface Wemos Téléinfo
-  - TXD => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web) 
+Interface Wemos Téléinfo (par défaut envoie des données sur GPIO 13)
+  - TIC-RX => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web de Wifinfo)
 
 LED RGB
 - Pin 1 -> GPIO14 (D5)
