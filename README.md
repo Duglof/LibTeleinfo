@@ -239,6 +239,22 @@ Ces différents messages donnent les indications suivantes en fonction de l’ab
 - Mot d’état (autocontrôle) : MOTDETAT (6 car.)
 
 # Hardware de test
+## ESP-12E Dev Kit (type NodeMCU 1.0) avec 4 Mo de flash (30 broches)
+![esp12e ch340](docs/Esp8266-esp12E-30pins.png) 
+![esp12e gpio](docs/Esp8266-esp12E-pinout.png)
+Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
+- Alimentation via les pins
+  - VIN de ESP au +5V
+  - G de ESP au -5V
+
+Interface PiTinfo
+- TXD => RXD : D7 de ESP (RXD2 GPIO13)
+
+LED RGB
+- Pin 1 -> D5 (GPIO14) de ESP
+- Pin 2 -> GND
+- Pin 3 -> 3V de ESP (3.3V)
+
 ## ESP32 Dev Kit (Type ESP32 WROOM DA Module) avec 4 Mo de flash (30 broches)
 ![esp32 cp2102](docs/ESP32S-30P-CP2102-MicroUSB.png) 
 ![esp32 gpio](docs/ESP32-dev-kit-30pins-pinout.png)
@@ -254,18 +270,24 @@ Interface PiTinfo
   - LED => GPIO 12 (Wifinfo.h : #define RED_LED_PIN    12)
 
 LED RGB
-  - A connecter sur GPIO 14 (Wifinfo.h : #define RGB_LED_PIN    14)
+  - Pin 1 -> A connecter sur GPIO 14 (Wifinfo.h : #define RGB_LED_PIN    14)
+  - Pin 2 -> GND
+  - Pin 3 -> 3V de ESP (3.3V)
 
 ## ESP8266 Wemos Mini D1 (Type LOLIN(WEMOS D1 mini))
 ![esp8266 wemos gpio](docs/Esp8266-wemos-d1-mini-pinout.png)
+![wemos teleinfo](docs/Wemos-teleinfo)
+Avec interface Wemos Teleinfo by Charles
+
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - Alimentation via les pins
   - VIN de ESP au +5V
   - G de ESP au -5V
 - Alimentation via la prise USB
   - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
+
 Interface Wemos Téléinfo
-  - TXD => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web') 
+  - TXD => Entrée Téléinfo GPIO 13 (affichée dans l'onglet Système de l'interface Web) 
 
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
