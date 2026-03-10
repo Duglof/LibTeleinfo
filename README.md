@@ -281,8 +281,8 @@ Avec interface Wemos Teleinfo by Charles
 
 Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
 - Alimentation via les pins
-  - 5V (USB) de ESP au +5V
-  - GND de ESP au -5V
+  - 5V de ESP au +5V
+  - G de ESP au -5V
 - Alimentation via la prise USB
   - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
 
