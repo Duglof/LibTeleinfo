@@ -30,6 +30,7 @@ Wifinfo est une solution permettant de récupérer et transmettre les données d
   - Accéder via le navigateur internet à http://192.168.4.1
   - Sélectionner le SSID de votre nouveau réseau (affichage automatique des réseaux disponibles)
   - Entrer le mot de passe et cliquer sur 'Enregistrer'
+  - Redémarrer Wifinfo
 - Compatible avec les modules **ESP8266** et **ESP32** 
 
 ## Dépôt Github
