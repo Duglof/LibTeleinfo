@@ -4,9 +4,20 @@ Wifinfo est une solution permettant de récupérer et transmettre les données d
 
 ## Fonctionnalités principales
 - Transmission des données Linky vers n'importe quelle plateforme domotique compatible
+- 4 modes de transmission simultamés possibles: 
+  - Configuration Mqtt : Envoi des données à un serveur Mqtt : Home Assistant
+  - Configuration Emoncms : EmonCMS est un serveur open-source de supervision de l’énergie (https://emoncms.org ou instance locale) 
+  - Configuration Jeedom : Envoi des données au plugin Teleinfo de Jeedom
+  - Configuration Http : Envoi des données en Http : Domoticz
+- Aide à la migration : permet d'envoyer simultanément les données vers plusieurs systèmes domotiques
 - Accessible directement par nom sur le reseau via mDNS (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
   - **http://Wifinfo-23178F.local**
   - **ping Wifinfo-23178F.local**
+- Serveur json:
+  - Récupération des compteurs du Linky : **http://Wifinfo-XXXXXX/json**
+  - Récupération des données de l'onglet Téléinformation: **http://Wifinfo-XXXXXX/tinfo.json**
+  - Récupération des données de l'onglet Système : **http://Wifinfo-XXXXXX/system.json**
+  - Récupération des données de l'onglet Configuration : **http://Wifinfo-XXXXXX/config.json**
 - Mise à jour via Wi‑Fi (OTA – Over‑The‑Air)
 - Détection automatique du type d'abonnement
 - Interface web intégrée pour la configuration et la visualisation des données
@@ -14,9 +25,11 @@ Wifinfo est une solution permettant de récupérer et transmettre les données d
 - Connexion Wi-Fi pour l'intégration dans votre réseau domestique
 - Connection au compteur via les broches **I1/I2** grâce à l'interface 'PtInfo from Charles' (jusqu'à 10 mètres avec un câble téléphonique)
 - Alimentation via un simple chargeur de téléphone connecté sur la prise USB du module ESP
-- Reconfiguration facile en cas de changement de box internet:
-  - Réseau **Wifinfo-XXXXXX**
-  - Accès via http://192.168.4.1
+- Reconfiguration facile en cas de changement de box internet : Avec votre téléphone portable
+  - Se connecter au réseau wifi **Wifinfo-XXXXXX**
+  - Accéder via le navigateur internet à http://192.168.4.1
+  - Sélectionner le SSID de votre nouveau réseau (affichage automatique des réseaux disponibles)
+  - Entrer le mot de passe et cliquer sur 'Enregistrer'
 - Compatible avec les modules **ESP8266** et **ESP32** 
 
 ## Dépôt Github
