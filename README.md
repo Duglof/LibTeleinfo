@@ -1,16 +1,16 @@
 # Wifinfo - Présentation et fonctionnalités
 
-Wifinfo est une solution permettant de récupérer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz, Mqtt). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponnibles.
+Wifinfo est une solution permettant de récupérer et transmettre les données du compteur électrique Linky vers votre système domotique quel qu'il soit (Jeedom, Home Assistant, Domoticz, Mqtt). Il s'adapte automatiquement à votre type abonnement (Base, Heures Creuses, Tempo, Production, EJP) et fournit l'ensemble des informations disponibles.
 
 ## Fonctionnalités principales
 - Transmission des données Linky vers n'importe quelle plateforme domotique compatible
-- 4 modes de transmission simultamés possibles: 
+- 4 modes de transmission simultanés possibles: 
   - Configuration Mqtt : Envoi des données à un serveur Mqtt : Home Assistant
   - Configuration Emoncms : EmonCMS est un serveur open-source de supervision de l’énergie (https://emoncms.org ou instance locale) 
   - Configuration Jeedom : Envoi des données au plugin Teleinfo de Jeedom
   - Configuration Http : Envoi des données en Http : Domoticz
 - Aide à la migration : permet d'envoyer simultanément les données vers plusieurs systèmes domotiques
-- Accessible directement par nom sur le reseau via mDNS (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
+- Accessible directement par nom sur le réseau via mDNS (ex: Si dans l'onglet configuration Nom Réseau = **Wifinfo-23178F**)
   - **http://Wifinfo-23178F.local**
   - **ping Wifinfo-23178F.local**
 - Serveur json:
@@ -23,7 +23,7 @@ Wifinfo est une solution permettant de récupérer et transmettre les données d
 - Interface web intégrée pour la configuration et la visualisation des données
 - Compatibilité avec les modes Linky **Historique** et **Standard** (configurable via l'interface WEB )
 - Connexion Wi-Fi pour l'intégration dans votre réseau domestique
-- Connection au compteur via les broches **I1/I2** grâce à l'interface 'PtInfo from Charles' (jusqu'à 10 mètres avec un câble téléphonique)
+- Connexion au compteur via les broches **I1/I2** grâce à l'interface 'PtInfo from Charles' (jusqu'à 10 mètres avec un câble téléphonique)
 - Alimentation via un simple chargeur de téléphone connecté sur la prise USB du module ESP
 - Reconfiguration facile en cas de changement de box internet : Avec votre téléphone portable
   - Se connecter au réseau wifi **Wifinfo-XXXXXX**
