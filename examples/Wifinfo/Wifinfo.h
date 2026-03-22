@@ -103,7 +103,7 @@ extern "C" {
   #define DEBUG_SERIAL  Serial
 #endif
 
-#define WIFINFO_VERSION "3.0.1"
+#define WIFINFO_VERSION "3.0.2"
 
 // I prefix debug macro to be sure to use specific for THIS library
 // debugging, this should not interfere with main sketch or other 
@@ -141,7 +141,14 @@ extern "C" {
 #endif // SYSLOG
 
 #define BLINK_LED_MS   50 // 50 ms blink
-#define RGB_LED_PIN    14 
+
+// V3.0.2 
+#ifdef ESP8266
+  #define RGB_LED_PIN    14
+#elif defined(ESP32)
+  #define RGB_LED_PIN    18
+#endif
+
 #define RED_LED_PIN    12
 
 // value for HSL color

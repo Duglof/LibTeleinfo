@@ -1,4 +1,4 @@
-echo "esp-backup.sh V1.0.1"
+echo "esp-backup.sh V1.0.2"
 echo "backup entire flash memory for esp8266 and esp32 "
 echo "supported flash size 1M ou 4M"
 echo ""
@@ -22,9 +22,9 @@ echo "Backup flash ..."
 
 case $flashsize in
    "1MB")
-     esptool.py --port $serialport read_flash 0 0x100000 "wifinfo-${chip}-${flashsize}-firmware.bin";;
+     esptool.py --port $serialport read_flash 0 0x100000 "Wifinfo-${chip}-${flashsize}-firmware.bin";;
    "4MB")
-     esptool.py --port $serialport read_flash 0 0x400000 "wifinfo-${chip}-${flashsize}-firmware.bin";;
+     esptool.py --port $serialport read_flash 0 0x400000 "Wifinfo-${chip}-${flashsize}-firmware.bin";;
    *)
       echo "unspported flash size: $flashsize" ;;
 esac

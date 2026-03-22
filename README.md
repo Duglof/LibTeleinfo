@@ -121,6 +121,11 @@ Depuis votre téléphone portable :
 - Accéder à votre box pour connaître sa nouvelle adresse IP
 
 # Historique des versions
+## Modification Version 3.0.2 (en cours)
+- Changement des GPIOs (RGB LED et Entrée téléinfo) pour ESP32 Mini D1 + interface teleinfo
+  - Entrée téléinfo ?? au lieu de GPIO 04
+  - RGB LED : GPIO 18 au lieu de GPIO 14 
+
 ## Modification Version 3.0.1
 - Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
 - Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
@@ -287,7 +292,7 @@ Interface PiTinfo
   - LED => GPIO 12 (Wifinfo.h : #define RED_LED_PIN    12)
 
 LED RGB
-  - Pin 1 -> A connecter sur GPIO 14 (Wifinfo.h : #define RGB_LED_PIN    14)
+  - Pin 1 -> GPIO 18 (Wifinfo.h : #define RGB_LED_PIN    18)
   - Pin 2 -> GND
   - Pin 3 -> 3V de ESP (3.3V)
 
