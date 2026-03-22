@@ -376,15 +376,15 @@ ESP12E : L'entrée Teleinfo est GPIO4
 
 # RGB LED 5mm WS2812B
 ![RGB LED WS2812B](docs/WS2812-5mm-Clear-rgb-led.jpg)
-- Pin 1 -> GPIO14 (D5 pour ESP8266, D14 pour ESP32)
+- Pin 1 -> Data : GPIO14 (D5) pour ESP8266, GPIO 14 pour ESP32)
 - Pin 2 -> GND
 - Pin 3 -> 3V de ESP (3.3V)
 
 Warning : Le WS2812B est RGB mais certains sont GRB (dans ce cas il faut adapter la déclaration dans Wifinfo.ino):
-- Wifinfo.ino WS2812B RGB :
-  - NeoPixelBus<NeoRgbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
-- Wifinfo.ino WS2812B GRB
-  - NeoPixelBus<NeoGrbFeature, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+- Wifinfo.ino WS2812B **RGB** :
+  - NeoPixelBus<**NeoRgbFeature**, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+- Wifinfo.ino WS2812B **GRB**
+  - NeoPixelBus<**NeoGrbFeature**, Neo400KbpsMethod> rgb_led(1, RGB_LED_PIN);
 - A la mise sous tension vous devez avoir successivement la led Rouge puis Verte, puis bleue. Si ce n'est pas le cas il faut changer la déclaration de rgb_led dans Wifinfo.ino
 
 # Compilation / Téléversement
