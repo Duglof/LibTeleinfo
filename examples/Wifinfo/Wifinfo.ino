@@ -114,6 +114,11 @@
 //          WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
 //            pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
 //
+//        Version 3.0.2
+//          Changement des PINs pour LED RVB et réception téléinfo (Wifinfo.h : RGB_LED_PIN, RX_TELEINFO_PIN)
+//          Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//          Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+//
 //          Environment
 //           Arduino IDE 1.8.18
 //             Préférences : https://arduino.esp8266.com/stable/package_esp8266com_index.json
@@ -1536,16 +1541,18 @@ void setup()
   #else
     // ESP32
     // Certains modules ESP ne possède pas de Serial2
+    //   Serial2.begin(9600, SERIAL_7E1, RXD2, TXD2);
+    // On peut mettre -1 si c'est non utilisé
     #ifdef RX2
       if (config.linky_mode_standard)
-        Serial2.begin(9600, SERIAL_7E1);
+        Serial2.begin(9600, SERIAL_7E1, RX_TELEINFO_PIN, -1);
       else
-        Serial2.begin(1200, SERIAL_7E1);
+        Serial2.begin(1200, SERIAL_7E1, RX_TELEINFO_PIN, -1);
     #else
       if (config.linky_mode_standard)
-        Serial1.begin(9600, SERIAL_7E1);
+        Serial1.begin(9600, SERIAL_7E1, RX_TELEINFO_PIN, -1);
       else
-        Serial1.begin(1200, SERIAL_7E1);
+        Serial1.begin(1200, SERIAL_7E1, RX_TELEINFO_PIN, -1);
     #endif
   #endif
 

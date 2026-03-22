@@ -142,11 +142,31 @@ extern "C" {
 
 #define BLINK_LED_MS   50 // 50 ms blink
 
-// V3.0.2 
+// V3.0.2 : GRB Led PIN
+//   - Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//   - Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
 #ifdef ESP8266
   #define RGB_LED_PIN    14
 #elif defined(ESP32)
-  #define RGB_LED_PIN    18
+  #ifdef CONFIG_IDF_TARGET_ESP32S2
+    #define RGB_LED_PIN    7
+  #else
+    #define RGB_LED_PIN    18
+  #endif
+#endif
+
+// V3.0.2 : RX_TELEINFO_PIN
+//   - Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//   - Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+#if defined(ESP32)
+  // Voir declaration dans <Home>/.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+  // Avant V3.0.2 : RX_TELEINFO_PIN = 4 , TX_TELEINFO_PIN = 25
+  // A partir de la V3.0.2 on utilisera que le RX, le TX sera mis à -1
+  #ifdef CONFIG_IDF_TARGET_ESP32S2
+    #define RX_TELEINFO_PIN  11
+  #else
+    #define RX_TELEINFO_PIN  23
+  #endif
 #endif
 
 #define RED_LED_PIN    12

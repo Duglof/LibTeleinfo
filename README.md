@@ -123,8 +123,12 @@ Depuis votre téléphone portable :
 # Historique des versions
 ## Modification Version 3.0.2 (en cours)
 - Changement des GPIOs (RGB LED et Entrée téléinfo) pour ESP32 Mini D1 + interface teleinfo
-  - Entrée téléinfo ?? au lieu de GPIO 04
-  - RGB LED : GPIO 18 au lieu de GPIO 14 
+  - ESP32 Mini D1 (Wemos)
+    - Entrée téléinfo 23 (au lieu de GPIO 04)
+    - RGB LED : GPIO 18 (au lieu de GPIO 14) 
+  - ESP32-S2 Mini D1
+    - Entrée téléinfo 11 (au lieu de GPIO 04)
+    - RGB LED : GPIO 7 (au lieu de GPIO 14) 
 
 ## Modification Version 3.0.1
 - Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)

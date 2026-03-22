@@ -436,9 +436,9 @@ void getSysJSONData(String & response)
   response += "GPIO";
   // Certains modules ESP ne possède pas de Serial2
   #ifdef RX2
-    response += String(RX2) + " (Serial2 RX2)";     // Serial2 default pin
+    response += String(RX_TELEINFO_PIN) + " (Serial2 RX2)"; // Serial2 default pin
   #else
-    response += String(RX1) + " (Serial1 RX1)";     // Serial1 default pin
+    response += String(RX_TELEINFO_PIN) + " (Serial1 RX1)";     // Serial1 default pin
   #endif
 #endif
   response += "\"},\r\n";
