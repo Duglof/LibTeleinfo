@@ -391,7 +391,7 @@ Warning : Le WS2812B est RGB mais certains sont GRB (dans ce cas il faut adapter
 Utiliser Arduino IDE V1.8.18 / V1.8.19
 Warning : Déconnecter l'interface Linky du RX de l'ESP
 
-- Ajout du type de carte 'ESP32-WROOM-DA Module'
+- Ajout des types de carte 'ESP32-WROOM-DA Module' et 'Lolin(WEMOS) D1 mini (clone)'
 
   - Fichier->Preferences : URL de gestionnaire de cartes supplémentaires (virgule comme séparateur pour plusieurs URL)
     - Ajouter http://arduino.esp8266.com/stable/package_esp8266com_index.json 
@@ -405,14 +405,22 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 
   - Outils->Type de carte 'xxxx'->Gestionnaire de carte
     - Filtrer esp32
-    - esp32 by Espressif Systems : Sélectionner la version v3.1.1 (**ne pas prendre une version supérieure**)
+    - esp32 by Espressif Systems : Sélectionner la version **v3.1.1** (**ne pas prendre une version supérieure**)
     - Cliquer sur Installer
 
   - Outils-> Type de carte 'xxxx'->ESP32 Arduino
-    - Sélectionner ESP32-WROOM-DA Module
+    - Sélectionner **ESP32-WROOM-DA Module** ou **Lolin(WEMOS) D1 mini (clone)**
 
-  - Outils->Port (il faut que ESP32 soit connecté à l'ordinateur)
+  - Outils->Port (il faut que l'ESP soit connecté à l'ordinateur)
     - Sélectionner le port
+
+- Paramètres de compilation
+  - ESP8266 Wemos Mini D1
+    - CPU Frequency : **160 Mhz**
+    - Flash size : **4MB (FS 1MB / OTA :~ 1019KB)** 
+  - ESP32-WROOM
+    - CPU Frequency : **160 Mhz**
+    - Partition scheme : **Default 4M with spiffs (1.2MB APP / 1.5MB SPIFFS)**
 
 - Ajout Arduino ESP8266 filesystem uploader v0.5.0
   - Télécharger https://github.com/esp8266/arduino-esp8266fs-plugin/releases/download/0.5.0/ESP8266FS-0.5.0.zip
@@ -440,7 +448,7 @@ Warning : Déconnecter l'interface Linky du RX de l'ESP
 - Ajout des autres librairies nécessaires
   - Syslog-master
     - Decompresser <home_dir>Arduino/libraries/LibTeleinfo/librairie/Syslog-master.zip dans <home_dir>Arduino/libraries
-  - NeoPixelBus_by_Makuna V2.8.3 : l'installer depuis l'Arduino IDE
+  - NeoPixelBus_by_Makuna V2.8.4 : l'installer depuis l'Arduino IDE
   - PubSubClient V2.8
     - Telecharger pubsubclient.zip from https://github.com/knolleary/pubsubclient/tree/master
     - Decompresser dans <home_dir>Arduino/libraries
