@@ -157,6 +157,10 @@
 #include <EEPROM.h>
 #include <Ticker.h>
 
+// Prototypes
+void LedRGBOFF(void);
+boolean mqttConnect(void);
+void Mqttcallback(char* topic, byte* payload, unsigned int length);
 
 #ifdef ESP8266
   ESP8266WebServer server(80);

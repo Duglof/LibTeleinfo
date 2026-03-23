@@ -62,7 +62,7 @@ extern "C" {
 extern "C" {
   #include "esp_system.h"
   // #include "esp_spi_flash.h"  deprecated
-  #include "spi_flash_mmap.h"
+  // #include "spi_flash_mmap.h"
 }
 #endif
 
