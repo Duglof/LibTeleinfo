@@ -39,7 +39,8 @@ Vous pouvez retrouver le projet et installer la version correspondant à votre m
  https://github.com/duglof/libteleinfo : En cas de panne de votre module ESP vous pouvez installer la même version.
 
 ## Flash firmware (backup/restore)
-[Accéder au dossier firmwares](./firmwares)
+[Lien vers les derniers firmware compilés :]<https://github.com/Duglof/LibTeleinforeleases/latest>
+[Procédure de programmation et de sauvegarde :](./firmwares)
 
 ## Connexions
 ![Wifinfo connexions](docs/Wifinfo-connexions.png)
