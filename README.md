@@ -129,6 +129,9 @@ Depuis votre téléphone portable :
   - ESP32-S2 Mini D1
     - Entrée téléinfo 11 (au lieu de GPIO 04)
     - RGB LED : GPIO 7 (au lieu de GPIO 14) 
+  - Affichage GPIO PIN pour la LED RVB dans l'onglet système
+  - Affichage GPIO PIN pour la LED Rouge (utilisée uniquement avec interface PiTinfo)
+  - Par defaut la LED est au format GRB (Green Red Blue) : Avant elle etait au format RGB (Red Green Blue)
 
 ## Modification Version 3.0.1
 - Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
@@ -336,10 +339,10 @@ Si le module possède 2 entrées série, Serial1 est utilisée pour la réceptio
 
 |          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
 |----------|------|-------|---------|---------|---------|---------|---------|---------|---------|
-| UART1 RX | RX1  | 26    | 4       | 15      | 10      | 18      | 4       | 0       | 11      |
+| UART1 RX | RX1  | 26    | 11      | 15      | 10      | 18      | 4       | 0       | 11      |
 | UART1 TX | TX1  | 27    | 5       | 16      | 18      | 19      | 5       | 1       | 10      |
-| UART2 RX | RX2  | 4     | --      | 19      | --      | --      | --      | --      | --      |
-| UART2 TX | TX2  | 25    | --      | 20      | --      | --      | --      | --      | --      |
+| UART2 RX | RX2  | 16    | --      | 19      | --      | --      | --      | --      | --      |
+| UART2 TX | TX2  | 17    | --      | 20      | --      | --      | --      | --      | --      |
 
 - Serial1 : RX1, TX1
 - Serial2 : RX2, TX2

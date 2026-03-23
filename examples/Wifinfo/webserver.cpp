@@ -443,6 +443,16 @@ void getSysJSONData(String & response)
 #endif
   response += "\"},\r\n";
 
+  // V3.0.2 : Ajout affichage RGB_LED_PIN
+  response += "{\"na\":\"LED RVB\",\"va\":\"";
+  response += String(RGB_LED_PIN) + " (GPIO)";
+  response += "\"},\r\n";
+
+  // V3.0.2 : Ajout affichage RED_LED_PIN : Disponible uniquement sur interface PiTinfo
+  response += "{\"na\":\"LED Rouge\",\"va\":\"";
+  response += String(RED_LED_PIN) + " (GPIO)";
+  response += "\"},\r\n";
+
   response += "{\"na\":\"Compile le\",\"va\":\"" __DATE__ " " __TIME__ "\"},\r\n";
   
   response += "{\"na\":\"Options de compilation\",\"va\":\"";

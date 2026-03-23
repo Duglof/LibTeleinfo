@@ -116,8 +116,10 @@
 //
 //        Version 3.0.2
 //          Changement des PINs pour LED RVB et réception téléinfo (Wifinfo.h : RGB_LED_PIN, RX_TELEINFO_PIN)
-//          Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
-//          Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+//            Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//            Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+//          Affichage GPIO PIN pour la LED RVB dans l'onglet système
+//          Par defaut la LED est au format GRB (Green Red Blue) : Avant elle etait au format RGB (Red Green Blue)
 //
 //          Environment
 //           Arduino IDE 1.8.18
@@ -175,20 +177,20 @@ TInfo tinfo;
 
 #ifdef ESP8266
   // ESP8266
-  // Pour LED WS2812B RGB
-  NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
-
   // Pour LED WS2812B GRB
-  //NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  NeoPixelBus<NeoGrbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+  // Pour LED WS2812B RGB
+  //NeoPixelBus<NeoRgbFeature, NeoEsp8266BitBang400KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
 
 #else
   // ESP32
-  // Pour LED WS2812B RGB
-  NeoPixelBus<NeoRgbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
-
   // Pour LED WS2812B GRB
-  // NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+  NeoPixelBus<NeoGrbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
+
+  // Pour LED WS2812B RGB
+  // NeoPixelBus<NeoRgbFeature, NeoEsp32Rmt0800KbpsMethod> rgb_led(1, RGB_LED_PIN);
 
 #endif
 
