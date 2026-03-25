@@ -86,6 +86,8 @@ def create_fullflash(source, target, env):
 
 
 # Hook sur buildprog (firmware) et buildfs (filesystem)
+# env.AddPostAction("$BUILD_DIR/${PROGNAME}.elf", create_fullflash) => Nok
+# env.AddPostAction("size", create_fullflash)  => Nok
 env.AddPostAction("buildprog", create_fullflash)
 env.AddPostAction("buildfs", create_fullflash)
 
