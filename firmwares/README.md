@@ -7,7 +7,7 @@
   - Connecter l'esp à programmer sur votre ordinateur (et seulement celui là !!!)
   - Choisissez le bon fichier pour votre ESP
   - Exécuter la commande:
-    - **esptool.py write_flash 0x00000 wifinfo-ESP8266EX-4MB-firmware.bin**
+    - **esptool.py write_flash 0x00000 wifinfo-ESP8266EX-4MB-fullflash.bin**
 
 ## Backup
 - **esp-backup.sh**
@@ -21,5 +21,5 @@
   - Le modèle
   - La taille de la memoire flash
 - Effectue une lecture complète de la mémoire et créé un fichier
-  - Exemple pour un ESP8266 Wemos D1 Mini : **wifinfo-ESP8266EX-4MB-firmware.bin**
+  - Exemple pour un ESP8266 Wemos D1 Mini : **wifinfo-ESP8266EX-4MB-fullflash.bin**
 

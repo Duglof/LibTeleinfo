@@ -22,9 +22,9 @@ echo "Backup flash ..."
 
 case $flashsize in
    "1MB")
-     esptool.py --port $serialport read_flash 0 0x100000 "Wifinfo-${chip}-${flashsize}-firmware.bin";;
+     esptool.py --port $serialport read_flash 0 0x100000 "Wifinfo-${chip}-${flashsize}-fullflash.bin";;
    "4MB")
-     esptool.py --port $serialport read_flash 0 0x400000 "Wifinfo-${chip}-${flashsize}-firmware.bin";;
+     esptool.py --port $serialport read_flash 0 0x400000 "Wifinfo-${chip}-${flashsize}-fullflash.bin";;
    *)
       echo "unspported flash size: $flashsize" ;;
 esac
