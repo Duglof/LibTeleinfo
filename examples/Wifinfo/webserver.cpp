@@ -436,11 +436,21 @@ void getSysJSONData(String & response)
   response += "GPIO";
   // Certains modules ESP ne possède pas de Serial2
   #ifdef RX2
-    response += String(RX2) + " (Serial2 RX2)";     // Serial2 default pin
+    response += String(RX_TELEINFO_PIN) + " (Serial2 RX2)"; // Serial2 default pin
   #else
-    response += String(RX1) + " (Serial1 RX1)";     // Serial1 default pin
+    response += String(RX_TELEINFO_PIN) + " (Serial1 RX1)";     // Serial1 default pin
   #endif
 #endif
+  response += "\"},\r\n";
+
+  // V3.0.2 : Ajout affichage RGB_LED_PIN
+  response += "{\"na\":\"LED RVB\",\"va\":\"";
+  response += String(RGB_LED_PIN) + " (GPIO)";
+  response += "\"},\r\n";
+
+  // V3.0.2 : Ajout affichage RED_LED_PIN : Disponible uniquement sur interface PiTinfo
+  response += "{\"na\":\"LED Rouge\",\"va\":\"";
+  response += String(RED_LED_PIN) + " (GPIO)";
   response += "\"},\r\n";
 
   response += "{\"na\":\"Compile le\",\"va\":\"" __DATE__ " " __TIME__ "\"},\r\n";
@@ -830,10 +840,6 @@ void spiffsJSONTable()
 {
   String response = "";
   getSpiffsJSONData(response);
-
-  // xxxxxx
-  Debugln(response);
-  
   server.send ( 200, "text/json", response );
 }
 

@@ -84,7 +84,7 @@ extern "C" {
 extern "C" {
   #include "esp_system.h"
   // #include "esp_spi_flash.h"  deprecated
-  #include "spi_flash_mmap.h"
+  // #include "spi_flash_mmap.h"
 }
 #endif
 
@@ -125,7 +125,7 @@ extern "C" {
   #define DEBUG_SERIAL  Serial
 #endif
 
-#define WIFINFO_VERSION "3.1.1"
+#define WIFINFO_VERSION "3.1.2"
 
 // I prefix debug macro to be sure to use specific for THIS library
 // debugging, this should not interfere with main sketch or other 
@@ -163,8 +163,68 @@ extern "C" {
 #endif // SYSLOG
 
 #define BLINK_LED_MS   50 // 50 ms blink
-#define RGB_LED_PIN    14 
-#define RED_LED_PIN    12
+
+// V3.0.2 : RVB Led PIN
+//   - Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//   - Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+#ifdef ESP8266
+  #define RGB_LED_PIN    14
+#elif defined(ESP32)
+  #if defined(CONFIG_IDF_TARGET_ESP32C3)
+    #define RGB_LED_PIN    2
+  #elif defined(CONFIG_IDF_TARGET_ESP32S3)
+    #define RGB_LED_PIN    12
+  #elif defined(CONFIG_IDF_TARGET_ESP32S2)
+    #define RGB_LED_PIN    7
+  #else
+    #define RGB_LED_PIN    18
+  #endif
+#endif
+
+// V3.0.2 : RX_TELEINFO_PIN
+//   - Compatibilité avec ESP32 Mini D1 (Wemos) + interface teleinfo by Hallard
+//   - Compatibilité avec ESP32-S2 Mini D1 (Wemos) + interface teleinfo by Hallard
+#if ESP8266
+  // After serial swap RX in on GPIO 13 (ESP8266 spécifique)
+  #define RX_TELEINFO_PIN 13
+#elif defined(ESP32)
+  // Voir declaration dans <Home>/.arduino15/packages/esp32/hardware/esp32/3.1.1/cores/esp32/HardwareSerial.h
+  // Avant V3.0.2 : RX_TELEINFO_PIN = 4 , TX_TELEINFO_PIN = 25
+  // A partir de la V3.0.2 on utilisera que le RX, le TX sera mis à -1
+  #if defined(CONFIG_IDF_TARGET_ESP32C3)
+    #define RX_TELEINFO_PIN  4
+  #elif defined(CONFIG_IDF_TARGET_ESP32S3)
+    #define RX_TELEINFO_PIN  11
+  #elif defined(CONFIG_IDF_TARGET_ESP32S2)
+    #define RX_TELEINFO_PIN  11
+  #else
+    #define RX_TELEINFO_PIN  23
+  #endif
+#endif
+
+// V3.0.2 : RED_LED_PIN : Led situé sur l'interface Linky
+// A ne pas confondre avec la bleu situé sur la carte ESP
+// RED LED interface PiTinfo
+// L'interface wemos teleinfo ne dispose que de la LED RVB
+#if ESP8266
+  #define RED_LED_PIN    12
+#elif defined(ESP32)
+  #if defined(CONFIG_IDF_TARGET_ESP32C3)
+    #define RED_LED_PIN  12
+  #elif defined(CONFIG_IDF_TARGET_ESP32S3)
+    #define RED_LED_PIN  13
+  #elif defined(CONFIG_IDF_TARGET_ESP32S2)
+    #define RED_LED_PIN  12
+  #else
+    #define RED_LED_PIN  12
+  #endif
+#endif
+
+// V3.0.2 : LED BLEUE situé sur la carte ESP
+// Elle est pilotée directement pas l'interface Wifi ou le upload
+// c'est LED_BUILTIN : non defini sur ESP32
+// ESP8266 : ESP12E : Wemos Mini D1 : GPIO 2
+// ESP32 Mini D1 (wemos) : GPIO 2
 
 // value for HSL color
 // see http://www.workwithcolor.com/blue-color-hue-range-01.htm
