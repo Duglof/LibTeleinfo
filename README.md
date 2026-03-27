@@ -126,7 +126,7 @@ Depuis votre téléphone portable :
 - Accéder à votre box pour connaître sa nouvelle adresse IP
 
 # Historique des versions
-## Modification Version 3.0.2 (en cours)
+## Modification Version 3.1.2 (merge branche esp32 V3.1.0.2)
 - Changement des GPIOs (RGB LED et Entrée téléinfo) pour ESP32 Mini D1 + interface teleinfo
   - ESP32 Mini D1 (Wemos)
     - Entrée téléinfo 23 (au lieu de GPIO 04)
@@ -137,6 +137,17 @@ Depuis votre téléphone portable :
   - Affichage GPIO PIN pour la LED RVB dans l'onglet système
   - Affichage GPIO PIN pour la LED Rouge (utilisée uniquement avec interface PiTinfo)
   - Par defaut la LED est au format GRB (Green Red Blue) : Avant elle etait au format RGB (Red Green Blue)
+
+## Modification Version 3.1.1
+- Configuration du port OTA par defaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
+- Ajout de mqttConnect avant l'appel de mqttStartupLogs pour que les logs de startup soient transmis (mineur)
+- mqttConnect : ajout de mqttClient.setKeepAlive ce qui évite une nouvelle connexion à chaque fois (mineur)
+- WifiHandleConn : ajout de Wifi.hostname() pour ESP8266 ou WiFi.setHostname() pour ESP32
+  - pour que le ping à partir du Nom réseau fonctionne (ping Wifinfo-23178F ) (mineur)
+
+## Modification Version 3.1.0
+- Ajout support système de fichiers LittleFS ou SPIFFS par option de compilation
+- Wifinfo.h : #define WIFINFO_FS SPIFFS
 
 ## Modification Version 3.0.1
 - Configuration du port OTA par défaut (8266 pour un ESP8266 et 3232 pour un ESP32) (mineur)
