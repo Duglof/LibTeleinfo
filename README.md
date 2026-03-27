@@ -330,6 +330,23 @@ LED RGB
 - Pin 2 -> GND
 - Pin 3 -> 3V de ESP (3.3V)
 
+## ESP32 Wemos Mini D1
+![esp8266 wemos gpio](docs/ESP32-wemos-d1-mini-pinout.png)
+![wemos esp32 teleinfo](docs/Wemos-esp32-teleinfo.png)
+![wemos esp32 teleinfo 02](docs/Wemos-esp32-teleinfo-02.png)
+
+Alimentation de l'ESP : 5 Volt 500mA (200mA mini)
+- Alimentation via la prise USB
+  - Alimentation possible avec un chargeur de téléphone connecté sur la prise USB 
+
+Interface Wemos Téléinfo
+  - TIC-RX => Entrée Téléinfo GPIO 23 (affichée dans l'onglet Système de l'interface Web de Wifinfo)
+
+LED RGB
+- Pin 1 -> GPIO18
+- Pin 2 -> GND
+- Pin 3 -> 3V de ESP (3.3V)
+
 # Hardware compatible
 Wifinfo n'est pas testé pour tous les modèles ESP32 mais est censé fonctionner
 
@@ -341,10 +358,10 @@ Si le module possède 2 entrées série, Serial1 est utilisée pour la réceptio
 
 |          | Name | ESP32 | ESP32S2 | ESP32S3 | ESP32C2 | ESP32C3 | ESP32C6 | ESP32H2 | ESP32P4 |
 |----------|------|-------|---------|---------|---------|---------|---------|---------|---------|
-| UART1 RX | RX1  | 26    | 11      | 15      | 10      | 18      | 4       | 0       | 11      |
-| UART1 TX | TX1  | 27    | 5       | 16      | 18      | 19      | 5       | 1       | 10      |
-| UART2 RX | RX2  | 16    | --      | 19      | --      | --      | --      | --      | --      |
-| UART2 TX | TX2  | 17    | --      | 20      | --      | --      | --      | --      | --      |
+| UART1 RX | RX1  | 26    | 11      | 15      | 10 ?    | 4       | 4 ?     | 0 ?     | 11 ?    |
+| UART1 TX | TX1  | 27    | --      | 16      | 18 ?    | --      | 5 ?     | 1 ?     | 10 ?    |
+| UART2 RX | RX2  | 23    | --      | 11      | --      | --      | --      | --      | --      |
+| UART2 TX | TX2  | --    | --      | --      | --      | --      | --      | --      | --      |
 
 - Serial1 : RX1, TX1
 - Serial2 : RX2, TX2
